@@ -2,7 +2,7 @@
 import Box from "@mui/material/Box";
 import TextField from '@mui/material/TextField';
 import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
+import { Button } from '@/styles/buttons/button.styles.jsx';
 const LoginComponent = () => {
 	return (
 		<div style={{
@@ -29,7 +29,7 @@ const LoginComponent = () => {
 				<TextField id="password" label="Password" variant="outlined" type="password" required />
 				
 				<Stack direction="row" spacing={1} justifyContent="space-between">
-					<Button variant="contained">Sign In</Button>
+					<Button variant="contained" color="secondary">Sign In</Button>
 					<Button variant="contained">Reset Details</Button>
 				</Stack>
 			</Box>
