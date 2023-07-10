@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import LanIcon from '@mui/icons-material/Lan';
 import Stack from "@mui/material/Stack";
 import Box from '@mui/material/Box';
@@ -7,6 +8,18 @@ import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
 import ResponsiveCircle from '@/icons/responsive.circle.icon.jsx';
 const NodesComponent = () => {
+	
+	const [node, setNode] = useState(nodeList[0]);
+	const [progress, setProgress] = useState(35);
+	
+	const onNodeSelectionChange = (event) => {
+		console.log("Select has changed to:")
+		console.log(event.target.value);
+		setNode(event.target.value);
+		// change node based on value
+		setProgress((event.target.value === "Mace") ? 65 : 35);
+	};
+	
 	return (
 		<Box
 			sx={{
@@ -14,8 +27,9 @@ const NodesComponent = () => {
 				flexDirection: 'column',
 				alignItems: 'center',
 				border: '1px solid #B2BEB5',
+				borderRadius: '0.5rem',
 				boxShadow: '0px 0px 5px 0px rgba(0,0,0,0.75)',
-				width: '100%',
+				width: '20rem',
 				padding: '1rem 0',
 			}}
 		>
@@ -77,7 +91,7 @@ const NodesComponent = () => {
 					There are x nodes currently in use
 				</Typography>
 				
-				<ResponsiveCircle progress={65} />
+				<ResponsiveCircle progress={progress} />
 				
 				<Box
 					display="flex"
@@ -96,6 +110,7 @@ const NodesComponent = () => {
 						select
 						label="Select node"
 						defaultValue={nodeList[0]}
+						onChange={onNodeSelectionChange}
 					>
 						{
 							nodeList.map((node) => (
@@ -232,4 +247,4 @@ const NodesComponent = () => {
 
 export default NodesComponent;
 
-const nodeList = ["Mace", "Chewbacca"]
+const nodeList = ["Chewbacca", "Mace"]

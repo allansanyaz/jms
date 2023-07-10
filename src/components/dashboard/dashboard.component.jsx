@@ -4,6 +4,7 @@ import CardComponent from "@/components/card/card.component.jsx";
 import Divider from '@mui/material/Divider';
 
 import NodesComponent from "@/components/nodes/nodes.component.jsx";
+import QueueComponent from "@/components/queue/queue.component.jsx";
 
 const DashboardComponent = () => {
 	return (
@@ -30,10 +31,16 @@ const DashboardComponent = () => {
 			
 			<Stack
 				direction="row"
-				spacing={2}
+				sx={{
+					display: 'flex',
+					flexDirection: 'row',
+					justifyContent: 'center',
+					flexWrap: 'wrap',
+					gap: '1rem',
+				}}
 			>
 				<NodesComponent />
-			
+				<QueueComponent />
 			</Stack>
 			
 		</>
