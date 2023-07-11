@@ -6,10 +6,7 @@ import Typography from "@mui/material/Typography";
 import Stack from "@mui/material/Stack";
 import DeleteComponent from '@/components/queue/delete.component.jsx';
 import ComputerIcon from '@mui/icons-material/Computer';
-import WorkIcon from '@mui/icons-material/Work';
-import BadgeIcon from '@mui/icons-material/Badge';
-import QueueIcon from '@mui/icons-material/Queue';
-import DirectionsWalkIcon from '@mui/icons-material/DirectionsWalk';
+import SettingsIcon from '@mui/icons-material/Settings';
 import LanIcon from '@mui/icons-material/Lan';
 import MemoryIcon from '@mui/icons-material/Memory';
 import HourglassTopIcon from '@mui/icons-material/HourglassTop';
@@ -104,7 +101,6 @@ export const columns = [
 		description: 'Job ID',
 		width: 150,
 		headerClassName: 'queue-header',
-		resizable: true,
 	},
 	{
 		field: 'jobName',
@@ -112,7 +108,6 @@ export const columns = [
 		description: 'Job Name',
 		width: 150,
 		headerClassName: 'queue-header',
-		resizable: true,
 	},
 	{
 		field: 'queue',
@@ -126,48 +121,79 @@ export const columns = [
 		headerName: 'State',
 		description: 'State',
 		headerClassName: 'queue-header',
-		width: 120
+		width: 120,
 	},
 	{
 		field: 'nodes',
 		headerName: 'Nodes',
 		description: 'Nodes',
-		width: 115,
+		width: 90,
 		headerClassName: 'queue-header',
+		renderHeader: (params) => (
+			<Box
+				display="flex"
+				flexDirection="row"
+				justifyContent="center"
+				width="100%"
+			>
+				<LanIcon color={'primary'} sx={{ fontSize: '1.5rem' }}  />
+			</Box>
+		)
 	},
 	{
 		field: 'cores',
 		headerName: 'Cores',
 		description: 'Cores',
-		width: 115,
+		width: 100,
 		headerClassName: 'queue-header',
-		align: 'center',
+		headerAlign: 'center',
+		renderHeader: (params) => (
+			<Box
+				display="flex"
+				flexDirection="row"
+			>
+				<MemoryIcon color={'primary'} sx={{ fontSize: '1.5rem' }}  />
+			</Box>
+		)
 	},
 	{
 		field: 'walltime',
 		headerName: 'Wall Time',
 		description: 'Wall Time',
-		width: 150,
+		width: 110,
 		headerClassName: 'queue-header',
-		align: 'center',
+		renderHeader: (params) => (
+			<Box
+				display="flex"
+				flexDirection="row"
+			>
+				<HourglassTopIcon color={'primary'} sx={{ fontSize: '1.5rem' }}  />
+			</Box>
+		)
 	},
 	{
 		field: 'delete',
 		headerName: 'Delete',
 		description: 'Delete',
-		width: 120,
+		width: 100,
 		headerClassName: 'queue-header',
-		align: 'center',
 		headerAlign: 'center',
 		renderCell: (params) => (
 			<Box
 				sx={{
 					display: 'flex',
 					flexDirection: 'row',
-					justifyContent: 'center',
 				}}
 			>
 				<DeleteComponent />
+			</Box>
+		),
+		renderHeader: (params) => (
+			<Box
+				display="flex"
+				flexDirection="row"
+			>
+				<SettingsIcon color={'primary'} sx={{ fontSize: '1.5rem' }}  />
 			</Box>
 		)
 	}
