@@ -1,8 +1,7 @@
-'use client';
 import Stack from "@mui/material/Stack";
 import CardComponent from "@/components/card/card.component.jsx";
 import Divider from '@mui/material/Divider';
-
+import { Dashboard } from '@/styles/dashboard/dashboard.styles.jsx';
 import NodesComponent from "@/components/nodes/nodes.component.jsx";
 import QueueComponent from "@/components/queue/queue.component.jsx";
 
@@ -29,19 +28,12 @@ const DashboardComponent = () => {
 			
 			<Divider sx={{ my: 2 }} />
 			
-			<Stack
-				direction="row"
-				sx={{
-					display: 'flex',
-					flexDirection: 'row',
-					justifyContent: 'center',
-					flexWrap: 'wrap',
-					gap: '1rem',
-				}}
+			<Dashboard
+			
 			>
 				<NodesComponent />
 				<QueueComponent />
-			</Stack>
+			</Dashboard>
 			
 		</>
 	)

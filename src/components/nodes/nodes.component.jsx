@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import LanIcon from '@mui/icons-material/Lan';
 import Stack from "@mui/material/Stack";
 import Box from '@mui/material/Box';
@@ -29,7 +29,7 @@ const NodesComponent = () => {
 				border: '1px solid #B2BEB5',
 				borderRadius: '0.5rem',
 				boxShadow: '0px 0px 5px 0px rgba(0,0,0,0.75)',
-				width: '20rem',
+				width: '100%',
 				padding: '1rem 0',
 			}}
 		>
@@ -81,15 +81,7 @@ const NodesComponent = () => {
 					Cores in use
 				</Typography>
 				
-				<Typography
-					variant="subtitle2"
-					sx={{
-						width: '100%',
-						textAlign: 'center',
-					}}
-				>
-					There are x nodes currently in use
-				</Typography>
+				<Divider sx={{ my: 2 }} />
 				
 				<ResponsiveCircle progress={progress} />
 				

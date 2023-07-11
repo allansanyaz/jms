@@ -1,5 +1,5 @@
 import { styled } from '@mui/material/styles';
-
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 export const Button = styled('button')({
 	color: 'white',
 	backgroundColor: '#3f51b5',
@@ -11,4 +11,10 @@ export const Button = styled('button')({
 		backgroundColor: '#303f9f',
 		boxShadow: '0 0 0 0.2rem rgba(63,81,181,.5)',
 	}
+});
+
+export const DeleteButtonTrash = styled(DeleteForeverIcon)({
+	'&:hover': {
+		cursor: 'pointer',
+	},
 });
