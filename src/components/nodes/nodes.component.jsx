@@ -1,9 +1,10 @@
+'use client';
 import { useState } from 'react';
 import LanIcon from '@mui/icons-material/Lan';
 import Stack from "@mui/material/Stack";
 import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import Divider from '@mui/material/Divider';
+import { CustomTypography } from '@/styles/typography/typography.styles';
+import { CustomDivider } from '@/styles/layout/layout.styles';
 import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
 import ResponsiveCircle from '@/icons/responsive.circle.icon.jsx';
@@ -30,6 +31,7 @@ const NodesComponent = () => {
 				borderRadius: '0.5rem',
 				boxShadow: '0px 0px 5px 0px rgba(0,0,0,0.75)',
 				width: '100%',
+				maxWidth: '360px',
 				padding: '1rem 0',
 			}}
 		>
@@ -44,7 +46,7 @@ const NodesComponent = () => {
 				}}
 			>
 				<LanIcon key={1} color={'primary'} sx={{ fontSize: '2.5rem' }} />
-				<Typography
+				<CustomTypography
 					variant="h5"
 		            gutterBottom
 					sx={{
@@ -53,10 +55,10 @@ const NodesComponent = () => {
 					}}
 				>
 					Node Usage
-				</Typography>
+				</CustomTypography>
 			</Stack>
 			
-			<Divider sx={{ my: 2 }} />
+			<CustomDivider sx={{ my: 2 }} />
 			
 			<Stack
 				direction="column"
@@ -68,7 +70,7 @@ const NodesComponent = () => {
 					width: '100%',
 				}}
 			>
-				<Typography
+				<CustomTypography
 					variant="subtitle1"
 					sx={{
 						fontWeight: '550',
@@ -79,9 +81,9 @@ const NodesComponent = () => {
 					}}
 				>
 					Cores in use
-				</Typography>
+				</CustomTypography>
 				
-				<Divider sx={{ my: 2 }} />
+				<CustomDivider sx={{ my: 2 }} />
 				
 				<ResponsiveCircle progress={progress} />
 				
@@ -128,7 +130,7 @@ const NodesComponent = () => {
 						spacing={5}
 						width="100%"
 					>
-						<Typography
+						<CustomTypography
 							variant="body1"
 							sx={{
 								width: '100%',
@@ -137,8 +139,8 @@ const NodesComponent = () => {
 							}}
 						>
 							State:
-						</Typography>
-						<Typography
+						</CustomTypography>
+						<CustomTypography
 							variant="body1"
 							sx={{
 								width: '100%',
@@ -146,7 +148,7 @@ const NodesComponent = () => {
 							}}
 						>
 							Free
-						</Typography>
+						</CustomTypography>
 					</Stack>
 					
 					<Stack
@@ -155,7 +157,7 @@ const NodesComponent = () => {
 						width="100%"
 					>
 						
-						<Typography
+						<CustomTypography
 							variant="body1"
 							sx={{
 								width: '100%',
@@ -164,8 +166,8 @@ const NodesComponent = () => {
 							}}
 						>
 							Total cores:
-						</Typography>
-						<Typography
+						</CustomTypography>
+						<CustomTypography
 							variant="body1"
 							sx={{
 								width: '100%',
@@ -173,7 +175,7 @@ const NodesComponent = () => {
 							}}
 						>
 							64
-						</Typography>
+						</CustomTypography>
 					</Stack>
 					
 					<Stack
@@ -182,7 +184,7 @@ const NodesComponent = () => {
 						width="100%"
 					>
 						
-						<Typography
+						<CustomTypography
 							variant="body1"
 							sx={{
 								width: '100%',
@@ -191,8 +193,8 @@ const NodesComponent = () => {
 							}}
 						>
 							Cores Busy:
-						</Typography>
-						<Typography
+						</CustomTypography>
+						<CustomTypography
 							variant="body1"
 							sx={{
 								width: '100%',
@@ -200,7 +202,7 @@ const NodesComponent = () => {
 							}}
 						>
 							0
-						</Typography>
+						</CustomTypography>
 					</Stack>
 					
 					<Stack
@@ -209,7 +211,7 @@ const NodesComponent = () => {
 						width="100%"
 					>
 						
-						<Typography
+						<CustomTypography
 							variant="body1"
 							sx={{
 								width: '100%',
@@ -218,8 +220,8 @@ const NodesComponent = () => {
 							}}
 						>
 							Free Cores:
-						</Typography>
-						<Typography
+						</CustomTypography>
+						<CustomTypography
 							variant="body1"
 							sx={{
 								width: '100%',
@@ -227,7 +229,7 @@ const NodesComponent = () => {
 							}}
 						>
 							0
-						</Typography>
+						</CustomTypography>
 					</Stack>
 				</Box>
 			

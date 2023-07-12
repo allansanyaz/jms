@@ -1,3 +1,4 @@
+'use client';
 import { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
@@ -15,6 +16,121 @@ import '@/styles/dashboard/dashboard.styles.css';
 
 const QueueComponent = () => {
 	
+	const [rows, setRows] = useState(rowData);
+	
+	const columns = [
+		{
+			field: 'id',
+			headerName: 'ID',
+			width: 85,
+			headerClassName: 'queue-header'
+		},
+		{
+			field: 'jobID',
+			headerName: 'Job ID',
+			description: 'Job ID',
+			width: 120,
+			headerClassName: 'queue-header',
+		},
+		{
+			field: 'jobName',
+			headerName: 'Job Name',
+			description: 'Job Name',
+			width: 120,
+			headerClassName: 'queue-header',
+		},
+		{
+			field: 'queue',
+			headerName: 'Queue',
+			description: 'Queue',
+			width: 120,
+			headerClassName: 'queue-header'
+		},
+		{
+			field: 'state',
+			headerName: 'State',
+			description: 'State',
+			headerClassName: 'queue-header',
+			width: 100,
+		},
+		{
+			field: 'nodes',
+			headerName: 'Nodes',
+			description: 'Nodes',
+			width: 90,
+			headerClassName: 'queue-header',
+			renderHeader: (params) => (
+				<Box
+					display="flex"
+					flexDirection="row"
+					justifyContent="center"
+					width="100%"
+				>
+					<LanIcon color={'primary'} sx={{ fontSize: '1.5rem' }}  />
+				</Box>
+			)
+		},
+		{
+			field: 'cores',
+			headerName: 'Cores',
+			description: 'Cores',
+			width: 90,
+			headerClassName: 'queue-header',
+			renderHeader: (params) => (
+				<Box
+					display="flex"
+					flexDirection="row"
+				>
+					<MemoryIcon color={'primary'} sx={{ fontSize: '1.5rem' }}  />
+				</Box>
+			)
+		},
+		{
+			field: 'walltime',
+			headerName: 'Wall Time',
+			description: 'Wall Time',
+			width: 110,
+			headerClassName: 'queue-header',
+			renderHeader: (params) => (
+				<Box
+					display="flex"
+					flexDirection="row"
+				>
+					<HourglassTopIcon color={'primary'} sx={{ fontSize: '1.5rem' }}  />
+				</Box>
+			)
+		},
+		{
+			field: 'delete',
+			headerName: 'Delete',
+			description: 'Delete',
+			width: 100,
+			headerClassName: 'queue-header',
+			renderCell: (params) => (
+				<Box
+					sx={{
+						display: 'flex',
+						flexDirection: 'row',
+					}}
+				>
+					<DeleteComponent
+						rows={rows}
+						setRows={setRows}
+						dataID={params.id}
+					/>
+				</Box>
+			),
+			renderHeader: (params) => (
+				<Box
+					display="flex"
+					flexDirection="row"
+				>
+					<SettingsIcon color={'primary'} sx={{ fontSize: '1.5rem' }}  />
+				</Box>
+			)
+		}
+	];
+	
 	return (
 		<Box
 			sx={{
@@ -26,6 +142,7 @@ const QueueComponent = () => {
 				boxShadow: '0px 0px 5px 0px rgba(0,0,0,0.75)',
 				boxSizing: 'border-dashboard',
 				width: '100%',
+				maxWidth: '940px',
 				padding: '1rem 0',
 			}}
 		>
@@ -65,7 +182,6 @@ const QueueComponent = () => {
 					rows={rows}
 					columns={columns}
 					sx={{
-						boxSizing: 'border-dashboard',
 						width: '100%',
 						height: 400,
 					}}
@@ -83,118 +199,8 @@ const QueueComponent = () => {
 
 export default QueueComponent;
 
-export const rows = [
+const rowData = [
 	{ id: 1, jobID: 'JID_123456', queue: 'batch', jobName: 'job1', state: 'R', nodes: 4, cores: 48, walltime: '06:00:00', delete: '' },
 	{ id: 2, jobID: 'JID_123457', queue: 'batch', jobName: 'job2', state: 'R', nodes: 2, cores: 32, walltime: '12:00:00', delete: '' },
 	{ id: 3, jobID: 'JID_123458', queue: 'batch', jobName: 'job3', state: 'R', nodes: 1, cores: 12, walltime: '08:00:00', delete: '' },
-];
-export const columns = [
-	{
-		field: 'id',
-		headerName: 'ID',
-		width: 85,
-		headerClassName: 'queue-header'
-	},
-	{
-		field: 'jobID',
-		headerName: 'Job ID',
-		description: 'Job ID',
-		width: 150,
-		headerClassName: 'queue-header',
-	},
-	{
-		field: 'jobName',
-		headerName: 'Job Name',
-		description: 'Job Name',
-		width: 150,
-		headerClassName: 'queue-header',
-	},
-	{
-		field: 'queue',
-		headerName: 'Queue',
-		description: 'Queue',
-		width: 120,
-		headerClassName: 'queue-header'
-	},
-	{
-		field: 'state',
-		headerName: 'State',
-		description: 'State',
-		headerClassName: 'queue-header',
-		width: 120,
-	},
-	{
-		field: 'nodes',
-		headerName: 'Nodes',
-		description: 'Nodes',
-		width: 90,
-		headerClassName: 'queue-header',
-		renderHeader: (params) => (
-			<Box
-				display="flex"
-				flexDirection="row"
-				justifyContent="center"
-				width="100%"
-			>
-				<LanIcon color={'primary'} sx={{ fontSize: '1.5rem' }}  />
-			</Box>
-		)
-	},
-	{
-		field: 'cores',
-		headerName: 'Cores',
-		description: 'Cores',
-		width: 100,
-		headerClassName: 'queue-header',
-		headerAlign: 'center',
-		renderHeader: (params) => (
-			<Box
-				display="flex"
-				flexDirection="row"
-			>
-				<MemoryIcon color={'primary'} sx={{ fontSize: '1.5rem' }}  />
-			</Box>
-		)
-	},
-	{
-		field: 'walltime',
-		headerName: 'Wall Time',
-		description: 'Wall Time',
-		width: 110,
-		headerClassName: 'queue-header',
-		renderHeader: (params) => (
-			<Box
-				display="flex"
-				flexDirection="row"
-			>
-				<HourglassTopIcon color={'primary'} sx={{ fontSize: '1.5rem' }}  />
-			</Box>
-		)
-	},
-	{
-		field: 'delete',
-		headerName: 'Delete',
-		description: 'Delete',
-		width: 100,
-		headerClassName: 'queue-header',
-		headerAlign: 'center',
-		renderCell: (params) => (
-			<Box
-				sx={{
-					display: 'flex',
-					flexDirection: 'row',
-				}}
-			>
-				<DeleteComponent />
-			</Box>
-		),
-		renderHeader: (params) => (
-			<Box
-				display="flex"
-				flexDirection="row"
-			>
-				<SettingsIcon color={'primary'} sx={{ fontSize: '1.5rem' }}  />
-			</Box>
-		)
-	}
 ];

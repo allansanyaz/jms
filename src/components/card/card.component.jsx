@@ -20,7 +20,8 @@ const CardComponent = ({ title, description, idx }) => {
 	
 	return (
 		<Card sx={{
-			width: '180px'
+			width: '180px',
+			height: 'auto',
 		}}>
 			<CardContent sx={{
 				display: 'flex',

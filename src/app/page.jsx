@@ -1,9 +1,8 @@
-'use client';
 import Dashboard from '@/components/dashboard/dashboard.component.jsx'
-import Container from '@mui/material/Container';
+import { CustomContainer } from '@/styles/layout/layout.styles.jsx';
 export default function Home() {
     return (
-        <Container
+        <CustomContainer
             maxWidth={'xl'}
             sx={{
                 marginTop: '2rem',
@@ -13,6 +12,6 @@ export default function Home() {
             }}
         >
             <Dashboard />
-        </Container>
+        </CustomContainer>
     )
 }
