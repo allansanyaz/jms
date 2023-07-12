@@ -1,13 +1,13 @@
 'use client';
 import { useState } from 'react';
-import LanIcon from '@mui/icons-material/Lan';
 import Stack from "@mui/material/Stack";
 import Box from '@mui/material/Box';
 import { CustomTypography } from '@/styles/typography/typography.styles';
 import { CustomDivider } from '@/styles/layout/layout.styles';
 import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
-import ResponsiveCircle from '@/icons/responsive.circle.icon.jsx';
+import ResponsiveCircle from '@/components/icons/responsive.circle.component.jsx';
+import LanIcon from '@mui/icons-material/Lan';
 const NodesComponent = () => {
 	
 	const [node, setNode] = useState(nodeList[0]);
@@ -80,7 +80,7 @@ const NodesComponent = () => {
 						textAlign: 'center',
 					}}
 				>
-					Cores in use
+					Core Usage
 				</CustomTypography>
 				
 				<CustomDivider sx={{ my: 2 }} />

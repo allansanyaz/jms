@@ -1,5 +1,6 @@
 'use client';
 import { styled } from '@mui/material/styles';
+import DashboardIcon from '@mui/icons-material/Dashboard';
 
 export const Dashboard = styled('div')(props => ({
 	backgroundColor: '#fff',
@@ -17,3 +18,5 @@ export const Dashboard = styled('div')(props => ({
 		gridTemplateColumns: '360px'
 	}
 }));
+
+export const DashboardIconComponent = styled(DashboardIcon)(props => ({}));

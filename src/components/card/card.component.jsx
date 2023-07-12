@@ -1,7 +1,7 @@
 'use client';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
-import Typography from '@mui/material/Typography';
+import { CustomTypography } from '@/styles/typography/typography.styles';
 
 import LanIcon from '@mui/icons-material/Lan';
 import SpeedIcon from '@mui/icons-material/Speed';
@@ -32,10 +32,10 @@ const CardComponent = ({ title, description, idx }) => {
 				gap: '0.1rem',
 			}}>
 				{IconList[idx]}
-				<Typography variant="subtitle1">
+				<CustomTypography variant="subtitle1">
 					{description}
-				</Typography>
-				<Typography
+				</CustomTypography>
+				<CustomTypography
 					variant="button"
 		            gutterBottom
 					sx={{
@@ -43,7 +43,7 @@ const CardComponent = ({ title, description, idx }) => {
 					}}
 				>
 					{title}
-				</Typography>
+				</CustomTypography>
 			</CardContent>
 		</Card>
 	)
