@@ -1,3 +1,4 @@
+'use client';
 import { styled } from '@mui/material/styles';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 export const Button = styled('button')((props) => ({
@@ -9,7 +10,7 @@ export const Button = styled('button')((props) => ({
 	
 	'&:hover': {
 		backgroundColor: props.backgroundColor ? props.backgroundColor : '#3f51b5',
-		boxShadow: '0 0 0 0.2rem rgba(63,81,181,.5)',
+		boxShadow: props.hoverColor ? `0 0 0 0.2rem ${props.hoverColor}` : '0 0 0 0.2rem #3f51b550',
 	}
 }));
 

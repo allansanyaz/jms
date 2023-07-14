@@ -1,7 +1,9 @@
 import {
+	CustomDivider,
 	CustomStack
 } from '@/styles/layout/layout.styles.jsx';
 import UserComponent from '@/components/user/user.component.jsx';
+import ToolsComponent from '@/components/sidepanel/tools.component.jsx';
 export const SidePanelComponent = () => {
 	return (
 		<CustomStack
@@ -17,6 +19,8 @@ export const SidePanelComponent = () => {
 			}}
 		>
 			<UserComponent />
+			<CustomDivider sx={{ my: 2 }} />
+			<ToolsComponent />
 			
 		</CustomStack>
 	)

@@ -15,13 +15,14 @@ const DashboardComponent = () => {
 			sx={{
 				display: 'flex',
 				flexDirection: 'column',
-				justifyContent: 'center',
+				justifyContent: 'flex-start',
 				flexWrap: 'wrap',
 				gap: '1rem',
 				padding: '0 12px 12px 12px',
 				border: '2px solid #B2BEB5',
 				borderRadius: '4px',
 				boxShadow: '0 0 10px 0 rgba(0,0,0,0.2)',
+				width: '100%',
 			}}
 		>
 			<CustomStack
@@ -30,6 +31,7 @@ const DashboardComponent = () => {
 					flexDirection: 'row',
 					alignItems: 'center',
 					gap: '1rem',
+					paddingTop: '1rem',
 				}}
 			>
 				<DashboardIconComponent color={'primary'} sx={{ fontSize: '2.5rem' }} />
@@ -44,7 +46,7 @@ const DashboardComponent = () => {
 				</CustomTypography>
 			</CustomStack>
 			
-			<CustomDivider sx={{ my: 2 }} />
+			<CustomDivider sx={{ my: 0 }} />
 			
 			<CustomStack
 				sx={{
