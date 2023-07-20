@@ -7,7 +7,7 @@ import MuiAccordionSummary from '@mui/material/AccordionSummary';
 import MuiAccordionDetails from '@mui/material/AccordionDetails';
 import { CustomTypography } from '@/styles/typography/typography.styles';
 import { CustomStack } from '@/styles/layout/layout.styles.jsx';
-import EditIcon from '@mui/icons-material/Edit';
+import { EditButton } from '@/styles/buttons/button.styles.jsx';
 
 const Accordion = styled((props) => (
 	<MuiAccordion disableGutters elevation={0} square {...props} />
@@ -46,7 +46,7 @@ const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
 	borderTop: '1px solid rgba(0, 0, 0, .125)',
 }));
 
-const CustomEditContainer = styled(EditIcon)(() => ({
+const CustomEditContainer = styled(EditButton)(() => ({
 	display: 'flex',
 	flexDirection: 'column',
 	justifyContent: 'center',
@@ -104,7 +104,7 @@ const CustomAccordion = ({ accordionTitle, accordionSummary }) => {
 			
 			</Accordion>
 			<CustomEditContainer onClick={handleEdit}>
-				<EditIcon sx={{ fontSize: '2.5rem' }} />
+				<EditButton sx={{ fontSize: '2.5rem' }} />
 			</CustomEditContainer>
 		</CustomStack>
 	)

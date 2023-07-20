@@ -7,7 +7,8 @@ import Box from '@mui/material/Box';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
-import { Button } from '@/styles/buttons/button.styles.jsx';
+import { Button, DeleteButtonTrash, EditButton, AddButton } from '@/styles/buttons/button.styles.jsx';
+import ArrowForwardIosSharpIcon from "@mui/icons-material/ArrowForwardIosSharp";
 
 const ServerComponent = () => {
 	return (
@@ -34,13 +35,55 @@ const ServerComponent = () => {
 				noValidate
 				autoComplete="off"
 			>
-				<TextField id="server-name" label="Server name" variant="outlined" />
-				<TextField id="queue-name" label="Queue name" variant="outlined" />
-				<TextField id="scheduler-iteration" label="Scheduler Iteration" variant="outlined" type={'number'} defaultValue={600} />
-				<TextField id="node-check-rate" label="Node Check Rate (ms)" variant="outlined" type={'number'} defaultValue={150} />
-				<TextField id="tcp-timeout" label="TCP Timeout (ms)" variant="outlined" type={'number'} defaultValue={6} />
-				<TextField id="job-stat-rate" label="Job Stat Rate (ms)" variant="outlined" type={'number'} />
-				<TextField id="keep-completed-time" label="Keep Completed Time (s)" variant="outlined" type={'number'} defaultValue={300} />
+				<TextField
+					id="server-name"
+					label="Server name"
+					variant="outlined"
+				/>
+				<TextField
+					id="queue-name"
+					label="Queue name"
+					variant="outlined"
+				/>
+				<TextField
+					id="scheduler-iteration"
+					label="Scheduler Iteration"
+					variant="outlined"
+					type={'number'}
+					defaultValue={600}
+					InputProps={{ inputProps: { min: 0 } }}
+				/>
+				<TextField
+					id="node-check-rate"
+					label="Node Check Rate (ms)"
+					variant="outlined"
+					type={'number'}
+					defaultValue={150}
+					InputProps={{ inputProps: { min: 0 } }}
+				/>
+				<TextField
+					id="tcp-timeout"
+					label="TCP Timeout (ms)"
+					variant="outlined"
+					type={'number'}
+					defaultValue={6}
+					InputProps={{ inputProps: { min: 0 } }}
+				/>
+				<TextField
+					id="job-stat-rate"
+					label="Job Stat Rate (ms)"
+					variant="outlined"
+					type={'number'}
+					InputProps={{ inputProps: { min: 0 } }}
+				/>
+				<TextField
+					id="keep-completed-time"
+					label="Keep Completed Time (s)"
+					variant="outlined"
+					type={'number'}
+					defaultValue={300}
+					InputProps={{ inputProps: { min: 0 } }}
+				/>
 			</Box>
 			
 			<FormGroup
@@ -54,7 +97,7 @@ const ServerComponent = () => {
 			
 			<Button variant={'contained'} sx={{ width: '120px', marginTop: '1rem' }}>Save</Button>
 			
-			<CustomTypography variant={'body2'} sx={{ fontWeight: '600', paddingBottom: '1rem' }} >
+			<CustomTypography variant={'body2'} sx={{ fontWeight: '600', paddingTop: '1rem' }} >
 				Administrators:
 			</CustomTypography>
 			
@@ -65,6 +108,13 @@ const ServerComponent = () => {
 				multiline
 				rows={4}
 			/>
+			<CustomStack
+				direction={'row'}
+			>
+				<AddButton sx={{ fontSize: '2.0rem' }} />
+				<EditButton sx={{ fontSize: '1.8rem' }} />
+				<DeleteButtonTrash sx={{ fontSize: '1.9rem' }} />
+			</CustomStack>
 			
 		</CustomStack>
 	)

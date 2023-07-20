@@ -1,6 +1,8 @@
 'use client';
 import { styled } from '@mui/material/styles';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import AddIcon from '@mui/icons-material/Add';
+import EditIcon from '@mui/icons-material/Edit';
 export const Button = styled('button')((props) => ({
 	color: 'white',
 	backgroundColor: props.backgroundColor ? props.backgroundColor : '#3f51b5',
@@ -15,6 +17,18 @@ export const Button = styled('button')((props) => ({
 }));
 
 export const DeleteButtonTrash = styled(DeleteForeverIcon)({
+	'&:hover': {
+		cursor: 'pointer',
+	},
+});
+
+export const AddButton = styled(AddIcon)({
+	'&:hover': {
+		cursor: 'pointer',
+	},
+});
+
+export const EditButton = styled(EditIcon)({
 	'&:hover': {
 		cursor: 'pointer',
 	},
