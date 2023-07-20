@@ -8,7 +8,8 @@ import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import { Button, DeleteButtonTrash, EditButton, AddButton } from '@/styles/buttons/button.styles.jsx';
-import ArrowForwardIosSharpIcon from "@mui/icons-material/ArrowForwardIosSharp";
+import SaveIcon from '@mui/icons-material/Save';
+import Tooltip from '@mui/material/Tooltip';
 
 const ServerComponent = () => {
 	return (
@@ -86,24 +87,24 @@ const ServerComponent = () => {
 				/>
 			</Box>
 			
-			<FormGroup
-			
-			>
+			<FormGroup>
 				<FormControlLabel control={<Checkbox defaultChecked />} label="Scheduling" />
 				<FormControlLabel control={<Checkbox defaultChecked />} label="Sync server with MOM jobs?" />
 				<FormControlLabel control={<Checkbox defaultChecked />} label=" View other users' jobs in queue?" />
 				<FormControlLabel control={<Checkbox />} label="Moab array compatible?" />
 			</FormGroup>
 			
-			<Button variant={'contained'} sx={{ width: '120px', marginTop: '1rem' }}>Save</Button>
+			<Button variant={'contained'} sx={{ width: '200px', marginTop: '1rem' }}>
+				<SaveIcon color={'white'} sx={{ fontSize: '1.5rem', marginRight: '0.5rem' }} /> Save Changes
+			</Button>
 			
-			<CustomTypography variant={'body2'} sx={{ fontWeight: '600', paddingTop: '1rem' }} >
+			<CustomTypography variant={'body2'} sx={{ fontWeight: '600', paddingTop: '1.5rem', paddingBottom: '1rem' }} >
 				Administrators:
 			</CustomTypography>
 			
 			<TextField
 				id="server-adminstrators"
-				label="Server name"
+				label="Server Administrators"
 				variant="outlined"
 				multiline
 				rows={4}
@@ -111,9 +112,15 @@ const ServerComponent = () => {
 			<CustomStack
 				direction={'row'}
 			>
-				<AddButton sx={{ fontSize: '2.0rem' }} />
-				<EditButton sx={{ fontSize: '1.8rem' }} />
-				<DeleteButtonTrash sx={{ fontSize: '1.9rem' }} />
+				<Tooltip title="Add" placement="top">
+					<AddButton sx={{ fontSize: '2.0rem' }} />
+				</Tooltip>
+				<Tooltip title="Edit" placement="top">
+					<EditButton sx={{ fontSize: '1.8rem' }} />
+				</Tooltip>
+				<Tooltip title="Delete" placement="top">
+					<DeleteButtonTrash sx={{ fontSize: '1.9rem' }} />
+				</Tooltip>
 			</CustomStack>
 			
 		</CustomStack>

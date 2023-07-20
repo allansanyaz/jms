@@ -3,9 +3,11 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
-import { CustomTypography } from "@/styles/typography/typography.styles";
 import Box from '@mui/material/Box';
 import ServerComponent from "@/components/tabs/server.component";
+import QueueComponent from "@/components/tabs/queues.component";
+import NodesComponent from "@/components/tabs/nodes.component";
+import PackagesComponent from "@/components/tabs/packagemanager.component";
 
 function CustomTabPanel(props) {
 	const { children, value, index, ...other } = props;
@@ -20,7 +22,7 @@ function CustomTabPanel(props) {
 		>
 			{value === index && (
 				<Box sx={{ p: 3 }}>
-					<>{children}</>
+					{children}
 				</Box>
 			)}
 		</div>
@@ -61,13 +63,13 @@ const TabComponent = () => {
 				<ServerComponent />
 			</CustomTabPanel>
 			<CustomTabPanel value={value} index={1}>
-				Item Two
+				<QueueComponent />
 			</CustomTabPanel>
 			<CustomTabPanel value={value} index={2}>
-				Item Three
+				<NodesComponent />
 			</CustomTabPanel>
 			<CustomTabPanel value={value} index={3}>
-				Item Four
+				<PackagesComponent />
 			</CustomTabPanel>
 		</Box>
 	);
