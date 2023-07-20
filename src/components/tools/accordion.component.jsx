@@ -2,7 +2,7 @@ import { CustomStack } from '@/styles/layout/layout.styles.jsx';
 import { CustomTypography } from '@/styles/typography/typography.styles';
 import CustomAccordion from '@/styles/accordion/accordion.styles';
 
-const AccordionComponent = () => {
+const AccordionComponent = ({ accordionMenuList, accordionTitle }) => {
 	return (
 		<CustomStack
 			direction={'column'}
@@ -14,7 +14,7 @@ const AccordionComponent = () => {
 			}}
 		>
 			<CustomTypography variant={'body2'} sx={{ fontWeight: '600', paddingBottom: '1rem' }} >
-				Tools:
+				{accordionTitle}:
 			</CustomTypography>
 			
 			{
@@ -28,5 +28,3 @@ const AccordionComponent = () => {
 }
 
 export default AccordionComponent;
-
-const accordionMenuList = ["Administration", "Data Retrieval", "Docking Studies", "Homology Modeling", "Model Assessment", "SANCDB", "Variant Analysis"]

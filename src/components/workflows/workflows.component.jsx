@@ -1,13 +1,10 @@
-import { CustomTypography } from "@/styles/typography/typography.styles";
-import {
-	CustomDivider,
-	CustomStack
-} from "@/styles/layout/layout.styles";
-import { BuildIconComponent } from "@/styles/tools/tools.styles";
-import ToolsButtonsComponent from "@/components/tools/tools.buttons.component";
+import {CustomDivider, CustomStack} from "@/styles/layout/layout.styles";
+import {AccountTreeIconComponent} from "@/styles/tools/tools.styles";
+import {CustomTypography} from "@/styles/typography/typography.styles";
 import AccordionComponent from "@/components/tools/accordion.component";
+import ToolsButtonsComponent from "@/components/tools/tools.buttons.component";
 
-const ToolsComponent = () => {
+const WorkflowsComponent = () => {
 	return (
 		<CustomStack
 			sx={{
@@ -31,7 +28,7 @@ const ToolsComponent = () => {
 					paddingTop: '1rem',
 				}}
 			>
-				<BuildIconComponent color={'primary'} sx={{ fontSize: '2.5rem' }} />
+				<AccountTreeIconComponent color={'primary'} sx={{ fontSize: '2.5rem' }} />
 				<CustomTypography
 					variant={'h3'}
 					sx={{
@@ -39,20 +36,21 @@ const ToolsComponent = () => {
 						fontWeight: '500',
 					}}
 				>
-					Tools
+					Workflows
 				</CustomTypography>
 			</CustomStack>
 			
 			<CustomDivider sx={{ my: 0 }} />
-			<ToolsButtonsComponent toolComponent={'tools'} buttonTitle={'Add Tool'} />
+			<ToolsButtonsComponent buttonTitle={'Add Workflow'} />
 			
 			<CustomDivider sx={{ my: 0 }} />
-			<AccordionComponent accordionMenuList={accordionMenuList} accordionTitle={'Tools'} />
-		
+			<AccordionComponent accordionMenuList={accordionMenuList} accordionTitle={'Workflows'} />
+			
+			
 		</CustomStack>
 	)
 }
 
-export default ToolsComponent;
+export default WorkflowsComponent;
 
-const accordionMenuList = ["Administration", "Data Retrieval", "Docking Studies", "Homology Modeling", "Model Assessment", "SANCDB", "Variant Analysis"]
+const accordionMenuList = ["Docking Studies", "Molecular Dynamics", "Other", "SANCDB"]
