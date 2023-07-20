@@ -1,10 +1,12 @@
-import { CustomDivider, CustomStack } from "@/styles/layout/layout.styles";
-import { AccountTreeIconComponent } from "@/styles/tools/tools.styles";
 import { CustomTypography } from "@/styles/typography/typography.styles";
-import AccordionComponent from "@/components/tools/accordion.component";
-import ToolsButtonsComponent from "@/components/tools/tools.buttons.component";
+import {
+	CustomDivider,
+	CustomStack
+} from "@/styles/layout/layout.styles";
+import { SettingsIconComponent } from "@/styles/tools/tools.styles";
+import TabComponent from "@/components/tabs/tabs.component";
 
-const WorkflowsComponent = () => {
+const SettingsComponent = () => {
 	return (
 		<CustomStack
 			sx={{
@@ -28,7 +30,7 @@ const WorkflowsComponent = () => {
 					paddingTop: '1rem',
 				}}
 			>
-				<AccountTreeIconComponent color={'primary'} sx={{ fontSize: '2.5rem' }} />
+				<SettingsIconComponent color={'primary'} sx={{ fontSize: '2.5rem' }} />
 				<CustomTypography
 					variant={'h3'}
 					sx={{
@@ -36,21 +38,15 @@ const WorkflowsComponent = () => {
 						fontWeight: '500',
 					}}
 				>
-					Workflows
+					Settings
 				</CustomTypography>
 			</CustomStack>
 			
 			<CustomDivider sx={{ my: 0 }} />
-			<ToolsButtonsComponent buttonTitle={'Add Workflow'} />
-			
-			<CustomDivider sx={{ my: 0 }} />
-			<AccordionComponent accordionMenuList={accordionMenuList} accordionTitle={'Workflows'} />
-			
+			<TabComponent />
 			
 		</CustomStack>
 	)
 }
 
-export default WorkflowsComponent;
-
-const accordionMenuList = ["Docking Studies", "Molecular Dynamics", "Other", "SANCDB"]
+export default SettingsComponent;
