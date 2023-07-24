@@ -1,6 +1,6 @@
 'use client';
 import * as React from "react";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { CustomDivider, CustomStack } from '@/styles/layout/layout.styles.jsx';
 import Box from '@mui/material/Box';
 import TextField from "@mui/material/TextField";
@@ -8,8 +8,20 @@ import { Button } from "@/styles/buttons/button.styles.jsx";
 import { CustomTypography } from "@/styles/typography/typography.styles";
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import FileUploadIcon from '@mui/icons-material/FileUpload';
 
 const CustomJobsComponent = () => {
+	
+	const hiddenFileInput = useRef(null);
+	
+	const handleChange = (event) => {
+		console.log("Beef");
+	}
+	
+	const handleUploadClick = () => {
+		hiddenFileInput.current.click();
+	}
+	
 	return (
 		<CustomStack
 			direction={'column'}
@@ -127,17 +139,24 @@ const CustomJobsComponent = () => {
 					rows={4}
 				/>
 				
-				<TextField
-					id="custom-scripts-upload"
-					label="Enter your commands"
-					variant="outlined"
-					helperText="Upload your scripts/files"
+				<input
+					type={'file'}
+					ref={hiddenFileInput}
+					onChange={handleChange}
+					style={{ display: 'none' }}
 				/>
+				
+				<Button onClick={handleUploadClick} variant={'contained'} sx={{ width: '200px', marginTop: '1rem', alignSelf: 'flex-start' }}
+				>
+					<FileUploadIcon sx={{ fontSize: '1.5rem', marginRight: '0.5rem', color: 'white' }} />
+					Upload Script
+				</Button>
+				
 				
 			</CustomStack>
 			
 			<Button variant={'contained'} sx={{ width: '200px', marginTop: '1rem', alignSelf: 'flex-end' }}>
-				<PlayArrowIcon color={'white'} sx={{ fontSize: '1.5rem', marginRight: '0.5rem' }} /> Run Job
+				<PlayArrowIcon sx={{ fontSize: '1.5rem', marginRight: '0.5rem', color: 'white' }} /> Run Job
 			</Button>
 			
 		</CustomStack>

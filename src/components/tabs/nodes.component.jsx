@@ -5,9 +5,10 @@ import { CustomTypography } from "@/styles/typography/typography.styles";
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import TextField from "@mui/material/TextField";
-import { Button } from "@/styles/buttons/button.styles.jsx";
+import {AddButton, Button, DeleteButtonTrash, EditButton} from "@/styles/buttons/button.styles.jsx";
 import Box from '@mui/material/Box';
 import SaveIcon from '@mui/icons-material/Save';
+import Tooltip from "@mui/material/Tooltip";
 const NodesComponent = () => {
 	
 	const [node, setNode] = useState(nodeList[0]);
@@ -90,7 +91,27 @@ const NodesComponent = () => {
 					justifyContent: 'space-between',
 				}}
 			>
-				<Button variant={'contained'} sx={{ width: '150px', marginTop: '1rem' }}>Setup Node</Button>
+				<Box
+					sx={{
+						display: 'flex',
+						flexDirection: 'row'
+					}}
+				>
+					<Button variant={'contained'} sx={{ width: '150px', marginTop: '1rem' }}>Setup Node</Button>
+					<CustomStack
+						direction={'row'}
+						sx={{
+							marginTop: '1rem',
+						}}
+					>
+						<Tooltip title="Add" placement="top">
+							<AddButton sx={{ fontSize: '2.0rem', color: 'green' }} />
+						</Tooltip>
+						<Tooltip title="Delete" placement="top">
+							<DeleteButtonTrash sx={{ fontSize: '1.9rem', color: 'red' }} />
+						</Tooltip>
+					</CustomStack>
+				</Box>
 				<Button variant={'contained'} sx={{ width: '180px', marginTop: '1rem' }}>
 					<SaveIcon color={'white'} sx={{ fontSize: '1.5rem', marginRight: '0.5rem' }} /> Save Node
 				</Button>

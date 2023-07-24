@@ -116,13 +116,13 @@ const ServerComponent = () => {
 				}}
 			>
 				<Tooltip title="Add" placement="top">
-					<AddButton sx={{ fontSize: '2.0rem' }} />
+					<AddButton sx={{ fontSize: '2.0rem', color: 'green' }} />
 				</Tooltip>
 				<Tooltip title="Edit" placement="top">
-					<EditButton sx={{ fontSize: '1.8rem' }} />
+					<EditButton sx={{ fontSize: '1.8rem', color: 'orange' }} />
 				</Tooltip>
 				<Tooltip title="Delete" placement="top">
-					<DeleteButtonTrash sx={{ fontSize: '1.9rem' }} />
+					<DeleteButtonTrash sx={{ fontSize: '1.9rem', color: 'red' }} />
 				</Tooltip>
 			</CustomStack>
 			

@@ -9,8 +9,9 @@ import Checkbox from "@mui/material/Checkbox";
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import TextField from "@mui/material/TextField";
-import { Button } from "@/styles/buttons/button.styles.jsx";
+import {AddButton, Button, DeleteButtonTrash} from "@/styles/buttons/button.styles.jsx";
 import SaveIcon from '@mui/icons-material/Save';
+import Tooltip from "@mui/material/Tooltip";
 
 const QueueComponent = () => {
 	
@@ -244,9 +245,31 @@ const QueueComponent = () => {
 				/>
 			</Box>
 			
-			<Button variant={'contained'} sx={{ width: '200px', marginTop: '1rem', alignSelf: 'flex-end'}}>
-				<SaveIcon color={'white'} sx={{ fontSize: '1.5rem', marginRight: '0.5rem' }} /> Save Changes
-			</Button>
+			<CustomStack
+				direction={'row'}
+				sx={{
+					marginTop: '1rem',
+					justifyContent: 'space-between',
+				}}
+			>
+				<Box
+					sx={{
+					display: 'flex',
+					flexDirection: 'row'
+				}}
+					>
+					<Tooltip title="Add" placement="top">
+						<AddButton sx={{ fontSize: '2.0rem', color: 'green' }} />
+					</Tooltip>
+					<Tooltip title="Delete" placement="top">
+						<DeleteButtonTrash sx={{ fontSize: '1.9rem', color: 'red' }} />
+					</Tooltip>
+				</Box>
+				
+				<Button variant={'contained'} sx={{ width: '200px', alignSelf: 'center'}}>
+					<SaveIcon sx={{ fontSize: '1.5rem', color: 'white', marginRight: '0.5rem' }} /> Save Changes
+				</Button>
+			</CustomStack>
 			
 		</CustomStack>
 	)
