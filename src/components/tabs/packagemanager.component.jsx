@@ -46,7 +46,7 @@ const PackagesComponent = () => {
 				}
 			</ToggleButtonGroup>
 			
-			<CustomDivider sx={{ my: 1 }} />
+			<CustomDivider sx={{ my: 2 }} />
 			
 			<Box
 				component="div"

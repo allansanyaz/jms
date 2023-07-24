@@ -94,7 +94,7 @@ const ServerComponent = () => {
 				<FormControlLabel control={<Checkbox />} label="Moab array compatible?" />
 			</FormGroup>
 			
-			<Button variant={'contained'} sx={{ width: '200px', marginTop: '1rem' }}>
+			<Button variant={'contained'} sx={{ width: '200px', marginTop: '1rem', alignSelf: 'flex-end' }}>
 				<SaveIcon color={'white'} sx={{ fontSize: '1.5rem', marginRight: '0.5rem' }} /> Save Changes
 			</Button>
 			
@@ -111,6 +111,9 @@ const ServerComponent = () => {
 			/>
 			<CustomStack
 				direction={'row'}
+				sx={{
+					justifyContent: 'flex-end',
+				}}
 			>
 				<Tooltip title="Add" placement="top">
 					<AddButton sx={{ fontSize: '2.0rem' }} />

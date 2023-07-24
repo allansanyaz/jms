@@ -45,7 +45,7 @@ const NodesComponent = () => {
 				}
 			</ToggleButtonGroup>
 			
-			<CustomDivider sx={{ my: 1 }} />
+			<CustomDivider sx={{ my: 2 }} />
 			
 			<Box
 				component="div"
@@ -87,6 +87,7 @@ const NodesComponent = () => {
 					display: 'flex',
 					flexDirection: 'row',
 					gap: '1rem',
+					justifyContent: 'space-between',
 				}}
 			>
 				<Button variant={'contained'} sx={{ width: '150px', marginTop: '1rem' }}>Setup Node</Button>

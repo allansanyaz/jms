@@ -244,7 +244,7 @@ const QueueComponent = () => {
 				/>
 			</Box>
 			
-			<Button variant={'contained'} sx={{ width: '200px', marginTop: '1rem' }}>
+			<Button variant={'contained'} sx={{ width: '200px', marginTop: '1rem', alignSelf: 'flex-end'}}>
 				<SaveIcon color={'white'} sx={{ fontSize: '1.5rem', marginRight: '0.5rem' }} /> Save Changes
 			</Button>
 			
