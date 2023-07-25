@@ -1,5 +1,6 @@
 'use client';
 import * as React from 'react';
+import { useState } from 'react';
 import { CustomStack } from '@/styles/layout/layout.styles.jsx';
 import { CustomTypography } from '@/styles/typography/typography.styles';
 import TextField from '@mui/material/TextField';
@@ -10,8 +11,31 @@ import Checkbox from '@mui/material/Checkbox';
 import { Button, DeleteButtonTrash, EditButton, AddButton } from '@/styles/buttons/button.styles.jsx';
 import SaveIcon from '@mui/icons-material/Save';
 import Tooltip from '@mui/material/Tooltip';
+import Modal from '@mui/material/Modal';
 
 const ServerComponent = () => {
+	
+	const [open, setOpen] = useState(false);
+	
+	const [administrators, setAdministrators] = useState([]);
+	const [administrator, setAdministrator] = useState('');
+	
+	const handleOpen = () => setOpen(true);
+	const handleClose = () => setOpen(false);
+	
+	const onAddAdminstrator = () => {
+		administrators.push(administrator);
+	}
+	
+	const onEditAdminstrator = () => {
+		administrators.filter(admin => admin !== administrator);
+		administrators.push(administrator);
+	}
+	
+	const onDeleteAdminstrator = () => {
+		administrators.filter(admin => admin !== administrator);
+	}
+	
 	return (
 		<CustomStack
 			direction={'column'}
@@ -107,6 +131,7 @@ const ServerComponent = () => {
 				label="Server Administrators"
 				variant="outlined"
 				multiline
+				value={administrators.join('\n')}
 				rows={4}
 			/>
 			<CustomStack
@@ -116,7 +141,7 @@ const ServerComponent = () => {
 				}}
 			>
 				<Tooltip title="Add" placement="top">
-					<AddButton sx={{ fontSize: '2.0rem', color: 'green' }} />
+					<AddButton sx={{ fontSize: '2.0rem', color: 'green' }}  />
 				</Tooltip>
 				<Tooltip title="Edit" placement="top">
 					<EditButton sx={{ fontSize: '1.8rem', color: 'orange' }} />
@@ -126,8 +151,36 @@ const ServerComponent = () => {
 				</Tooltip>
 			</CustomStack>
 			
+			<Modal
+				open={open}
+				onClose={handleClose}
+				aria-labelledby="modal-modal-title"
+				aria-describedby="modal-modal-description"
+			>
+				<Box sx={style}>
+					<CustomTypography id="modal-modal-title" variant="h6" component="h2">
+						Text in a modal
+					</CustomTypography>
+					<CustomTypography id="modal-modal-description" sx={{ mt: 2 }}>
+						Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
+					</CustomTypography>
+				</Box>
+			</Modal>
+			
 		</CustomStack>
 	)
 }
 
 export default ServerComponent;
+
+const style = {
+	position: 'absolute',
+	top: '50%',
+	left: '50%',
+	transform: 'translate(-50%, -50%)',
+	width: 400,
+	bgcolor: 'background.paper',
+	border: '2px solid #000',
+	boxShadow: 24,
+	p: 4,
+};

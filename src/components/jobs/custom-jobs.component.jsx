@@ -13,9 +13,22 @@ import FileUploadIcon from '@mui/icons-material/FileUpload';
 const CustomJobsComponent = () => {
 	
 	const hiddenFileInput = useRef(null);
+	const [fileName, setFileName] = useState('');
+	const [scriptContent, setScriptContent] = useState('');
 	
 	const handleChange = (event) => {
-		console.log("Beef");
+		if(!event.target.files) return;
+		// upload the script file to the server
+		// set the target sequence to the file
+		const loadedFile = event.target.files[0];
+		const scriptReader = new FileReader();
+		scriptReader.onload = () => {
+			const fileContent = scriptReader.result;
+			setScriptContent(fileContent);
+			console.log(fileContent);
+		}
+		scriptReader.readAsText(loadedFile);
+		setFileName(loadedFile.name);
 	}
 	
 	const handleUploadClick = () => {
@@ -149,7 +162,7 @@ const CustomJobsComponent = () => {
 				<Button onClick={handleUploadClick} variant={'contained'} sx={{ width: '200px', marginTop: '1rem', alignSelf: 'flex-start' }}
 				>
 					<FileUploadIcon sx={{ fontSize: '1.5rem', marginRight: '0.5rem', color: 'white' }} />
-					Upload Script
+					{fileName ? fileName : 'Upload Script'}
 				</Button>
 				
 				
