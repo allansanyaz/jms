@@ -10,6 +10,9 @@ import NodesComponent from "@/components/nodes/nodes.component.jsx";
 import QueueComponent from "@/components/queue/queue.component.jsx";
 
 const DashboardComponent = () => {
+	
+	// perform the fetch from this component
+	
 	return (
 		<CustomStack
 			sx={{
