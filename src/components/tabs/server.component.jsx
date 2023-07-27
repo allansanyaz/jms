@@ -1,5 +1,4 @@
 'use client';
-import * as React from 'react';
 import { useState } from 'react';
 import { CustomStack } from '@/styles/layout/layout.styles.jsx';
 import { CustomTypography } from '@/styles/typography/typography.styles';
@@ -11,17 +10,12 @@ import Checkbox from '@mui/material/Checkbox';
 import { Button, DeleteButtonTrash, EditButton, AddButton } from '@/styles/buttons/button.styles.jsx';
 import SaveIcon from '@mui/icons-material/Save';
 import Tooltip from '@mui/material/Tooltip';
-import Modal from '@mui/material/Modal';
+import ModalComponent from '@/components/modal/modal.component';
 
 const ServerComponent = () => {
 	
-	const [open, setOpen] = useState(false);
-	
 	const [administrators, setAdministrators] = useState([]);
 	const [administrator, setAdministrator] = useState('');
-	
-	const handleOpen = () => setOpen(true);
-	const handleClose = () => setOpen(false);
 	
 	const onAddAdminstrator = () => {
 		administrators.push(administrator);
@@ -119,7 +113,7 @@ const ServerComponent = () => {
 			</FormGroup>
 			
 			<Button variant={'contained'} sx={{ width: '200px', marginTop: '1rem', alignSelf: 'flex-end' }}>
-				<SaveIcon color={'white'} sx={{ fontSize: '1.5rem', marginRight: '0.5rem' }} /> Save Changes
+				<SaveIcon sx={{ fontSize: '1.5rem', marginRight: '0.5rem', color: 'white' }} /> Save Changes
 			</Button>
 			
 			<CustomTypography variant={'body2'} sx={{ fontWeight: '600', paddingTop: '1.5rem', paddingBottom: '1rem' }} >
@@ -151,36 +145,10 @@ const ServerComponent = () => {
 				</Tooltip>
 			</CustomStack>
 			
-			<Modal
-				open={open}
-				onClose={handleClose}
-				aria-labelledby="modal-modal-title"
-				aria-describedby="modal-modal-description"
-			>
-				<Box sx={style}>
-					<CustomTypography id="modal-modal-title" variant="h6" component="h2">
-						Text in a modal
-					</CustomTypography>
-					<CustomTypography id="modal-modal-description" sx={{ mt: 2 }}>
-						Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-					</CustomTypography>
-				</Box>
-			</Modal>
+			<ModalComponent />
 			
 		</CustomStack>
 	)
 }
 
 export default ServerComponent;
-
-const style = {
-	position: 'absolute',
-	top: '50%',
-	left: '50%',
-	transform: 'translate(-50%, -50%)',
-	width: 400,
-	bgcolor: 'background.paper',
-	border: '2px solid #000',
-	boxShadow: 24,
-	p: 4,
-};

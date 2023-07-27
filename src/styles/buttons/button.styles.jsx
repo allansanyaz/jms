@@ -9,6 +9,7 @@ export const Button = styled('button')((props) => ({
 	fontWeight: 'bold',
 	borderRadius: '4px',
 	padding: '8px 16px',
+	maxHeight: '40px',
 	
 	'&:hover': {
 		backgroundColor: props.backgroundColor ? props.backgroundColor : '#3f51b5',

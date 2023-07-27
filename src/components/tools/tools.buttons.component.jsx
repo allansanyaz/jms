@@ -5,8 +5,23 @@ import {
 import { Button } from "@/styles/buttons/button.styles";
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import AddIcon from '@mui/icons-material/Add';
+import Link from 'next/link';
 
-const ToolsButtonsComponent = ({ toolComponent, buttonTitle }) => {
+const ToolsButtonsComponent = ({ toolComponent, buttonTitle, buttonFunction }) => {
+	
+	const onButtonClick = () => {
+		switch (toolComponent) {
+			case 'tools':
+				buttonFunction(true);
+				break;
+			case 'custom':
+				console.log("Custom job button clicked");
+				break;
+			default:
+				console.log("No button clicked");
+		}
+	}
+	
 	return (
 		<CustomStack
 			sx={{
@@ -18,10 +33,12 @@ const ToolsButtonsComponent = ({ toolComponent, buttonTitle }) => {
 			{
 				toolComponent === 'tools' ?
 					(
-						<Button>
-							<PlayArrowIcon sx={{ fontSize: '1.5rem' }} />
-							Custom Job
-						</Button>
+						<Link className={'customlink'} href={'/tools/custom'}>
+							<Button>
+								<PlayArrowIcon sx={{ fontSize: '1.5rem' }} />
+								Custom Job
+							</Button>
+						</Link>
 					) :
 					(
 						<div>
@@ -33,6 +50,8 @@ const ToolsButtonsComponent = ({ toolComponent, buttonTitle }) => {
 			<Button
 				backgroundColor={'#47a447'}
 				hoverColor={'#47a44750'}
+				sx={{width: '160px'}}
+				onClick={() => onButtonClick()}
 			>
 				<AddIcon sx={{ fontSize: '1.5rem' }} />
 				{buttonTitle}

@@ -9,6 +9,7 @@ import { CustomTypography } from "@/styles/typography/typography.styles";
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import FileUploadIcon from '@mui/icons-material/FileUpload';
+import Link from 'next/link';
 
 const CustomJobsComponent = () => {
 	
@@ -45,9 +46,11 @@ const CustomJobsComponent = () => {
 				boxShadow: '0 0 10px 0 rgba(0,0,0,0.2)',
 			}}
 		>
-			<Button variant={'contained'} sx={{ width: '120px', marginTop: '1rem',  alignSelf: 'flex-end' }}>
-				<ArrowBackIcon color={'white'} sx={{ fontSize: '1.5rem', marginRight: '0.5rem' }} /> Back
-			</Button>
+			<Link className={'customlink'} href={'/tools/'} style={{width: '120px', marginTop: '1rem',  alignSelf: 'flex-end' }} >
+				<Button variant={'contained'}>
+					<ArrowBackIcon sx={{ fontSize: '1.5rem', marginRight: '0.5rem', color: 'white' }} /> Back
+				</Button>
+			</Link>
 			
 			<CustomDivider sx={{ my: 1 }} />
 			

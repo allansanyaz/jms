@@ -113,7 +113,7 @@ const NodesComponent = () => {
 					</CustomStack>
 				</Box>
 				<Button variant={'contained'} sx={{ width: '180px', marginTop: '1rem' }}>
-					<SaveIcon color={'white'} sx={{ fontSize: '1.5rem', marginRight: '0.5rem' }} /> Save Node
+					<SaveIcon sx={{ fontSize: '1.5rem', marginRight: '0.5rem', color: 'white' }} /> Save Node
 				</Button>
 			</CustomStack>
 			

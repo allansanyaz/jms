@@ -1,3 +1,5 @@
+'use client';
+import { useState } from "react";
 import { CustomTypography } from "@/styles/typography/typography.styles";
 import {
 	CustomDivider,
@@ -6,8 +8,18 @@ import {
 import { BuildIconComponent } from "@/styles/tools/tools.styles";
 import ToolsButtonsComponent from "@/components/tools/tools.buttons.component";
 import AccordionComponent from "@/components/tools/accordion.component";
+import ModalComponent from '@/components/modal/modal.component';
 
 const ToolsComponent = () => {
+	
+	const [openModal, setOpenModal] = useState(false);
+	
+	const handleOpen = () => {
+		console.log("Button clicked");
+		setOpenModal(true);
+		console.log("The modal is open: ", openModal);
+	}
+	
 	return (
 		<CustomStack
 			sx={{
@@ -44,7 +56,11 @@ const ToolsComponent = () => {
 			</CustomStack>
 			
 			<CustomDivider sx={{ my: 0 }} />
-			<ToolsButtonsComponent toolComponent={'tools'} buttonTitle={'Add Tool'} />
+			<ToolsButtonsComponent toolComponent={'tools'} buttonTitle={'Add Tool'} buttonFunction={setOpenModal} />
+			
+			{
+				openModal ? <ModalComponent openModal={openModal} setOpenModal={setOpenModal} categories={categories} /> : null
+			}
 			
 			<CustomDivider sx={{ my: 0 }} />
 			<AccordionComponent accordionMenuList={accordionMenuList} accordionTitle={'Tools'} />
@@ -55,4 +71,6 @@ const ToolsComponent = () => {
 
 export default ToolsComponent;
 
-const accordionMenuList = ["Administration", "Data Retrieval", "Docking Studies", "Homology Modeling", "Model Assessment", "SANCDB", "Variant Analysis"]
+const accordionMenuList = ["Administration", "Data Retrieval", "Docking Studies", "Homology Modeling", "Model Assessment", "SANCDB", "Variant Analysis"];
+
+const categories = ["Chicken", "Beef", "Venison", "Pork", "Lamb", "Fish", "Vegetarian", "Vegan", "Other"];

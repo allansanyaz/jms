@@ -69,7 +69,7 @@ const PackagesComponent = () => {
 			</Box>
 			
 			<Button variant={'contained'} sx={{ width: '240px', marginTop: '1rem' }}>
-				<InstallDesktopIcon color={'white'} sx={{ fontSize: '1.5rem', marginRight: '0.5rem' }} /> Install Packages
+				<InstallDesktopIcon sx={{ fontSize: '1.5rem', marginRight: '0.5rem', color: 'white' }} /> Install Packages
 			</Button>
 		
 		</CustomStack>
