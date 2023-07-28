@@ -1,0 +1,95 @@
+    def UpdateJobHistory(self):
+        f = open("/tmp/continue1.txt", 'w')
+        
+        r = ResourceManager(self.user)
+        queue = r.GetQueue()
+        new_status = None
+        
+        print >> f, queue.rows
+        
+        emails = []
+        http = []
+        
+        for row in queue.rows:
+            try:
+                #update or create JobStage
+                jobstage = JobStages.GetJobStage(row.job_id)
+                print >> f, "Working on %s" % row.job_id
+                
+                if jobstage: # if the job exists in the database and the status has changed
+                    
+                    new_status = row.state
+                    old_status = jobstage.Status.StatusID
+                    print >> f, old_status
+                    
+                    if new_status == 4 and jobstage.RequiresEditInd:
+                        new_status = 5
+                        
+                    print >> f, new_status
+                    
+                    #if the job status has changed or the job is held
+                    if old_status != new_status or new_status == 1:
+                            
+                        #if the status is held and the job is a workflow
+                        #release job if dependencies have been satisfied.
+                        #This should only happen if an error has occured 
+                        #when continuing the job
+                        print >> f, "Job type:", jobstage.Job.JobTypeID
+                        if new_status == 1 and jobstage.Job.JobTypeID < 4:
+                            self.ReleaseJob(jobstage)
+                        
+                        #if status has changed to a completed state
+                        if new_status >= 4:
+                            
+                            #get job accounting data
+                            job = r.GetJob(row.job_id)
+                            data = json.dumps(job.DataSections, 
+                                default=lambda o: o.__dict__, sort_keys=True)
+                            
+                            #get status
+                            if new_status == 4 and job.ExitCode == None:
+                                new_status = 6
+                            
+                            #update job stage
+                            jobstage = JobStages.UpdateJobStage(jobstage, new_status, 
+                                job.ExitCode, job.OutputLog, job.ErrorLog, 
+                                job.WorkingDir, data)
+                    
+                    print >> f, jobstage.Job.NotificationEmail 
+                    print >> f, jobstage.Job.NotificationURL     
+                    print >> f, jobstage.Job.JobStages.filter(Status_id__lt=4).count()
+                    #send notifications if there are no jobstages in job with status < 4, i.e. if the job must be complete
+                    if new_status >= 4 and (jobstage.Job.NotificationEmail is not None or jobstage.Job.NotificationURL is not None) and jobstage.Job.JobStages.filter(Status_id__lt=4).count() == 0:
+                        print >> f, "notify", jobstage.Job.HttpStatusID
+                        if jobstage.Job.NotificationEmail is not None and jobstage.Job.EmailStatusID != 1:
+                            emails.append(jobstage.Job)
+                        
+                        if jobstage.Job.NotificationURL is not None and jobstage.Job.HttpStatusID != 1:
+                            print >> f, jobstage.ClusterJobID
+                            http.append(jobstage.Job)
+                        
+                else: # if the job doesnt exist in the database, add it
+                    
+                    job = r.GetJob(row.job_id)
+                    data = json.dumps(job.DataSections, 
+                        default=lambda o: o.__dict__, sort_keys=True)
+                        
+                    with transaction.atomic():
+                        user, created = User.objects.get_or_create(
+                            username=job.User.split("@")[0]
+                        )
+                        
+                        j = Jobs.AddJob(User=user, JobName=job.JobName, 
+                            Description="External submission - job was not submitted via JMS", 
+                            ToolVersion=None, WorkflowVersion=None, JobTypeID=4)
+                        
+                        jobstage = JobStages.AddJobStage(user, j, StatusID=job.Status, 
+                            ClusterJobID=job.JobID, ExitCode=job.ExitCode, 
+                            ErrorLog=job.ErrorLog, OutputLog=job.OutputLog, 
+                            PWD=job.WorkingDir, JobData=data)
+                
+            except Exception, ex:
+                File.print_to_file("/tmp/continue.txt", traceback.format_exc())
+                pass
+        f.close()
+        return emails, http

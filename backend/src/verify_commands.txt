@@ -1,0 +1,32 @@
+"qstat -x"
+"qstat -x %s" % id
+'qmgr -c "print server"', expect=self.user.username + "@%s:" % socket.gethostname()
+'qmgr -c "set server %s = %s"' % (setting.Name, str(setting.Value))
+'qmgr -c "print server"', expect=self.user.username + "@%s:" % socket.gethostname()
+'qmgr -c "create queue %s"' % queue_name
+'qmgr -c "set queue %s %s = temp"' % (queue.QueueName, setting.Name)
+'qmgr -c "set queue %s %s -= temp"' % (queue.QueueName, setting.Name)
+'qmgr -c "set queue %s %s = %s"' % (queue.QueueName, setting.Name, value)
+'qmgr -c "set queue %s %s += %s"' % (queue.QueueName, setting.Name, value)
+'qmgr -c "set queue %s %s = %s"' % (queue.QueueName, setting.Name, str(setting.Value))
+'qmgr -c "set queue %s resources_max.nodes = %s:ppn=%s"' % (queue.QueueName, str(max_nodes), str(max_procs))
+'qmgr -c "set queue %s resources_default.nodes = %s:ppn=%s"' % (queue.QueueName, def_nodes, def_procs)
+'qmgr -c "delete queue %s"' % queue_name
+'qmgr -c "print server"', expect=self.user.username + "@%s:" % socket.gethostname()
+'qmgr -c "set server managers += %s"' % (administrator_name)
+'qmgr -c "set server operators += %s"' % (administrator_name)
+'qmgr -c "set server %s += %s"' % (setting.Name, administrator.AdministratorName)
+'qmgr -c "set server %s -= %s"' % (setting.Name, administrator.AdministratorName)
+'qmgr -c "set server managers -= %s"' % administrator_name
+'qmgr -c "set server operators -= %s"' % administrator_name
+"qnodes -x"
+'qmgr -c "create node %s"' % node.name)   
+'qmgr -c "set node %s np = %s"' % (node.name, str(node.num_cores))
+'qmgr -c "set node %s properties = %s"' % (node.name, node.other)
+'qmgr -c "delete node %s"' % id) 
+"qterm -t quick"
+"qserverd", sudo=True
+"qsub %s" % script
+"qhold %s" % id
+"qrls %s" % id
+"qdel %s" % id

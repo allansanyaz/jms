@@ -1,0 +1,15 @@
+    def ReleaseJob(self, jobstage):
+        with open("/tmp/stage_%d.txt" % jobstage.Stage.StageID, "w") as f:
+            print >> f, "Attmepting to release stage %d" % jobstage.Stage.StageID
+            
+            if self.JobStageDependenciesSatisfied(jobstage):
+                print >> f, "Releasing..."
+                self.CopyRequiredFiles(jobstage)
+                
+                r = ResourceManager(jobstage.Job.User)
+                out = r.ReleaseJob(jobstage.ClusterJobID)
+                
+                return True
+            else:
+                print >> f, "Held..."
+                return False

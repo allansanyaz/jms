@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<Data>
+  <Node>
+    <name>chewbacca</name>
+    <state>free</state>
+    <np>64</np>
+    <properties>opteron</properties>
+    <ntype>cluster</ntype>
+    <jobs>0/140324.padme, 1/140326.padme, 2/140327.padme, 4/140335.padme, 5/140336.padme</jobs>
+    <status>rectime=1658441461,varattr=,jobs=140324.padme 140326.padme 140327.padme 140335.padme 140336.padme,state=free,netload=41982991637,gres=,loadave=4.92,ncpus=64,physmem=528368212kb,availmem=1059553772kb,totmem=1065213520kb,idletime=789647,nusers=3,nsessions=7,sessions=603 1677 1902 11334 11998 64830 65375,uname=Linux chewbacca 4.2.0-27-generic #32~14.04.1-Ubuntu SMP Fri Jan 22 15:32:26 UTC 2016 x86_64,opsys=linux</status>
+  </Node>
+</Data>

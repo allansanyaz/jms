@@ -1,0 +1,643 @@
+{% extends "custom/JMS/master.html" %}
+
+{% block css %}
+	
+	<!-- BOOTSTRAP STYLES -->
+	<link href="{{ STATIC_URL }}lib/bootstrap/binary/css/bootstrap.css" rel="stylesheet" />
+	
+	<!-- FONTAWESOME STYLES -->
+	<link href="{{ STATIC_URL }}lib/bootstrap/binary/css/font-awesome.css" rel="stylesheet" />
+	
+	<!-- CUSTOM STYLES -->
+	<link href="{{ STATIC_URL }}lib/bootstrap/binary/css/custom.css" rel="stylesheet" />
+	<link href="{{ STATIC_URL }}lib/bootstrap/binary/css/stavatech.css" rel="stylesheet" />
+	
+	<link href="{{ STATIC_URL }}lib/knockout-kendo-master/css/kendo.common.min.css" rel="stylesheet" />
+	<link href="{{ STATIC_URL }}lib/knockout-kendo-master/css/kendo.default.min.css" rel="stylesheet" />
+		
+	<!-- GOOGLE FONTS -->
+	<link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
+	
+{% endblock %}
+
+{% block content %}
+	<div class="modal fade" id="question-dialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    </div>
+     
+	<div id="page-wrapper" class="page-wrapper" >
+		<div class="page-inner">
+		    
+		    <div class="modal fade" id="admin-dialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content" data-bind="with: $root.SelectedAdministrator">
+						<div class="modal-header" data-bind="visible: $root.LoadingAdmins() == false">
+					    	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					     	<h4 class="modal-title" >Add/edit Torque administrator</h4>
+					  	</div>
+					    <div class="modal-body">
+					        <div data-bind="visible: $root.LoadingAdmins() == false">
+					        	<div class="form-group">
+								    <label>Administrator Name:</label>
+								    <input class="form-control" data-bind="value: AdministratorName"  />
+							    </div>
+							
+					        	<!-- ko foreach: SettingsSections -->
+					        	    
+					        	    <div class="col-lg-12" style="padding:0">     
+                                        <label><u data-bind="text: SectionHeader"></u></label>
+                                        <hr style="margin-top:5px;margin-bottom:5px;">
+                                    </div>
+                                    
+                                    <div class="row">
+                                    <!-- ko foreach: Settings() -->
+                                        <!-- ko if: ValueType() == 1 -->
+                                        <div class="col-lg-5">
+                                            <div class="form-group" style="padding:5px;">
+                                                <label data-bind="text: Label"></label>
+                                                <input type="text" class="form-control" data-bind="value: Value" />
+                                            </div>
+                                        </div>
+                                        <!-- /ko -->
+                                        
+                                        <!-- ko if: ValueType() == 2 -->
+                                        <div class="col-lg-5">
+                                            <div class="form-group" style="padding:5px;">
+                                                <label data-bind="text: Label"></label>
+                                                <input type="number" class="form-control" data-bind="value: Value" />
+                                            </div>
+                                        </div>
+                                        <!-- /ko -->
+                                        
+                                        <!-- ko if: ValueType() == 4 -->
+                                        <div class="col-lg-5">
+                                            <div class="form-group" style="padding:5px;">
+                                                <label data-bind="text: Label"></label>
+                                                <input disabled class="form-control" data-bind="value: Value" />
+                                            </div>
+                                        </div>
+                                        <!-- /ko -->
+					                <!-- /ko -->
+                                    </div>
+                                    
+                                    <div class="row">
+                                    <!-- ko foreach: Settings() -->
+                                        <!-- ko if: ValueType() == 3 -->
+                                        <div class="col-lg-12">
+                                            <div class="form-group" style="padding:5px;">
+                                                <input type="checkbox" data-bind="checked: Value" />
+                                                <label data-bind="text: Label"></label>
+                                            </div>
+                                        </div>
+                                        <!-- /ko -->
+					                <!-- /ko -->
+                                    </div>
+					        	<!-- /ko -->
+						    </div>	
+						    
+							<div style="text-align: center;" data-bind="visible: $root.LoadingAdmins">
+				                <img src="{{ STATIC_URL }}img/big_red_loader.gif"> <br>
+				                <img src="{{ STATIC_URL }}img/text_loader.gif"> <br>
+			                </div>
+					   	</div>
+					  	<div class="modal-footer" data-bind="visible: $root.LoadingAdmins() == false">
+					       	<button type="button" class="btn btn-info" data-bind="click: $root.AddUpdateAdministrator">
+					       		<i class="fa fa-save"></i> 
+					       		Save
+					       	</button>
+					       	<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+						</div>
+					</div>
+			   	</div>
+		 	</div>
+		 	
+		 	<div class="modal fade" id="queue-dialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header" data-bind="visible: $root.LoadingQueue() == false">
+					    	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					     	<h4 class="modal-title" >Add queue</h4>
+					  	</div>
+					    <div class="modal-body">
+					    	<div data-bind="visible: $root.LoadingQueue() == false">
+					        	<div class="form-group">
+								    <label>Queue name:</label>
+								    <input class="form-control" id="queue_name" />
+							    </div>							
+							</div>
+							
+							<div style="text-align: center;" data-bind="visible: $root.LoadingQueue">
+				                <img src="{{ STATIC_URL }}img/big_red_loader.gif"> <br>
+				                <img src="{{ STATIC_URL }}img/text_loader.gif"> <br>
+			                </div>
+					   	</div>
+					  	<div class="modal-footer" data-bind="visible: $root.LoadingQueue() == false">
+					       	<button type="button" class="btn btn-info" data-bind="click: $root.AddQueue">
+					       		<i class="fa fa-save"></i> 
+					       		Save
+					       	</button>
+					       	<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+						</div>
+					</div>
+			   	</div>
+		 	</div>
+		 	
+		 	<div class="modal fade" id="node-dialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header" data-bind="visible: $root.LoadingNodes() == false">
+					    	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					     	<h4 class="modal-title" >Add node</h4>
+					  	</div>
+					    <div class="modal-body">
+					    	<div data-bind="visible: $root.LoadingNodes() == false, with: $root.NewNode">
+					        	<div class="form-group">
+								    <label>Node name:</label>
+								    <input class="form-control" data-bind="value: Name"/>
+							    </div>
+                                
+                                <div class="form-group">
+                                    <label>No. of processors</label>
+                                    <input type="number" class="form-control" data-bind="value: NumCores" />
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label>Other properties</label>
+                                    <input type="text" class="form-control" data-bind="value: Other" />
+                                </div>							
+							</div>
+							
+							<div style="text-align: center;" data-bind="visible: $root.LoadingNodes">
+				                <img src="{{ STATIC_URL }}img/big_red_loader.gif"> <br>
+				                <img src="{{ STATIC_URL }}img/text_loader.gif"> <br>
+			                </div>
+					   	</div>
+					  	<div class="modal-footer" data-bind="visible: $root.LoadingNodes() == false">
+					       	<button type="button" class="btn btn-info" data-bind="click: $root.AddNode">
+					       		<i class="fa fa-save"></i> 
+					       		Save
+					       	</button>
+					       	<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+						</div>
+					</div>
+			   	</div>
+		 	</div> 	
+		 	
+		 	
+		 	<div class="modal fade" id="instructions-dialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content" data-bind="with: $root.SelectedNode">
+						<div class="modal-header" data-bind="visible: $root.LoadingQueue() == false">
+					    	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					     	<h4 class="modal-title" >Set up node: <span data-bind="text: Name"></span></h4>
+					  	</div>
+					    <div class="modal-body">
+					    
+					        Adding a new compute node requires some additional, manual steps to be taken, both on the head node of the cluster and on the node being added. Note that you will need root priviliges on both machines.
+					        <br><br>
+					        
+					        <label>On the compute node (i.e. <span data-bind="text: Name"></span>):</label>
+					        <ol>
+					            <li><a target="_blank" href="https://github.com/RUBi-ZA/JMS/wiki/Set-up-NFS">Mount the shared directory</a></li>
+					            <li>The host name of the node should be set to the name you gave when adding it to the JMS:
+<br>
+<pre style="word-break:normal">
+<code>sudo echo "<span data-bind="text: Name"></span>" > /etc/hostname</code>
+</pre>
+                                
+					            </li>
+					            
+					            <li>Install Torque
+					                <ol>
+					                    <li>Copy the Torque .tar.gz file from the <code>bin</code> directory of the JMS project to the compute node e.g. from <span data-bind="text: Name"></span>: <br>
+<pre style="word-break:normal">
+<code>scp username@&lt;Head node IP address&gt;:/srv/JMS/bin/torque-5.0.0-1_JMS.tar.gz .</code>
+</pre>
+					                    </li>
+					                    <li>
+					                        Extract the contents of the compressed file and run the setup script:<br>
+<pre style="word-break:normal">
+<code>tar xvf torque-5.0.0-1_JMS.tar.gz
+cd torque-5.0.0-1_JMS
+sh setup_torque_slave.sh &lt;head node hostname&gt; &lt;head node IP address&gt;</code>
+</pre>
+					                    </li>
+					                    <li>Check that <code>pbs_mom</code> is running:<br>
+<pre style="word-break:normal">
+<code>ps aux | grep pbs_mom</code>
+</pre>
+					                    </li>
+					                    <li>If it is not, start it:
+<pre style="word-break:normal">
+<code>sudo service pbs_mom start</code>
+</pre>
+					                    </li>
+					                </ol>
+					            </li>
+					            <li>
+					                Copy the prologue and epilogue scripts from the shared storage directory to the <code>mom_priv</code> directory. For example, if you mounted your NFS at <code>/NFS/JMS</code> and you installed Torque to the default location, you could run the following:
+<pre style="word-break:normal">
+<code>sudo cp /NFS/JMS/scripts/prologue /var/spool/torque/mom_priv
+sudo cp /NFS/JMS/scripts/epilogue /var/spool/torque/mom_priv</code>
+</pre>
+                                    Prologue and epilogue scripts <strong>must</strong> be set up on each and every node for the JMS to function. Users with an existing Torque installation who have their own prologue and epilogue scripts can simply copy the contents of the JMS scripts and add it to their own. 			            
+					            </li>
+					        </ol>
+					        
+					        <label>On the head node:</label>
+					        <ol>
+					            <li>
+					                Add the following line to <code>/etc/hosts</code>:<br>
+<pre style="word-break:normal">
+<code>&lt;Node IP address&gt; <span data-bind="text: Name"></span></code>
+</pre>
+					                Where <code>&lt;Node IP address&gt;</code> is the IP address of the compute node (i.e. <span data-bind="text: Name"></span>) you are adding.		            
+					            </li>
+					            <li>
+					                Restart <code>pbs_server</code> and <code>pbs_sched</code>:<br>
+<pre style="word-break:normal">
+<code>sudo service pbs_server restart
+sudo service pbs_sched restart</code>
+</pre>
+					            </li>
+					        </ol>
+					    
+					   	</div>
+					  	<div class="modal-footer" data-bind="visible: $root.LoadingQueue() == false">
+					       	<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+						</div>
+					</div>
+			   	</div>
+		 	</div>
+		 	
+		 	<div class="modal fade" id="queue-dialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+					    <div class="modal-body">
+							
+							<div style="text-align: center;" data-bind="visible: $root.installing_packages_error">
+				                <img src="{{ STATIC_URL }}img/error.png" style="height:100px;" /> <br/>
+				                <span data-bind="text: $root.package_message"></span>
+			                </div>
+							
+							<div style="text-align: center;" data-bind="visible: $root.installing_packages">
+				                <img src="{{ STATIC_URL }}img/big_red_loader.gif"> <br>
+				                <img src="{{ STATIC_URL }}img/text_loader.gif"> <br>
+			                </div>
+					   	</div>
+					</div>
+			   	</div>
+		 	</div>
+                                    
+		
+		    <!-- PAGE LOADING -->
+		    <div style="text-align: center;" data-bind="visible: $root.Loading">
+				<img src="{{ STATIC_URL }}img/big_red_loader.gif"> <br>
+				<img src="{{ STATIC_URL }}img/text_loader.gif"> <br>
+			</div>
+		    
+		    <!-- PAGE -->
+			<div style="display:none;" data-bind="visible: $root.Loading() == false"> 
+			    
+			    <div>    
+					<div class="row">
+						<div class="col-md-12">
+							<h2><i class="fa fa-gears"></i> Settings</h2>   
+						</div>
+					</div>
+					<!-- /. ROW  -->
+						    
+					<hr />
+				
+					<div class="row" style="margin:15px;" >
+					    <div data-bind="kendoTabStrip: {}">
+                            <ul>
+                                <li class="k-state-active">Server</li>
+                                <li>Queues</li>
+                                <li>Nodes</li>
+                                <li>Package Manager</li>
+                            </ul>
+                            <div style="overflow:hidden;padding:15px;padding-top:20px;" data-bind="if: $root.Settings() != null">
+                                <div data-bind="with: $root.Settings"> 
+                                    
+                                    <div id="server_settings">
+                                        <div class="row" style="margin:6px;">
+							                
+							                <div data-bind="foreach: $root.Settings()">
+							                    <div class="col-lg-12" style="padding:0">     
+                                                    <a class="st-link-header" data-bind="text: SectionHeader"></a>
+                                                    <hr style="margin-top:5px;margin-bottom:5px;">
+                                                </div>
+                                                
+                                                <div class="row">
+                                                <!-- ko foreach: Settings() -->
+                                                    <!-- ko if: ValueType() == 1 -->
+                                                    <div class="col-lg-5">
+                                                        <div class="form-group" style="padding:5px;">
+                                                            <label data-bind="text: Label"></label>
+                                                            <input type="text" class="form-control" data-bind="value: Value" />
+                                                        </div>
+                                                    </div>
+                                                    <!-- /ko -->
+                                                    
+                                                    <!-- ko if: ValueType() == 2 -->
+                                                    <div class="col-lg-5">
+                                                        <div class="form-group" style="padding:5px;">
+                                                            <label data-bind="text: Label"></label>
+                                                            <input type="number" class="form-control" data-bind="value: Value" />
+                                                        </div>
+                                                    </div>
+                                                    <!-- /ko -->
+                                                    
+                                                    <!-- ko if: ValueType() == 4 -->
+                                                    <div class="col-lg-5">
+                                                        <div class="form-group" style="padding:5px;">
+                                                            <label data-bind="text: Label"></label>
+                                                            <input disabled class="form-control" data-bind="value: Value" />
+                                                        </div>
+                                                    </div>
+                                                    <!-- /ko -->
+								                <!-- /ko -->
+                                                </div>
+                                                
+                                                <div class="row">
+                                                <!-- ko foreach: Settings() -->
+                                                    <!-- ko if: ValueType() == 3 -->
+                                                    <div class="col-lg-5">
+                                                        <div class="form-group" style="padding:5px;">
+                                                            <input type="checkbox" data-bind="checked: Value" />
+                                                            <label data-bind="text: Label"></label>
+                                                        </div>
+                                                    </div>
+                                                    <!-- /ko -->
+								                <!-- /ko -->
+                                                </div>
+                                            </div>
+                                        
+                                            <div class="col-lg-12" style="text-align:right;padding:6px 0px;">
+								                <button class="btn btn-info" data-bind="click: $root.SaveServerSettings, disable: $root.LoadingServer"> 
+								                    <!-- ko if: $root.LoadingServer() == false -->
+								                    <i class="fa fa-save"></i> Save Settings
+								                    <!-- /ko -->
+								                    <!-- ko if: $root.LoadingServer -->
+								                    Please wait...
+								                    <!-- /ko -->
+								                </button>
+							                </div>
+                                        </div>
+                                        
+                                        <div class="row" style="margin:0">
+                                            
+                                            <div class="col-lg-12" style="padding:0">    
+                                                <div class="form-group" style="padding:5px;padding-bottom:0px;">
+                                                    <a class="st-link-header">Administrators</a>  
+                                                    <hr>
+                                                </div>   
+                                                                                     
+                                                <div class="form-group" style="padding:5px;">
+                                                    <select class="form-control" multiple style="padding:6px 0px;" data-bind="options: $root.Administrators, optionsText: function(item) { return item.AdministratorName(); }, selectedOptions: $root.SelectedAdministrators">
+                                                    </select>
+                                                    
+                                                    <div class="col-lg-12" style="text-align:right;padding:6px 0px;">
+										                <button class="btn btn-danger" data-bind="click: $root.DeleteAdministrator, enable: $root.SelectedAdministrators().length > 0"> 
+										                    <i class="fa fa-trash-o"></i>
+										                </button>
+										                <button class="btn btn-warning" data-bind="click: $root.ShowEditAdministrator, enable: $root.SelectedAdministrators().length > 0"> 
+										                    <i class="fa fa-edit"></i>
+										                </button>
+										                <button class="btn btn-success" data-bind="click: $root.ShowAddAdministrator"> 
+										                    <i class="fa fa-plus"></i>
+										                </button>
+									                </div>
+                                                </div>
+                                            </div>                                           
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="overflow:hidden;padding:15px;padding-top:20px;">
+                                <div class="col-lg-3" style="padding:0"> 
+                                    <div data-bind="if: $root.Settings() != null">
+                                        <div class="form-group" style="padding:5px;padding-bottom:0px;">
+                                            <a class="st-link-header">Queues</a>  
+                                            <hr>
+                                        </div>   
+                                                                             
+                                        <div class="form-group" style="padding:5px;">
+                                            <select class="form-control" multiple style="padding:6px 0px;height:200px;" data-bind="options: $root.Queues, optionsText: function(item) { return item.QueueName(); }, selectedOptions: $root.SelectedQueues">
+                                            </select>
+                                            
+                                            <div class="col-lg-12" style="text-align:right;padding:6px 0px;">
+							                    <button class="btn btn-danger" data-bind="click: $root.DeleteQueue, enable: $root.SelectedQueues().length > 0"> 
+							                        <i class="fa fa-trash-o"></i>
+							                    </button>
+							                    <button class="btn btn-success" data-bind="click: $root.ShowAddQueue"> 
+							                        <i class="fa fa-plus"></i>
+							                    </button>
+						                    </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-lg-9" style="padding:0;"> 
+                                    <div data-bind="with: $root.SelectedQueue()" style="padding-left:15px;">
+                                        <div class="form-group" style="padding:5px;padding-bottom:0px;">
+                                            <a class="st-link-header">Queue details: <span data-bind="text: QueueName"></span></a>  
+                                            <hr>
+                                        </div> 
+                                        
+                                        <div class="row" style="padding:5px; margin:0" data-bind="foreach: SettingsSections">
+                                            <div class="col-lg-12" style="padding:0">     
+                                                <label><u data-bind="text: SectionHeader"></u></label>
+                                                <hr style="margin-top:5px;margin-bottom:5px;">
+                                            </div>
+                                            
+                                            <div class="row">
+                                            <!-- ko foreach: Settings() -->
+                                                <!-- ko if: ValueType() == 3 -->
+                                                <div class="col-lg-5">
+                                                    <div class="form-group" style="padding:5px;">
+                                                        <input type="checkbox" data-bind="checked: Value" />
+                                                        <label data-bind="text: Label"></label>
+                                                    </div>
+                                                </div>
+                                                <!-- /ko -->
+							                <!-- /ko -->
+                                            </div>
+                                            
+                                            <div class="row">
+                                            <!-- ko foreach: Settings() -->
+                                                <!-- ko if: ValueType() == 1 -->
+                                                <div class="col-lg-5">
+                                                    <div class="form-group" style="padding:5px;">
+                                                        <label data-bind="text: Label"></label>
+                                                        <input type="text" class="form-control" data-bind="value: Value" />
+                                                    </div>
+                                                </div>
+                                                <!-- /ko -->
+                                                
+                                                <!-- ko if: ValueType() == 2 -->
+                                                <div class="col-lg-5">
+                                                    <div class="form-group" style="padding:5px;">
+                                                        <label data-bind="text: Label"></label>
+                                                        <input type="number" class="form-control" data-bind="value: Value" />
+                                                    </div>
+                                                </div>
+                                                <!-- /ko -->
+                                                
+                                                <!-- ko if: ValueType() == 4 -->
+                                                <div class="col-lg-5">
+                                                    <div class="form-group" style="padding:5px;">
+                                                        <label data-bind="text: Label"></label>
+                                                        <input disabled class="form-control" data-bind="value: Value" />
+                                                    </div>
+                                                </div>
+                                                <!-- /ko -->
+							                <!-- /ko -->
+                                            </div>
+                                        </div>
+                                                                                
+                                        <div class="row" style="padding:5px; margin:0">                                            
+                                            <div class="col-lg-12" style="padding:0;text-align:right">
+							                    <button class="btn btn-info" data-bind="click: $root.SaveQueue, disable: $root.LoadingQueue"> 
+							                        <!-- ko if: $root.LoadingQueue() == false -->
+								                    <i class="fa fa-save"></i> Save Queue
+								                    <!-- /ko -->
+								                    <!-- ko if: $root.LoadingQueue -->
+								                    Please wait...
+								                    <!-- /ko -->
+							                    </button>
+						                    </div>
+						                </div>
+						                
+                                    </div>                                    
+                                </div> 
+                            </div>
+                            <div style="overflow:hidden;padding:15px;padding-top:20px;">
+                                <div class="col-lg-3" style="padding:0"> 
+                                    <div class="col-lg-12" style="padding:0">     
+                                        <a class="st-link-header">Cluster nodes</a>
+                                        <hr>
+                                    </div>
+                                    
+                                    <div class="form-group" style="padding:7px;padding-right:15px;">
+                                        <select class="form-control" multiple style="padding:6px 0px;height:200px;margin-top:10px;" data-bind="options: $root.Nodes, optionsText: function(item) { return item.Name(); }, selectedOptions: $root.SelectedNodes">
+                                        </select>
+                                        
+                                        <div class="col-lg-12" style="text-align:right;padding:6px 0px;">
+							                <button class="btn btn-danger" data-bind="click: $root.DeleteNode, enable: $root.SelectedNodes().length > 0"> 
+							                    <i class="fa fa-trash-o"></i>
+							                </button>
+							                <button class="btn btn-success" data-bind="click: $root.ShowAddNode"> 
+							                    <i class="fa fa-plus"></i>
+							                </button>
+						                </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-lg-9" style="padding:0" data-bind="with: $root.SelectedNode"> 
+                                    <div class="col-lg-12" style="padding:0">     
+                                        <a class="st-link-header">Node details: <span data-bind="text: Name"></span></a>
+                                        <hr>
+                                    </div>
+                                    
+                                    <div class="row">
+                                        <div class="col-lg-11">
+                                            <div class="form-group">
+                                                <label>State</label>
+                                                <span type="text" class="form-control" data-bind="text: State" ></span>                                        
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="col-lg-11">    
+                                            <div class="form-group">
+                                                <label>No. of processors</label>
+                                                <input type="number" class="form-control" data-bind="value: NumCores" />
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="col-lg-11">
+                                            <div class="form-group">
+                                                <label>Other properties</label>
+                                                <input type="text" class="form-control" data-bind="value: Other" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="form-group" style="padding:5px;">
+                                        <div class="col-lg-12" style="text-align:right;padding:0px;">
+							                <button class="btn btn-default" data-bind="click: $root.ShowInstructions">
+							                    <i class="fa fa-gears"></i> Setup Node
+							                </button>
+							                 
+							                <button class="btn btn-info" data-bind="click: $root.EditNode, disable: $root.LoadingNodes"> 
+							                    <!-- ko if: $root.LoadingNodes() == false -->
+							                    <i class="fa fa-save"></i> Save Node
+							                    <!-- /ko -->
+							                    <!-- ko if: $root.LoadingNodes -->
+							                    Please wait...
+							                    <!-- /ko -->
+							                </button>
+						                </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="overflow:hidden;">
+                                <div class="col-lg-12" style="padding:0">     
+                                    <a class="st-link-header">Package Management</a>
+                                    <hr>
+                                </div>
+                                <div class="col-lg-3" style="padding:0"> 
+                                    <div class="col-lg-12" style="padding:0">     
+                                        <label>Select Nodes</label>
+                                    </div>
+                                    
+                                    <div class="form-group" style="padding:7px;padding-right:15px;">
+                                        <select class="form-control" multiple style="padding:6px 0px;height:200px;margin-top:10px;" data-bind="options: $root.Nodes, optionsText: function(item) { return item.Name(); }, selectedOptions: $root.SelectedNodes">
+                                        </select>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-lg-9" style="padding:0">     
+                                    <div class="col-lg-12" style="padding:0">     
+                                        <label>Enter packages</label>
+                                        (One per line)
+                                        
+                                        <textarea class="form-control" style="padding:6px 0px;height:200px;"></textarea>
+                                    </div>
+                                    <div class="col-lg-12" style="text-align:right;padding:6px;">     
+                                        <button class="btn btn-info" data-bind="click: $root.InstallPackages"> 
+						                    <i class="fa fa-gears"></i> Install Packages
+						                </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+					</div>
+			    </div>
+			    			    
+			</div>
+		</div>
+    </div>
+    
+{% endblock %}
+
+{% block scripts %}	
+	<!-- SCRIPTS -AT THE BOTTOM TO REDUCE THE LOAD TIME-->
+	<!-- JQUERY SCRIPTS -->
+	<script src="{{ STATIC_URL }}lib/jquery-1.10.2.js"></script>
+	<script src="{{ STATIC_URL }}lib/jquery-migrate.min.js"></script>
+	<script src="{{ STATIC_URL }}lib/jquery-ui-1.11.2.jms/jquery-ui.js"></script>
+	<!-- BOOTSTRAP SCRIPTS -->
+	<script src="{{ STATIC_URL }}lib/bootstrap/binary/js/bootstrap.min.js"></script>
+	<!-- METISMENU SCRIPTS -->
+	<script src="{{ STATIC_URL }}lib/bootstrap/binary/js/jquery.metisMenu.js"></script>
+	<!-- KNOCKOUT SCRIPTS -->
+	<script src="{{ STATIC_URL }}lib/knockout-kendo-master/ext/knockout-3.1.0.js"></script>
+	<script src="{{ STATIC_URL }}lib/knockout-kendo-master/ext/kendo.web.min.js"></script>
+	<script src="{{ STATIC_URL }}lib/knockout-kendo-master/build/knockout-kendo.min.js"></script>
+	<!-- CUSTOM SCRIPTS -->
+	<script src="{{ STATIC_URL }}lib/custom/JMS/custom.js"></script>
+	<script src="{{ STATIC_URL }}lib/custom/question.js"></script>
+	<script src="{{ STATIC_URL }}lib/custom/JMS/settings.js"></script>
+{% endblock %}

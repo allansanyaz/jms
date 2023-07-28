@@ -1,0 +1,43 @@
+SubmittedAt set null
+WorkingDirectory MISSING
+LogsDirectory MISSING
+StatusID SET NULL
+DeletedInd SET NULL
+
+
+###################### jobs app FROM PADME  ###############
+
+
+CREATE TABLE `BatchJobs` (`BatchJobID` integer AUTO_INCREMENT NOT NULL PRIMARY KEY, `BatchJobName` varchar(30) NOT NULL, `Description` longtext NULL, `DeletedInd` bool NOT NULL);
+CREATE TABLE `Categories` (`CategoryID` integer AUTO_INCREMENT NOT NULL PRIMARY KEY, `CategoryName` varchar(30) NOT NULL);
+CREATE TABLE `Conditions` (`ConditionID` integer NOT NULL PRIMARY KEY, `ConditionName` varchar(50) NOT NULL);
+CREATE TABLE `ExpectedOutputs` (`ExpectedOutputID` integer AUTO_INCREMENT NOT NULL PRIMARY KEY, `OutputName` varchar(60) NOT NULL, `FileName` varchar(256) NOT NULL);
+CREATE TABLE `FileTypes` (`FileTypeID` integer AUTO_INCREMENT NOT NULL PRIMARY KEY, `FileTypeName` varchar(30) NOT NULL);
+CREATE TABLE `InputProfiles` (`InputProfileID` integer AUTO_INCREMENT NOT NULL PRIMARY KEY, `InputProfileName` varchar(30) NOT NULL, `Description` longtext NULL, `DeletedInd` bool NOT NULL);
+CREATE TABLE `InputProfileParameters` (`InputProfileParameterID` integer AUTO_INCREMENT NOT NULL PRIMARY KEY, `Value` longtext NULL, `InputProfileID` integer NOT NULL);
+CREATE TABLE `Jobs` (`JobID` integer AUTO_INCREMENT NOT NULL PRIMARY KEY, `JobName` varchar(100) NOT NULL, `JobDescription` longtext NOT NULL, `SubmittedAt` datetime NOT NULL, `FinishedAt` datetime NULL, `BatchJobInd` bool NOT NULL, `JobTypeID` integer NOT NULL, `StatusID` integer NOT NULL, `NotificationMethod` varchar(10) NULL, `NotificationURL` varchar(255) NULL, `HttpStatusID` integer NULL, `NotificationEmail` varchar(255) NULL, `EmailStatusID` integer NULL, `DeletedInd` bool NOT NULL, `BatchJobID` integer NULL);
+CREATE TABLE `JobStages` (`JobStageID` integer AUTO_INCREMENT NOT NULL PRIMARY KEY, `ToolName` varchar(100) NULL, `Commands` longtext NULL, `RequiresEditInd` bool NULL, `ExitCode` integer NULL, `ClusterJobID` varchar(30) NULL, `JobData` longtext NOT NULL, `ErrorLog` varchar(255) NULL, `OutputLog` varchar(255) NULL, `WorkingDirectory` varchar(255) NULL, `JobID` integer NOT NULL);
+CREATE TABLE `JobStageDataFields` (`DataFieldID` integer AUTO_INCREMENT NOT NULL PRIMARY KEY, `Key` varchar(45) NOT NULL, `Value` longtext NOT NULL, `Label` varchar(100) NOT NULL, `ValueType` integer NOT NULL);
+CREATE TABLE `JobStageDataSections` (`DataSectionID` integer AUTO_INCREMENT NOT NULL PRIMARY KEY, `DataSectionName` varchar(30) NOT NULL, `JobStageID` integer NOT NULL);
+CREATE TABLE `JobStageDependencies` (`JobStageDependencyID` integer AUTO_INCREMENT NOT NULL PRIMARY KEY, `ExitCodeValue` integer NULL, `ConditionID` integer NOT NULL, `DependantOnID` integer NOT NULL, `JobStageID` integer NOT NULL);
+CREATE TABLE `JobStageParameters` (`JobStageParameterID` integer AUTO_INCREMENT NOT NULL PRIMARY KEY, `ParameterName` varchar(30) NULL, `Value` longtext NOT NULL, `JobStageID` integer NOT NULL);
+CREATE TABLE `JobStageResources` (`JobStageResourceID` integer AUTO_INCREMENT NOT NULL PRIMARY KEY, `ResourceManager` varchar(30) NOT NULL, `Key` varchar(15) NOT NULL, `Value` varchar(255) NOT NULL, `Label` varchar(100) NOT NULL, `JobStageID` integer NOT NULL);
+CREATE TABLE `Parameters` (`ParameterID` integer AUTO_INCREMENT NOT NULL PRIMARY KEY, `ParameterName` varchar(30) NOT NULL, `Context` varchar(100) NOT NULL, `InputBy` varchar(20) NOT NULL, `Value` longtext NOT NULL, `Multiple` bool NOT NULL, `Delimiter` varchar(10) NULL, `ParameterIndex` varchar(7) NOT NULL, `OptionalInd` bool NOT NULL, `DeletedInd` bool NOT NULL);
+CREATE TABLE `ParameterOptions` (`ParameterOptionID` integer AUTO_INCREMENT NOT NULL PRIMARY KEY, `ParameterOptionText` varchar(50) NOT NULL, `ParameterOptionValue` varchar(30) NOT NULL, `DeletedInd` bool NOT NULL, `ParameterID` integer NOT NULL);
+CREATE TABLE `ParameterTypes` (`ParameterTypeID` integer NOT NULL PRIMARY KEY, `ParameterName` varchar(40) NOT NULL);
+CREATE TABLE `References` (`ReferenceID` integer AUTO_INCREMENT NOT NULL PRIMARY KEY, `FirstNames` varchar(100) NOT NULL, `Surname` varchar(45) NOT NULL, `Title` varchar(10) NOT NULL, `Affiliation` varchar(255) NULL);
+CREATE TABLE `Stages` (`WorkflowToolID` integer AUTO_INCREMENT NOT NULL PRIMARY KEY, `Checkpoint` bool NOT NULL, `StageLevel` integer NOT NULL, `left_co_ord` integer NOT NULL, `top_co_ord` integer NOT NULL);
+CREATE TABLE `StageDependencies` (`StageDependencyID` integer AUTO_INCREMENT NOT NULL PRIMARY KEY, `ExitCodeValue` integer NULL, `ConditionID` integer NOT NULL, `DependantOnID` integer NOT NULL, `StageID` integer NOT NULL);
+CREATE TABLE `StageParameters` (`StageParameterID` integer AUTO_INCREMENT NOT NULL PRIMARY KEY, `StageParameterTypeID` integer NOT NULL, `Value` longtext NOT NULL, `ParameterID` integer NOT NULL, `StageID` integer NOT NULL);
+CREATE TABLE `Status` (`StatusID` integer NOT NULL PRIMARY KEY, `StatusName` varchar(30) NOT NULL);
+CREATE TABLE `Tools` (`ToolID` integer AUTO_INCREMENT NOT NULL PRIMARY KEY, `ToolName` varchar(30) NOT NULL, `ToolDescription` varchar(100) NULL, `PublicInd` bool NOT NULL, `DeletedInd` bool NOT NULL, `CategoryID` integer NOT NULL, `User_id` integer NOT NULL);
+CREATE TABLE `ToolReferences` (`ToolReferenceID` integer AUTO_INCREMENT NOT NULL PRIMARY KEY, `ReferenceID` integer NOT NULL, `ToolID` integer NOT NULL);
+CREATE TABLE `ToolVersions` (`ToolVersionID` integer AUTO_INCREMENT NOT NULL PRIMARY KEY, `ToolVersionNum` varchar(30) NOT NULL, `ShortDescription` varchar(100) NULL, `LongDescription` longtext NULL, `Command` longtext NOT NULL, `DatePublished` date NOT NULL, `DeletedInd` bool NOT NULL, `ToolID` integer NOT NULL);
+CREATE TABLE `ToolVersionResources` (`ToolVersionResourceID` integer AUTO_INCREMENT NOT NULL PRIMARY KEY, `ResourceManager` varchar(30) NOT NULL, `Key` varchar(15) NOT NULL, `Value` varchar(255) NOT NULL, `Label` varchar(100) NOT NULL, `ToolVersionID` integer NOT NULL);
+CREATE TABLE `UserJobPermissions` (`UserJobPermissionID` integer AUTO_INCREMENT NOT NULL PRIMARY KEY, `View` bool NOT NULL, `Repeat` bool NOT NULL, `Share` bool NOT NULL, `Admin` bool NOT NULL, `JobID` integer NOT NULL, `User_id` integer NOT NULL);
+CREATE TABLE `UserToolPermissions` (`UserToolPermissionID` integer AUTO_INCREMENT NOT NULL PRIMARY KEY, `Run` bool NOT NULL, `Export` bool NOT NULL, `Edit` bool NOT NULL, `Publish` bool NOT NULL, `Admin` bool NOT NULL, `ToolID` integer NOT NULL, `User_id` integer NOT NULL);
+CREATE TABLE `UserWorkflowPermissions` (`UserWorkflowPermissionID` integer AUTO_INCREMENT NOT NULL PRIMARY KEY, `Run` bool NOT NULL, `Export` bool NOT NULL, `Edit` bool NOT NULL, `Publish` bool NOT NULL, `Admin` bool NOT NULL, `User_id` integer NOT NULL);
+CREATE TABLE `Workflows` (`WorkflowID` integer AUTO_INCREMENT NOT NULL PRIMARY KEY, `WorkflowName` varchar(30) NOT NULL, `Description` varchar(100) NOT NULL, `PublicInd` bool NOT NULL, `DeletedInd` bool NOT NULL, `CategoryID` integer NOT NULL, `User_id` integer NOT NULL);
+CREATE TABLE `WorkflowReferences` (`WorkflowReferenceID` integer AUTO_INCREMENT NOT NULL PRIMARY KEY, `ReferenceID` integer NOT NULL, `ToolID` integer NOT NULL);
+CREATE TABLE `WorkflowVersions` (`WorkflowVersionID` integer AUTO_INCREMENT NOT NULL PRIMARY KEY, `WorkflowVersionNum` varchar(30) NOT NULL, `ShortDescription` varchar(100) NULL, `LongDescription` longtext NULL, `DatePublished` date NOT NULL, `DeletedInd` bool NOT NULL, `WorkflowID` integer NOT NULL);
+

@@ -1,0 +1,63 @@
+{
+    "timestamp":1657234543,
+    "pbs_version":"20.0.0",
+    "pbs_server":"leia",
+    "Jobs":{
+        "55.leia":{
+            "Job_Name":"STDIN",
+            "Job_Owner":"olivier@leia.rubi.ru.ac.za",
+            "resources_used":{
+                "cpupercent":0,
+                "cput":"00:00:00",
+                "mem":"6604kb",
+                "ncpus":1,
+                "vmem":"11852kb",
+                "walltime":"00:00:30"
+            },
+            "job_state":"E",
+            "queue":"batch",
+            "server":"leia",
+            "Checkpoint":"u",
+            "ctime":"Fri Jul  8 00:54:53 2022",
+            "Error_Path":"leia.rubi.ru.ac.za:/srv/JMS-OpenPBS/src/STDIN.e55",
+            "exec_host":"mace/0",
+            "exec_vnode":"(mace:ncpus=1)",
+            "Hold_Types":"n",
+            "Join_Path":"n",
+            "Keep_Files":"n",
+            "Mail_Points":"a",
+            "mtime":"Fri Jul  8 00:55:24 2022",
+            "Output_Path":"leia.rubi.ru.ac.za:/srv/JMS-OpenPBS/src/STDIN.o55",
+            "Priority":0,
+            "qtime":"Fri Jul  8 00:54:53 2022",
+            "Rerunable":"True",
+            "Resource_List":{
+                "ncpus":1,
+                "nodect":1,
+                "place":"pack",
+                "select":"1:ncpus=1"
+            },
+            "stime":"Fri Jul  8 00:54:53 2022",
+            "session_id":1006766,
+            "jobdir":"/mounts/r2d2/users/olivier/",
+            "substate":51,
+            "Variable_List":{
+                "PBS_O_HOME":"/mounts/r2d2/users/olivier/",
+                "PBS_O_LANG":"C.UTF-8",
+                "PBS_O_LOGNAME":"olivier",
+                "PBS_O_PATH":"/opt/anaconda3/bin:/opt/anaconda3/condabin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/opt/pbs/bin:/opt/pbs/bin",
+                "PBS_O_SHELL":"/bin/bash",
+                "PBS_O_WORKDIR":"/srv/JMS-OpenPBS/src",
+                "PBS_O_SYSTEM":"Linux",
+                "PBS_O_QUEUE":"batch",
+                "PBS_O_HOST":"leia.rubi.ru.ac.za"
+            },
+            "comment":"Job run at Fri Jul 08 at 00:54 on (mace:ncpus=1)",
+            "etime":"Fri Jul  8 00:54:53 2022",
+            "run_count":1,
+            "Exit_status":0,
+            "project":"_pbs_project_default",
+            "Submit_Host":"leia.rubi.ru.ac.za"
+        } //end 1st job
+    } //end jobs
+}

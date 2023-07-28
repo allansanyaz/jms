@@ -1,0 +1,489 @@
+{% extends "custom/JMS/master.html" %}
+
+
+{% block css %}
+	
+	<!-- BOOTSTRAP STYLES-->
+	<link href="{{ STATIC_URL }}lib/bootstrap/binary/css/bootstrap.css" rel="stylesheet" />
+	
+	<!-- FONTAWESOME STYLES-->
+	<link href="{{ STATIC_URL }}lib/bootstrap/binary/css/font-awesome.css" rel="stylesheet" />
+	
+	<!-- JQUERY-UI STYLE-->
+	<link href="{{ STATIC_URL }}lib/jquery-ui-1.11.2.jms/jquery-ui.min.css" rel="stylesheet" />
+	
+    <!-- Knockout Context Menu -->
+    <link href="{{ STATIC_URL }}lib/knockout.contextmenu/css/knockout.contextmenu.css" rel="stylesheet" type="text/css" />
+
+	<!-- CUSTOM STYLES-->
+	<link href="{{ STATIC_URL }}lib/bootstrap/binary/css/custom.css" rel="stylesheet" />
+	<link href="{{ STATIC_URL }}lib/bootstrap/binary/css/stavatech.css" rel="stylesheet" />
+		
+	<!-- GOOGLE FONTS-->
+	<link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
+	
+	<style>
+	    .tab-image {
+	        max-width:100%;
+	        max-height:100%;
+	    }
+	    .tab-pdf {
+	        width:100%;
+	        height:100%;
+	    }
+	</style>
+	
+{% endblock %}
+
+{% block content %}
+	<div class="modal fade" id="question-dialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    </div>
+ 	
+	<div id="page-wrapper" class="page-wrapper" >
+    
+        <div class="page-inner" style="overflow:hidden">
+			
+			<div style="text-align:center; display:block;" data-bind="visible: $root.loading">
+				<img src="{{ STATIC_URL }}img/big_red_loader.gif" /> <br/>
+				<img src="{{ STATIC_URL }}img/text_loader.gif" /> <br/>
+			</div>
+			
+			<!-- /. LOADER -->
+			<div class="col-lg-12" style="display:none;" data-bind="visible: $root.loading() == false">
+				<div class="row">
+					<div class="col-lg-12">
+						<h2><i class="fa fa-pencil-square-o"></i> Job History</h2> 
+					</div>
+				</div>
+				<!-- /. ROW  -->
+			
+    			<style>
+                    .panel-heading a:after {
+                        font-family:'Glyphicons Halflings';
+                        content:"\e114";
+                        float: right;
+                        color: grey;
+                    }
+                    .panel-heading a.collapsed:after {
+                        content:"\e080";
+                    }
+                </style>
+                
+                <!--<div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                        <a data-toggle="collapse" data-target="#collapseFilter"
+                           href="#collapseFilter" class="collapsed">
+                          Search options
+                        </a>
+                        </h3>
+                    </div>
+                    <div id="collapseFilter" class="panel-collapse collapse">
+                        <div class="panel-body">
+                            Work in progress
+                            <input class="form-control" id="searchName">
+                        </div>
+                    </div>
+                </div>-->
+                
+                <!-- jobs -->
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                        <a data-toggle="collapse" data-target="#collapseJobs" class="collapsed">
+                          Job overview
+                        </a>
+                        </h3>
+                    </div>
+                    <div id="collapseJobs" class="panel-collapse collapse">
+                        <div class="panel-body">
+                            
+                            <div class="table-responsive" style="min-height:325px;max-height:586px;overflow-y:auto;padding:15px;">
+                                <div class='st-filter'>
+									Filter: <input data-bind="value: $root.JobFilter" />
+								</div>
+                                <table id="dt-jobs" class="table table-hover">
+                                    <thead data-bind="">
+                                        <tr>
+                                            <th>Job ID</th>
+                                        	<th>Name</th>
+                                        	<th>Description</th>
+                                        	<th>Tool Version</th>
+                                        	<th>Time Submitted</th>
+                                        	<!--<th>JobStages</th>-->
+                                        </tr>
+                                    </thead>
+                                    
+                                    <tbody data-bind="foreach: Jobs">
+                                        <tr>
+                                            <td data-bind="text: $data.JobID"></td>
+                                            <td><a data-bind="text: $data.JobName, attr: { href: '/jobs/#' + $data.JobID() }">></a></td>
+                                            <td data-bind="text: $data.Description"></td>
+            								<td>
+            								    <!-- ko if: JobTypeID() == 1 -->
+                								    Custom Job
+                								<!-- /ko -->
+                								
+                								<!-- ko if: JobTypeID() == 2 -->
+                								    Tool: <span data-bind="text: ToolVersion"></span>
+                								<!-- /ko -->
+                								
+                								<!-- ko if: JobTypeID() == 3 -->
+                								    Workflow: <span data-bind="text: WorkflowVersion"></span>
+                								<!-- /ko -->
+                								
+                								<!-- ko if: JobTypeID() == 4 -->
+                								    External Job
+                								<!-- /ko -->
+            								</td>
+                                            <td data-bind="text: $data.SubmittedAt"></td>
+                                            <!--<td data-bind="text: $data.JobStages()[0].JobData"></td>-->
+                                        </tr>
+                                    </tbody>
+                                    
+                                </table>
+                            </div>
+    						 
+                        </div>
+                    </div>
+                </div>
+                <!-- jobs -->
+                
+				<hr />
+				<div class="col-lg-2 hidden">
+					<div id="job_list" data-bind="foreach: Jobs">
+					    <!-- ko if: JobName().length > 0 -->
+						<div data-bind="if: $root.Job() != null &&  JobID() == $root.Job().JobID()">
+							<a class="st-scroll-item st-scroll-item-active" data-bind="attr: { href: '/jobs/#' + JobID(), id: 'job_list_' + JobID() }, contextMenu: $root.job_menu">						
+								<span data-bind="if: JobName().length > 0">
+								    <strong data-bind="text: JobName"></strong>
+								</span>
+								<span data-bind="if: JobName().length == 0">
+								    <strong>Unnamed Job</strong>
+								</span>
+								
+								<br/>
+								
+								<span style="font-size:9pt">
+    								<!-- ko if: JobTypeID() == 1 -->
+    								    Custom Job
+    								<!-- /ko -->
+    								
+    								<!-- ko if: JobTypeID() == 2 -->
+    								    Tool: <span data-bind="text: ToolVersion"></span>
+    								<!-- /ko -->
+    								
+    								<!-- ko if: JobTypeID() == 3 -->
+    								    Workflow: <span data-bind="text: WorkflowVersion"></span>
+    								<!-- /ko -->
+    								
+    								<!-- ko if: JobTypeID() == 4 -->
+    								    External Job
+    								<!-- /ko -->
+								</span>						
+							</a>
+						</div>
+						<div data-bind="if: $root.Job() == null || JobID() != $root.Job().JobID()">
+							<a class="st-scroll-item" data-bind="attr: { href: '/jobs/#' + JobID(), id: 'job_list_' + JobID() }, contextMenu: $root.job_menu">						
+								<span data-bind="if: JobName().length > 0">
+								    <strong data-bind="text: JobName"></strong>
+								</span>
+								
+								<span data-bind="if: JobName().length == 0">
+								    <strong>Unnamed Job</strong>
+								</span>
+								
+								<br/>
+								
+								<span style="font-size:9pt">
+    								<!-- ko if: JobTypeID() == 1 -->
+    								    Custom Job
+    								<!-- /ko -->
+    								
+    								<!-- ko if: JobTypeID() == 2 -->
+    								    Tool: <span data-bind="text: ToolVersion"></span>
+    								<!-- /ko -->
+    								
+    								<!-- ko if: JobTypeID() == 3 -->
+    								    Workflow: <span data-bind="text: WorkflowVersion"></span>
+    								<!-- /ko -->
+    								
+    								<!-- ko if: JobTypeID() == 4 -->
+    								    External Job
+    								<!-- /ko -->
+								</span>
+							</a>
+						</div>
+						<!-- /ko -->
+					</div>
+				</div>
+				
+				<div class="col-lg-10" data-bind="with: $root.Job"> <!--style="border-left: 1px solid lightgray">-->
+				    <h3 data-bind="text: JobName"></h3>
+				    <span data-bind="text: Description"></span>
+				    
+				    <!-- ko if: JobTypeID() != 3 -->
+				    
+				        <h4 style="margin-left:2px;" data-bind="text: ToolVersion"></h4>
+				        
+				        <div class="col-lg-12" style="text-align:right;padding:6px;"> 
+				            <!-- ko if: JobStages()[0].Status() > 3 && JobStages()[0].Status() != 5 -->
+                            <button class="btn btn-info" title="Repeat job"> 
+			                    <i class="fa fa-play"></i>
+			                </button>  
+			                <!-- /ko -->
+                            <button class="btn btn-success" title="Share job"> 
+			                    <i class="fa fa-share"></i>
+			                </button>
+			                <!-- ko if: JobStages()[0].Status() < 4 || JobStages()[0].Status() == 5 -->
+                            <button class="btn btn-warning" title="Stop job"> 
+			                    <i class="fa fa-stop"></i>
+			                </button>  
+			                <!-- /ko -->
+                            <button class="btn btn-danger" title="Delete job"> 
+			                    <i class="fa fa-trash-o"></i>
+			                </button>
+				            <hr/>
+                        </div>
+				        
+				        <div class="col-lg-6">
+				            <div class="form-group">
+				                <label>Cluster Job ID:</label><br>
+				                <span data-bind="text: JobStages()[0].ClusterJobID()"></span>
+				            </div>
+				            <div class="form-group">
+				                <label>Status:</label><br>
+				                <!-- ko if: JobStages()[0].Status() == 1 -->
+				                    <span>Created/Held</span>
+				                <!-- /ko -->
+				                <!-- ko if: JobStages()[0].Status() == 2 -->
+				                    <span>Queued</span>
+				                <!-- /ko -->
+				                <!-- ko if: JobStages()[0].Status() == 3 -->
+				                    <span>Running</span>
+				                <!-- /ko -->
+				                <!-- ko if: JobStages()[0].Status() == 4 -->
+				                    <span>Complete</span>
+				                <!-- /ko -->
+				                <!-- ko if: JobStages()[0].Status() == 5 -->
+				                    <span>Awaiting User Input</span>
+				                <!-- /ko -->
+				                <!-- ko if: JobStages()[0].Status() == 6 -->
+				                    <span>Stopped</span>
+				                <!-- /ko -->
+				                <!-- ko if: JobStages()[0].Status() == 7 -->
+				                    <span>Failed</span>
+				                <!-- /ko -->
+				            </div>
+				            <div class="form-group">
+				                <label>Exit Code:</label><br>
+				                <span data-bind="text: JobStages()[0].ExitCode()"></span>
+				            </div>
+				        </div>
+				        
+				        <div class="col-lg-6">
+				            <div class="form-group">
+				                <label>Working Directory:</label><br>
+				                <span data-bind="text: JobStages()[0].WorkingDirectory()"></span>
+				            </div>
+				            <div class="form-group">
+				                <label>Error Log:</label><br>
+				                <span data-bind="text: JobStages()[0].ErrorLog()">n/a</span>
+				            </div>
+				            <div class="form-group">
+				                <label>Output Log:</label><br>
+				                <span data-bind="text: JobStages()[0].OutputLog()"></span>
+				            </div>
+				        </div>
+                        <div class="col-lg-12" style="text-align:right;padding:6px;">     
+                            <!-- ko if: JobStages()[0].Status() > 3 && JobStages()[0].Status() != 5 -->
+                            <button class="btn btn-info" title="Download working directory"> 
+			                    <i class="fa fa-download"></i> Download
+			                </button>
+			                <!-- /ko -->
+                            <hr/>
+                        </div>
+				        
+				        <!-- ko if: ToolVersion() != null -->
+				        <div class="col-lg-12" data-bind="with: JobStages()[0]">
+				            <a class="st-link-header" data-bind="click: function() { $root.ToggleVisible('section_1') }">Parameters</a>
+				            <hr>
+				            <div id="section_1" style="display:none;">
+        			            <table style="width:100%">
+        			                <thead style="border-bottom:1px solid lightgray;">
+        			                    <tr>
+            			                    <th style="padding:5px;">Parameter</th>
+            			                    <th style="padding:5px;">Value</th>
+        			                    </tr>
+        			                </thead>
+        			                <tbody data-bind="foreach: JobStageParameters">
+        			                    <tr style="border-bottom:1px solid lightgray;">
+            			                    <td style="padding:5px;" data-bind="text: ParameterName"></td>
+            			                    <td style="padding:5px;" data-bind="text: Value"></td>
+            			                </tr>
+        			                </tbody>
+        			            </table>
+				            
+				                <br><br>
+				            </div>
+				        </div>
+				        <!-- /ko -->
+				        
+				        
+				        <div class="col-lg-12" data-bind="with: JobStages()[0]">
+				            <a class="st-link-header" data-bind="click: function() { $root.ToggleVisible('section_4') }">Output Streams</a>
+				            <hr>
+				            <div id="section_4" style="display:none;">
+				                <div class="col-lg-6">
+				                    <label>Standard Output</label>
+				                    <div class="col-lg-12" style="text-align:right;padding:6px;">  
+                                        <button class="btn btn-success" title="Refresh output"> <!-- refresh button seems inactive -->
+            			                    <i class="fa fa-refresh"></i>
+            			                </button>  
+                                        <button class="btn btn-info" title="Download output"> 
+            			                    <i class="fa fa-download"></i><!-- download button seems inactive -->
+            			                </button>  
+                                    </div>
+				                    <div class="col-lg-12">
+				                        <textarea id="output" style="width:100%;height:400px;" data-bind="value: OutputContent"></textarea> <!-- variable containing the standard output from javascript -->
+				                    </div>
+				                </div>
+				                <div class="col-lg-6">
+				                    <label>Standard Error</label>
+				                    <div class="col-lg-12" style="text-align:right;padding:6px;">  
+                                        <button class="btn btn-success" title="Refresh error"> 
+            			                    <i class="fa fa-refresh"></i>
+            			                </button>  
+                                        <button class="btn btn-info" title="Download error"> 
+            			                    <i class="fa fa-download"></i>
+            			                </button>  
+                                    </div>
+				                    <div class="col-lg-12">
+				                        <textarea id="error" style="width:100%;height:400px;" data-bind="value: ErrorContent"></textarea><!-- variable containing the standard error from javascript -->
+				                    </div>
+				                </div>
+				            </div>
+				        </div>
+				        
+				        <div class="col-lg-12" data-bind="with: JobStages()[0]">
+				            <a class="st-link-header" data-bind="click: function() { $root.ToggleVisible('section_5') }">File Manager</a><!-- function controls containing the visibility of section_5 -->
+				            <hr>
+				            <div id="section_5" style="display:none;">
+				                <div class="col-lg-12">
+    				                <label>Current Path:</label>
+    				                <span data-bind="foreach: FMDirectory">
+                                        <a href="#" data-bind="text: Name, click: function() { $root.GetDirectoryListing($parent, FullPath()); }"></a><!-- function controls the display of directories -->
+                                    </span>
+                                    <hr/>
+                                </div>
+                                
+                                <div class="col-lg-2" style="height:500px;overflow:auto;">
+    				                <div data-bind="foreach: FMDirectoryListing">
+    				                    <!-- ko if: Type() == "directory" -->
+                                        <div class="dir_object">
+                                            <i class="fa fa-folder"></i>                                 
+                                            <a href="#" data-bind="text: Name, click: function() { $root.GetDirectoryListing($parent, FullPath()); }"></a><!-- function controls the display of directories -->
+                                        </div>
+                                        <!-- /ko -->
+                                    </div>
+    				                
+    				                <div data-bind="foreach: FMDirectoryListing">
+    				                    <!-- ko if: Type() == "file" -->
+    				                    <div class="dir_object">
+                                            <i class="fa fa-file-o"></i> 
+                                            <a href="#" data-bind="text: Name, click: function() { $root.GetFile($parent, FullPath()) }"></a>
+                                        </div>
+                                        <!-- /ko -->
+    				                </div>
+				                </div>
+				                <div id="content" class="col-lg-10" style="border: 1px solid lightgray;height:500px;padding:0">
+				                    
+				                </div>
+				                </br/>
+				            </div>
+				        </div>
+				        
+				        <div class="col-lg-12" data-bind="with: JobStages()[0]">
+				            <a class="st-link-header" data-bind="click: function() { $root.ToggleVisible('section_3') }">Advanced Job Details</a>
+				            <hr>
+				            <div id="section_3" style="display:none;">
+				            <!-- ko foreach: DataSections -->
+				                <h4 data-bind="text: SectionHeader"></h4>
+				                <div class="col-lg-12" data-bind="foreach: DataFields" style="padding-bottom: 20px;">
+				                    <div class="col-lg-6">
+				                        <label data-bind="text: Label"></label>
+				                        <span class="form-control" data-bind="text: Value" style="word-wrap:break-word"></span>
+				                    </div>
+				                </div>
+				            <!-- /ko -->
+				            </div>
+				        </div>
+				        
+				    <!-- /ko -->
+				    
+				    <!-- ko if: JobTypeID() == 3 -->
+				        <br>
+				        <br>
+				        
+				        <div role="tabpanel">
+					        <ul class="nav nav-tabs" role="tablist">
+                                <li role="presentation" class="active">
+                                    <a href="#summary" aria-controls="summary" role="tab" data-toggle="tab">Summary</a>
+                                </li>
+                                <!-- ko foreach: JobStages -->
+                                <li role="presentation">
+                                    <a href="#workflow" aria-controls="workflow" role="tab" data-toggle="tab"
+                                        data-bind="attr: { href: '#stage' + JobStageID(), 'aria-controls': '#stage' + JobStageID()  },
+                                        text: Stage().StageName"></a>
+                                </li> 
+                                <!-- /ko -->
+					        </ul>
+					        <div class="tab-content">
+					            <div role="tabpanel" class="tab-pane fade in active" id="summary">
+					            </div>
+                                <!-- ko foreach: JobStages -->
+                                <div role="tabpanel" class="tab-pane fade in active" data-bind="attr: { id: '#stage' + JobStageID() }">
+                                </div> 
+                                <!-- /ko -->
+					        </div>
+					    </div>
+				    
+				    <!-- /ko -->
+				</div>
+			</div>
+		</div>
+	</div>
+	
+{% endblock %}
+	
+{% block scripts %}	
+	<!-- SCRIPTS -AT THE BOTTOM TO REDUCE THE LOAD TIME-->
+	<!-- JQUERY SCRIPTS -->
+	<script src="{{ STATIC_URL }}lib/jquery-1.10.2.js"></script>
+	<script src="{{ STATIC_URL }}lib/jquery-migrate.min.js"></script>
+	<script src="{{ STATIC_URL }}lib/jquery-ui-1.11.2.jms/jquery-ui.js"></script>
+	<!-- BOOTSTRAP SCRIPTS -->
+	<script src="{{ STATIC_URL }}lib/bootstrap/binary/js/bootstrap.min.js"></script>
+	<!-- METISMENU SCRIPTS -->
+	<script src="{{ STATIC_URL }}lib/bootstrap/binary/js/jquery.metisMenu.js"></script>
+	<!-- KNOCKOUT SCRIPTS -->
+	<script src="{{ STATIC_URL }}lib/knockout-3.0.0.js"></script>
+    <!-- Knockout Context Menu -->
+    <script src="{{ STATIC_URL }}lib/knockout.contextmenu/js/knockout.contextmenu.js"></script>
+	<!-- SLIMSCROLL SCRIPTS -->
+	<script type="text/javascript" src="{{ STATIC_URL }}lib/slimscroll/jQuery-slimScroll-1.3.0/jquery.slimscroll.min.js"></script>
+	<!-- ACE EDITOR -->
+	<script src="{{ STATIC_URL }}lib/ace-editor/ace.js"></script>
+    <script src="{{ STATIC_URL }}lib/ace-editor/ext-modelist.js"></script>
+    <script src="{{ STATIC_URL }}lib/ace-editor/ext-language_tools.js"></script>
+	<!-- SAMMY SCRIPTS -->
+	<script type="text/javascript" src="{{ STATIC_URL }}lib/sammy.js"></script>
+	<!-- CUSTOM SCRIPTS -->
+	<script src="{{ STATIC_URL }}lib/custom/JMS/custom.js"></script>
+	<script src="{{ STATIC_URL }}lib/custom/question.js"></script>
+	<script src="{{ STATIC_URL }}lib/custom/JMS/jobs.js"></script>
+	
+	<script>	
+		$("#job-menu-item > a").addClass("active-menu");
+	</script>
+{% endblock %}
