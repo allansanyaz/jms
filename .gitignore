@@ -36,3 +36,7 @@ next-env.d.ts
 
 # intelliJ
 .idea
+
+# backend
+/backend/logs
+/backend/src/venv
