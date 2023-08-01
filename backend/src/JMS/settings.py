@@ -6,10 +6,6 @@ import json
 BASE = Path(__file__).resolve().parent.parent.parent
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-print("************************")
-print(BASE)
-print(BASE_DIR)
-
 config_json_file = f"{BASE_DIR}{os.sep}config.json"
 
 # If these settings ever change Edit the below file with fixes

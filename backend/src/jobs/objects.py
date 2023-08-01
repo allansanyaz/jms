@@ -8,6 +8,7 @@ import json
 # Workflow objects
 #####
 
+
 class Status:
     Created = 1
     Queued = 2
@@ -139,6 +140,12 @@ class Dashboard:
         size = lines[1][index:index+5].strip()        
         used = lines[1][index+5:index+11].strip()
         available = lines[1][index+11:index+17].strip()
+
+        print("************************")
+        print("Disk Usage")
+        print("************************")
+        print(DiskUsage(size, available, used))
+
         return DiskUsage(size, available, used)
         
     def GetNodes(self, process):
