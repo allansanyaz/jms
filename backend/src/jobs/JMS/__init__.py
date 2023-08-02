@@ -33,7 +33,9 @@ module = import_module(f"jobs.JMS.resource_managers.{module_name}")
 #module = __import__('jobs.JMS.resource_managers.openpbs',  fromlist=[module_name])
 #get the resource manager class from the module
 #ResourceManager = getattr(module, module_name)
+
 ResourceManager = module.torque #TODO: generalise name for scheduler, then replace with previous line
+print(ResourceManager)
 
 class JobManager:
     

@@ -576,7 +576,9 @@ class torque(BaseResourceManager): # TODO: Make generic scheduler name
             data = json.loads(out)
             
             node_dict = data["nodes"]
+
             for node in node_dict:
+
                 name = node
                 state = node_dict[node]["state"]
                 num_cores = int(node_dict[node]["pcpus"])
@@ -611,10 +613,11 @@ class torque(BaseResourceManager): # TODO: Make generic scheduler name
                 nodes.append(n)
         
         except Exception as ex:
+            print("An error occurred while getting nodes")
             f = open('/tmp/nodes.txt', 'w')
             print(str(ex), file=f)
             f.close()
-        
+
         return nodes
     
     

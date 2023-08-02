@@ -17,6 +17,7 @@ import subprocess
 from django.conf import settings
 from jobs.JMS.resource_managers.objects import *
 from jobs.JMS.resource_managers.exceptions import *
+import codecs
 
 
 class BaseResourceManager:
@@ -25,11 +26,15 @@ class BaseResourceManager:
         self.user = user
     
     def RunUserProcess(self, cmd, expect="prompt", sudo=False):
+        print(f"\n The command is: \n{cmd}")
         if self.user:
-            payload = f"{self.user.filemanagersettings.ServerPass}\n{cmd}\n{expect}\n{sudo}"
-            port = settings.JMS_SETTINGS["impersonator"]["port"]
-            r = requests.post(f"http://127.0.0.1:{port}/impersonate", data=payload)
-            return r.text
+            process = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, close_fds=True)
+            out, err = process.communicate()
+
+            # payload = f"{self.user.filemanagersettings.ServerPass}\n{cmd}\n{expect}\n{sudo}"
+            # port = settings.JMS_SETTINGS["impersonator"]["port"]
+            # r = requests.post(f"http://127.0.0.1:{port}/impersonate", data=payload)
+            return out
         else:
             process = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, close_fds=True)
             out, err = process.communicate()
@@ -39,13 +44,17 @@ class BaseResourceManager:
         return Dashboard(self.GetNodes(), self.GetQueue(),
                          self.GetDiskUsage(settings.JMS_SETTINGS["JMS_shared_directory"]))
     
+    
+    
     def GetDiskUsage(self, path):
-        out = self.RunUserProcess("df -h %s" % path)
+        out = codecs.decode(self.RunUserProcess("df -h %s" % path))
+        
         lines = out.split('\n')
         index = lines[0].index("Size")
         size = lines[1][index:index+5].strip()        
         used = lines[1][index+5:index+11].strip()
         available = lines[1][index+11:index+17].strip()
+        print("Returning usage")
         return DiskUsage(size, available, used)
         
     def GetQueue(self):
