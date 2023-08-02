@@ -123,4 +123,4 @@ const NodesComponent = () => {
 
 export default NodesComponent;
 
-const nodeList = ["Chewbacca", "Mace"]
+const nodeList = ["mace"]

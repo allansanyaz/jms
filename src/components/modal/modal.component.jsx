@@ -10,21 +10,10 @@ import SaveIcon from '@mui/icons-material/Save';
 import CloseIcon from '@mui/icons-material/Close';
 import Tooltip from '@mui/material/Tooltip';
 import { Button } from '@/styles/buttons/button.styles';
-import axios from 'axios';
 
 import './modal.styles.scss';
 
 const ModalComponent = ({ openModal, setOpenModal, categories }) => {
-	
-	useEffect( () => {
-		axios.get('/api/')
-			.then((response) => {
-				console.log(response.data);
-			})
-			.catch((error) => {
-				console.log(error);
-			});
-	}, []);
 	
 	const [categoryButtonClicked, setCategoryButtonClicked] = useState(false);
 	const [newCategory, setNewCategory] = useState('');

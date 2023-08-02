@@ -24,12 +24,14 @@ from rest_framework import status
 #TODO: Investigate how data from here goes to the web interface - it may not be transferring correctly
 # It may be providing the JSON data for AJAX via a url
 class Dashboard(APIView):
-    permission_classes = (IsAuthenticated,)
+    # permission_classes = (IsAuthenticated,)
     
     def get(self, request):
         """
         Get queue and node usage statistics for all nodes in the cluster
         """
+
+        print("Method run")
 
         jms = JobManager(user=request.user)
         
@@ -43,7 +45,7 @@ class Dashboard(APIView):
 
 
 class ServerSettings(APIView):
-    permission_classes = (IsAuthenticated,)
+    # permission_classes = (IsAuthenticated,)
     
     def get(self, request):
         """
@@ -68,7 +70,7 @@ class ServerSettings(APIView):
 
 
 class Nodes(APIView):
-    permission_classes = (IsAuthenticated,)
+    # permission_classes = (IsAuthenticated,)
     
     def get(self, request):
         """
@@ -106,7 +108,7 @@ class Nodes(APIView):
     
 
 class NodeDetails(APIView):
-    permission_classes = (IsAuthenticated,) 
+    # permission_classes = (IsAuthenticated,) 
     
     def delete(self, request, node_name):
         """
@@ -121,7 +123,7 @@ class NodeDetails(APIView):
 
 
 class Queues(APIView):
-    permission_classes = (IsAuthenticated,) 
+    # permission_classes = (IsAuthenticated,) 
     
     def get(self, request):
         """
@@ -134,7 +136,7 @@ class Queues(APIView):
 
 
 class QueueSettings(APIView):
-    permission_classes = (IsAuthenticated,) 
+    # permission_classes = (IsAuthenticated,) 
     
     def delete(self, request, queue):
         """
@@ -171,7 +173,7 @@ class QueueSettings(APIView):
 
 
 class Administrators(APIView):
-    permission_classes = (IsAuthenticated,)
+    # permission_classes = (IsAuthenticated,)
     
     def get(self, request):
         """
@@ -210,7 +212,7 @@ class Administrators(APIView):
 
 
 class AdministratorDetail(APIView):
-    permission_classes = (IsAuthenticated,) 
+    # permission_classes = (IsAuthenticated,) 
     
     def delete(self, request, admin):
         """
@@ -225,7 +227,7 @@ class AdministratorDetail(APIView):
 
 
 class ResourcesList(APIView):
-    permission_classes = (IsAuthenticated,) 
+    # permission_classes = (IsAuthenticated,) 
     
     def get(self, request):
         """
@@ -242,7 +244,7 @@ class ResourcesList(APIView):
 #Tool views
 
 class ToolList(APIView):
-    permission_classes = (IsAuthenticated,)
+    # permission_classes = (IsAuthenticated,)
 
     def get(self, request):
         """
@@ -269,7 +271,7 @@ class ToolList(APIView):
 
 
 class ToolDetail(APIView):
-    permission_classes = (IsAuthenticated,)
+    # permission_classes = (IsAuthenticated,)
     
     def get(self, request, tool_id):
         """
@@ -360,7 +362,7 @@ class CategoryDetail(APIView):
 
 
 class ToolVersionList(APIView):
-    permission_classes = (IsAuthenticated,)
+    # permission_classes = (IsAuthenticated,)
     
     def post(self, request, tool_id):
         """
@@ -403,7 +405,7 @@ class ToolVersionList(APIView):
     
 
 class ToolVersionDetail(APIView):
-    permission_classes = (IsAuthenticated,)
+    # permission_classes = (IsAuthenticated,)
     
     def get(self, request, tool_id, version_num):
         """
@@ -418,7 +420,7 @@ class ToolVersionDetail(APIView):
     
 
 class ToolShareDetail(APIView):
-    permission_classes = (IsAuthenticated,)
+    # permission_classes = (IsAuthenticated,)
     
     def put(self, request, tool_id, user_name):
         """
@@ -445,7 +447,7 @@ class ToolShareDetail(APIView):
     
 
 class ToolShareList(APIView):
-    permission_classes = (IsAuthenticated,)
+    # permission_classes = (IsAuthenticated,)
     
     def get(self, request, tool_id):
         """
@@ -459,7 +461,7 @@ class ToolShareList(APIView):
 
 
 class ToolAvailability(APIView):
-    permission_classes = (IsAuthenticated,)
+    # permission_classes = (IsAuthenticated,)
     
     def put(self, request, tool_id):
         """
@@ -483,7 +485,7 @@ class ToolAvailability(APIView):
 
 
 class ParameterVersionList(APIView):
-    permission_classes = (IsAuthenticated,)
+    # permission_classes = (IsAuthenticated,)
     
     def get(self, request, tool_id, version_num):
         """
@@ -500,7 +502,7 @@ class ParameterVersionList(APIView):
 
 
 class ParameterList(APIView):
-    permission_classes = (IsAuthenticated,)
+    # permission_classes = (IsAuthenticated,)
       
     def post(self, request, tool_id):
         """
@@ -528,7 +530,7 @@ class ParameterList(APIView):
 
 
 class ParameterDetail(APIView):
-    permission_classes = (IsAuthenticated,)
+    # permission_classes = (IsAuthenticated,)
     
     def get(self, request, parameter_id):
         """
@@ -553,7 +555,7 @@ class ParameterDetail(APIView):
 
 
 class FileTypeList(APIView):
-    permission_classes = (IsAuthenticated,)
+    # permission_classes = (IsAuthenticated,)
     
     def get(self, request):
         """
@@ -580,7 +582,7 @@ class FileTypeList(APIView):
 
 
 class ToolFileList(APIView):
-    permission_classes = (IsAuthenticated,)
+    # permission_classes = (IsAuthenticated,)
     
     def get(self, request, tool_id):
         """
@@ -613,7 +615,7 @@ class ToolFileList(APIView):
 
 
 class ToolFileDetail(APIView):
-    permission_classes = (IsAuthenticated,)
+    # permission_classes = (IsAuthenticated,)
     
     def post(self, request, tool_id, file_name):
         """
@@ -645,7 +647,7 @@ class ToolFileDetail(APIView):
 
 
 class WorkflowList(APIView):
-    permission_classes = (IsAuthenticated,)
+    # permission_classes = (IsAuthenticated,)
     
     def get(self, request):
         """
@@ -673,7 +675,7 @@ class WorkflowList(APIView):
 
 
 class WorkflowDetail(APIView):
-    permission_classes = (IsAuthenticated,)
+    # permission_classes = (IsAuthenticated,)
     
     def get(self, request, workflow_id):
         """
@@ -710,7 +712,7 @@ class WorkflowDetail(APIView):
     
 
 class WorkflowVersionList(APIView):
-    permission_classes = (IsAuthenticated,)
+    # permission_classes = (IsAuthenticated,)
     
     def post(self, request, workflow_id):
         """
@@ -748,7 +750,7 @@ class WorkflowVersionList(APIView):
     
 
 class WorkflowVersionDetail(APIView):
-    permission_classes = (IsAuthenticated,)
+    # permission_classes = (IsAuthenticated,)
     
     def get(self, request, workflow_id, version_num):
         """
@@ -763,7 +765,7 @@ class WorkflowVersionDetail(APIView):
     
 
 class WorkflowShareDetail(APIView):
-    permission_classes = (IsAuthenticated,)
+    # permission_classes = (IsAuthenticated,)
     
     def put(self, request, workflow_id, user_name):
         """
@@ -788,7 +790,7 @@ class WorkflowShareDetail(APIView):
     
 
 class WorkflowShareList(APIView):
-    permission_classes = (IsAuthenticated,)
+    # permission_classes = (IsAuthenticated,)
     
     def get(self, request, workflow_id):
         """
@@ -803,7 +805,7 @@ class WorkflowShareList(APIView):
 
 
 class WorkflowAvailability(APIView):
-    permission_classes = (IsAuthenticated,)
+    # permission_classes = (IsAuthenticated,)
     
     def put(self, request, workflow_id):
         """
@@ -828,7 +830,7 @@ class WorkflowAvailability(APIView):
 
 
 class StageList(APIView):
-    permission_classes = (IsAuthenticated,)
+    # permission_classes = (IsAuthenticated,)
     
     def get(self, request, workflow_id, version_num):
         """
@@ -860,7 +862,7 @@ class StageList(APIView):
 
 
 class StageDetail(APIView):
-    permission_classes = (IsAuthenticated,)
+    # permission_classes = (IsAuthenticated,)
     
     def get(self, request, stage_id):
         """
@@ -895,7 +897,7 @@ class StageDetail(APIView):
 
 
 class StageLevels(APIView):
-    permission_classes = (IsAuthenticated,)
+    # permission_classes = (IsAuthenticated,)
     
     def get(self, request, workflow_id, version_num):
         """
@@ -910,7 +912,7 @@ class StageLevels(APIView):
 
 
 class StagePosition(APIView):
-    permission_classes = (IsAuthenticated,)
+    # permission_classes = (IsAuthenticated,)
     
     def put(self, request, stage_id):
         """
@@ -926,7 +928,7 @@ class StagePosition(APIView):
 
 
 class DependencyList(APIView):
-    permission_classes = (IsAuthenticated,)
+    # permission_classes = (IsAuthenticated,)
     
     def post(self, request, stage_id):
         """
@@ -943,7 +945,7 @@ class DependencyList(APIView):
 
 
 class DependencyDetail(APIView):
-    permission_classes = (IsAuthenticated,)
+    # permission_classes = (IsAuthenticated,)
     
     def put(self, request, dependency_id):
         """
@@ -969,7 +971,7 @@ class DependencyDetail(APIView):
 
 
 class CustomJob(APIView):
-    permission_classes = (IsAuthenticated,)
+    # permission_classes = (IsAuthenticated,)
     
     def post(self, request):
         """
@@ -998,7 +1000,7 @@ class CustomJob(APIView):
 
 
 class ToolJob(APIView):
-    permission_classes = (IsAuthenticated,)
+    # permission_classes = (IsAuthenticated,)
     
     def post(self, request, version_id):
         """
@@ -1044,7 +1046,7 @@ class ToolJob(APIView):
 
 
 class WorkflowJob(APIView):
-    permission_classes = (IsAuthenticated,)
+    # permission_classes = (IsAuthenticated,)
     
     def post(self, request, version_id):
         """
@@ -1086,7 +1088,7 @@ class WorkflowJob(APIView):
 
 
 class JobList(APIView):
-    permission_classes = (IsAuthenticated,)
+    # permission_classes = (IsAuthenticated,)
     
     def get(self, request):
         """
@@ -1120,7 +1122,7 @@ class JobFilter(APIView):
 
 
 class JobDetail(APIView):
-    permission_classes = (IsAuthenticated,)
+    # permission_classes = (IsAuthenticated,)
     
     def get(self, request, job_id):
         """
@@ -1154,7 +1156,7 @@ class JobDetail(APIView):
 
 
 class ClusterJob(APIView):
-    permission_classes = (IsAuthenticated,)
+    # permission_classes = (IsAuthenticated,)
     
     def get(self, request, cluster_id):
         """
@@ -1177,7 +1179,7 @@ class ClusterJob(APIView):
 
 
 class PackageManagement(APIView):
-    permission_classes = (IsAuthenticated,)
+    # permission_classes = (IsAuthenticated,)
     
     def post(self, request):
         """
@@ -1190,7 +1192,7 @@ class PackageManagement(APIView):
 
 
 class FileDetail(APIView):
-    permission_classes = (IsAuthenticated,)
+    # permission_classes = (IsAuthenticated,)
     
     def get(self, request, job_stage_id):
         """
@@ -1243,7 +1245,7 @@ class FileDetail(APIView):
 
 
 class DirectoryDetail(APIView):
-    permission_classes = (IsAuthenticated,)
+    # permission_classes = (IsAuthenticated,)
     
     def get(self, request, job_stage_id):
         """
@@ -1258,7 +1260,7 @@ class DirectoryDetail(APIView):
 
 
 class Status(APIView):
-    permission_classes = (IsAuthenticated,)
+    # permission_classes = (IsAuthenticated,)
     
     def get(self, request, job_id):
         """

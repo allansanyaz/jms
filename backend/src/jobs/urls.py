@@ -6,7 +6,7 @@ public_urls = [
     re_path(r'jobs/tool/versions/(?P<version_id>[^/]+)/?', views.ToolJob.as_view()),
     re_path(r'files/types', views.FileTypeList.as_view()),
     
-    re_path(r'dashboard/?', views.Dashboard.as_view()), 
+    re_path(r'dashboard/', views.Dashboard.as_view()), 
     
     #ANSIBLE
     re_path(r'packages/?', views.PackageManagement.as_view()),
