@@ -20,7 +20,8 @@ export async function GET() {
 	});
 
 	// process the result
-	const processedResult = processDashboardData(JSON.parse(result));
+	const resultObject = JSON.parse(result)
+	const processedResult = processDashboardData(resultObject);
 
 	return NextResponse.json(processedResult);
 

@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { CustomStack } from '@/styles/layout/layout.styles.jsx';
 import { CustomTypography } from '@/styles/typography/typography.styles';
 import TextField from '@mui/material/TextField';
@@ -10,12 +10,29 @@ import Checkbox from '@mui/material/Checkbox';
 import { Button, DeleteButtonTrash, EditButton, AddButton } from '@/styles/buttons/button.styles.jsx';
 import SaveIcon from '@mui/icons-material/Save';
 import Tooltip from '@mui/material/Tooltip';
-import ModalComponent from '@/components/modal/modal.component';
+// import ModalComponent from '@/components/modal/modal.component';
+import axios from 'axios';
 
 const ServerComponent = () => {
 	
 	const [administrators, setAdministrators] = useState([]);
 	const [administrator, setAdministrator] = useState('');
+
+	const [serverName, setServerName] = useState('');
+	const [defaultQueue, setDefaultQueue] = useState('');
+
+	useEffect(() => {
+		axios.get('/settings/api')
+			.then((response) => response.data)
+			.then((data) => {
+				const {serverName, defaultQueue} = data;
+				setServerName(serverName);
+				setDefaultQueue(defaultQueue);
+			})
+			.catch((error) => {
+				console.log(error)
+			});
+	}, []);
 	
 	const onAddAdminstrator = () => {
 		administrators.push(administrator);
@@ -58,11 +75,14 @@ const ServerComponent = () => {
 					id="server-name"
 					label="Server name"
 					variant="outlined"
+					disabled
+					value={serverName}
 				/>
 				<TextField
 					id="queue-name"
 					label="Queue name"
 					variant="outlined"
+					value={defaultQueue}
 				/>
 				<TextField
 					id="scheduler-iteration"
@@ -145,7 +165,7 @@ const ServerComponent = () => {
 				</Tooltip>
 			</CustomStack>
 			
-			<ModalComponent />
+			{/* <ModalComponent /> */}
 			
 		</CustomStack>
 	)

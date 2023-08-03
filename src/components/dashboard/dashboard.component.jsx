@@ -117,4 +117,3 @@ const DashboardComponent = () => {
 export default DashboardComponent;
 
 const dashboardList = ["Nodes Online", "CPU Usage", "Jobs Running", "Free Storage"];
-const dashboardDescription = ["1/1(100%)", "1/64(1%)", "12", "5TB"];

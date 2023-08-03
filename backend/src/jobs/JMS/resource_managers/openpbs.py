@@ -338,6 +338,8 @@ class torque(BaseResourceManager): # TODO: Make generic scheduler name
             ]
         
         acl = {}
+
+        output = codecs.decode(output, 'utf-8')
         
         #parse the queue data
         for line in output.split('\n'):
@@ -508,6 +510,8 @@ class torque(BaseResourceManager): # TODO: Make generic scheduler name
             ]
         
         admins = {}
+
+        output = codecs.decode(output, "utf-8")
         
         for line in output.split('\n'):
             
