@@ -3,7 +3,6 @@ import { queuesAPI } from '@/app/api';
 
 export async function GET() {
 
-	console.log("Fetching settings data...")
 	var myHeaders = new Headers();
 	myHeaders.append("Content-Type", "application/json");
 
@@ -23,7 +22,6 @@ export async function GET() {
 	const resultObject = JSON.parse(result)
 	const processedResult = processQueuesData(resultObject);
 
-
 	return NextResponse.json(processedResult);
 
 }
@@ -37,15 +35,27 @@ const processQueuesData = (data) => {
 	// 3. Nodes Settings -> nodes
 	// 4. Packages Settings -> packages
 
-	const queueList = processQueueSettings(data["Data"]);
+	const queueData = processQueueSettings(data["Data"]);
 
-	return 200;
+	return queueData;
 }
 
 const processQueueSettings = (queueSettings) => {
 
 	// some parameters missing for the server settings
 	// we want the queue type and resources
+	let queueData = {};
 
-	return 200;
+	queueSettings.forEach((queue) => {
+		const queueName = queue.QueueName;
+		// initialise the object
+		queueData[queueName] = {};
+		// get the section settings
+		const sectionSettings = queue.SettingsSections[0].Settings;
+		sectionSettings.forEach((setting) => {
+			queueData[queueName][setting.Name] = setting.Value;
+		});
+	});
+
+	return queueData;
 }

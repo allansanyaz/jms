@@ -229,6 +229,7 @@ const QueueComponent = ({ rowData }) => {
 							sx={{ 
 								display: 'flex',
 								flexDirection: 'column',
+								alignItems: 'center',
 							}}
 						>
 							<CircularProgress />

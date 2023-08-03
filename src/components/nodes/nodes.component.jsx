@@ -122,6 +122,7 @@ const NodesComponent = ({ nodeList, nodeInformation }) => {
 							sx={{ 
 								display: 'flex',
 								flexDirection: 'column',
+								alignItems: 'center',
 							}}
 						>
 							<CircularProgress />
