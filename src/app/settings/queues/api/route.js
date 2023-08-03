@@ -45,7 +45,7 @@ const processQueuesData = (data) => {
 const processQueueSettings = (queueSettings) => {
 
 	// some parameters missing for the server settings
-	console.log(queueSettings)
+	// we want the queue type and resources
 
 	return 200;
 }
