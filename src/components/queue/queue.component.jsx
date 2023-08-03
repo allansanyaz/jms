@@ -4,6 +4,7 @@ import Box from '@mui/material/Box';
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import Divider from '@mui/material/Divider';
 import Typography from "@mui/material/Typography";
+import { CustomTypography } from '@/styles/typography/typography.styles';
 import Stack from "@mui/material/Stack";
 import DeleteComponent from '@/components/queue/delete.component.jsx';
 import ComputerIcon from '@mui/icons-material/Computer';
@@ -11,20 +12,16 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import LanIcon from '@mui/icons-material/Lan';
 import MemoryIcon from '@mui/icons-material/Memory';
 import HourglassTopIcon from '@mui/icons-material/HourglassTop';
+import Tooltip from '@mui/material/Tooltip';
+import CircularProgress from '@mui/material/CircularProgress';
 
 import '@/styles/dashboard/dashboard.styles.css';
 
-const QueueComponent = () => {
+const QueueComponent = ({ rowData }) => {
 	
-	const [rows, setRows] = useState(rowData);
+	const [rows, setRows] = useState(null);
 	
 	const columns = [
-		{
-			field: 'id',
-			headerName: 'ID',
-			width: 85,
-			headerClassName: 'queue-header'
-		},
 		{
 			field: 'jobID',
 			headerName: 'Job ID',
@@ -33,9 +30,9 @@ const QueueComponent = () => {
 			headerClassName: 'queue-header',
 		},
 		{
-			field: 'jobName',
-			headerName: 'Job Name',
-			description: 'Job Name',
+			field: 'username',
+			headerName: 'Username',
+			description: 'Username',
 			width: 120,
 			headerClassName: 'queue-header',
 		},
@@ -45,6 +42,13 @@ const QueueComponent = () => {
 			description: 'Queue',
 			width: 120,
 			headerClassName: 'queue-header'
+		},
+		{
+			field: 'jobName',
+			headerName: 'Job Name',
+			description: 'Job Name',
+			width: 120,
+			headerClassName: 'queue-header',
 		},
 		{
 			field: 'state',
@@ -66,7 +70,9 @@ const QueueComponent = () => {
 					justifyContent="center"
 					width="100%"
 				>
-					<LanIcon color={'primary'} sx={{ fontSize: '1.5rem' }}  />
+					<Tooltip title="Nodes">
+						<LanIcon color={'primary'} sx={{ fontSize: '1.5rem' }}  />
+					</Tooltip>
 				</Box>
 			)
 		},
@@ -81,7 +87,9 @@ const QueueComponent = () => {
 					display="flex"
 					flexDirection="row"
 				>
-					<MemoryIcon color={'primary'} sx={{ fontSize: '1.5rem' }}  />
+					<Tooltip title="Cores">
+						<MemoryIcon color={'primary'} sx={{ fontSize: '1.5rem' }}  />
+					</Tooltip>
 				</Box>
 			)
 		},
@@ -96,7 +104,9 @@ const QueueComponent = () => {
 					display="flex"
 					flexDirection="row"
 				>
-					<HourglassTopIcon color={'primary'} sx={{ fontSize: '1.5rem' }}  />
+					<Tooltip title="Walltime">
+						<HourglassTopIcon color={'primary'} sx={{ fontSize: '1.5rem' }}  />
+					</Tooltip>
 				</Box>
 			)
 		},
@@ -125,11 +135,44 @@ const QueueComponent = () => {
 					display="flex"
 					flexDirection="row"
 				>
-					<SettingsIcon color={'primary'} sx={{ fontSize: '1.5rem' }}  />
+					<Tooltip title="Options">
+						<SettingsIcon color={'primary'} sx={{ fontSize: '1.5rem' }}  />
+					</Tooltip>
 				</Box>
 			)
 		}
 	];
+
+	useEffect(() => {
+		if(rowData !== null || rowData !== undefined) {
+			const data = initialiseRowData(rowData);
+			setRows(data);
+		}
+
+	}, [rowData]);
+
+	const initialiseRowData = () => {
+		let data = [];
+		let counter = 1;
+		if (rows) {
+			rows.forEach((row, idx) => {
+				data.push({
+					id: counter,
+					jobID: rows[0],
+					username: rows[1],
+					queue: rows[2],
+					jobName: rows[3],
+					state: rows[4],
+					nodes: rows[5],
+					cores: rows[6],
+					walltime: rows[7],
+				});
+				console.log(counter);
+				counter++;
+			});
+		}
+		return data;
+	}
 	
 	return (
 		<Box
@@ -176,21 +219,47 @@ const QueueComponent = () => {
 					flexDirection: 'column',
 					alignItems: 'center',
 					width: '100%',
+					minHeight: '400px',
 				}}
 			>
-				<DataGrid
-					rows={rows}
-					columns={columns}
-					sx={{
-						width: '100%',
-						height: 400,
-					}}
-					slots={{
-						toolbar: GridToolbar,
-					}}
-				>
-				
-				</DataGrid>
+				{
+					(rows === null) ?
+					(
+						<Box 
+							sx={{ 
+								display: 'flex',
+								flexDirection: 'column',
+							}}
+						>
+							<CircularProgress />
+								<CustomTypography
+									variant="body2"
+									sx={{
+										textTransform: 'capitalize',
+										width: '100%',
+										textAlign: 'center',
+									}}
+								>
+									Loading...
+								</CustomTypography>.
+						</Box>
+					) :
+					(
+						<DataGrid
+							rows={rows}
+							columns={columns}
+							sx={{
+								width: '100%',
+								height: 400,
+							}}
+							slots={{
+								toolbar: GridToolbar,
+							}}
+						>
+						
+						</DataGrid>
+					)
+				}
 			</Box>
 			
 		</Box>
@@ -199,8 +268,8 @@ const QueueComponent = () => {
 
 export default QueueComponent;
 
-const rowData = [
-	{ id: 1, jobID: 'JID_123456', queue: 'batch', jobName: 'job1', state: 'R', nodes: 4, cores: 48, walltime: '06:00:00', delete: '' },
-	{ id: 2, jobID: 'JID_123457', queue: 'batch', jobName: 'job2', state: 'R', nodes: 2, cores: 32, walltime: '12:00:00', delete: '' },
-	{ id: 3, jobID: 'JID_123458', queue: 'batch', jobName: 'job3', state: 'R', nodes: 1, cores: 12, walltime: '08:00:00', delete: '' },
+const rowDataDemo = [
+	{ id: 1, username: 'some user', jobID: 'JID_123456', queue: 'batch', jobName: 'job1', state: 'R', nodes: 4, cores: 48, walltime: '06:00:00', delete: '' },
+	{ id: 2, username: '12345', jobID: 'JID_123457', queue: 'batch', jobName: 'job2', state: 'R', nodes: 2, cores: 32, walltime: '12:00:00', delete: '' },
+	{ id: 3, username: '12345', jobID: 'JID_123458', queue: 'batch', jobName: 'job3', state: 'R', nodes: 1, cores: 12, walltime: '08:00:00', delete: '' },
 ];

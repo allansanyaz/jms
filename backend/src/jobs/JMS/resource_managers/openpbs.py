@@ -8,8 +8,7 @@ from jobs.JMS.resource_managers.base import *
 from jobs.JMS.resource_managers.objects import *
 from utilities import deepgetattr
 from utilities.io.filesystem import Directory
-
-
+import codecs
 
 def GetAttr(obj, attr, default):
     try:
@@ -256,6 +255,8 @@ class torque(BaseResourceManager): # TODO: Make generic scheduler name
         
         #settings_section = SettingsSection("Torque Settings", [])
         settings_section = SettingsSection("Scheduler Settings", [])
+
+        output = codecs.decode(output, 'utf-8')
         
         for line in output.split('\n'):
             

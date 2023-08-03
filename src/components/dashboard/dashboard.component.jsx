@@ -14,94 +14,35 @@ import axios from 'axios';
 
 const DashboardComponent = () => {
 	
-	const [dashboardData, setDashboardData] = useState({});
 	const [dashboardDescription, setDashboardDescription] = useState([]);
 	const [cpuNames, setCpuNames] = useState([]);
 	const [nodeInformation, setNodeInformation] = useState({});
+	const [rowData, setRowData] = useState([]);
 
 	useEffect( () => {
 		axios.get('/api/')
 			.then((response) => {
-				const data = JSON.parse(response.data);
-				// set the dashboard data
-				setDashboardData(data);
-				// process the dashboard data
-				processDashboardData(data);
+				const data = response.data;
+				// set the dashboard description state data
+				const cpuNames = Object.keys(data.coreData)
+				const firstCore = cpuNames[0];
+				setDashboardDescription([
+					data.nodesOnline,
+					data.coreData[firstCore].cpuUsage,
+					data.coreData[firstCore].jobsRunning,
+					data.freeStorage
+				]);
+				// CPU names
+				setCpuNames(cpuNames);
+				setNodeInformation(data.nodeData);
+				// row data
+				setRowData(data.queueData);
 				
 			})
 			.catch((error) => {
 				console.log(error);
 			});
 	}, []);
-
-	const processDashboardData = (dashboardInformation) => {
-		const nodesOnline = processNodesOnline(dashboardInformation.nodes);
-		const cpuUsage = processCpuUsage(dashboardInformation.nodes);
-
-		const freeStorage = processFreeStorage(dashboardInformation.disk);
-
-		// get the first cpu key
-		const cpuKey = Object.keys(cpuUsage)[0];
-		//load the descriptions
-		const tempDescriptions = [nodesOnline, cpuUsage[cpuKey]['cpuUsage'], cpuUsage[cpuKey]['jobsRunning'], freeStorage];
-
-		setDashboardDescription(tempDescriptions);
-	}
-
-	const processNodesOnline = (nodesOnline) => {
-		// get the number of nodes online
-		const numberOfNodes = nodesOnline.length;
-		const freeStates = nodesOnline.filter((node) => node.state === 'free').length;
-		const usage = (freeStates / numberOfNodes) * 100;
-
-		return `${freeStates}/${numberOfNodes}(${usage}%)`
-	}
-
-	const processCpuUsage = (cpuUsage) => {
-		// get cores information from the name
-		let coreNames = cpuUsage.map((cpu) => cpu.name);
-		// set the core names
-		setCpuNames(coreNames);
-		// loop through the names and get the relevant information
-		let coreData = {};
-		let nodeData = {}
-
-		coreNames.forEach((coreName) => {
-			// filter for the desired name in our cpuUsage array
-			const core = cpuUsage.filter((cpu) => cpu.name === coreName);
-			// get the core information
-			const coreInformation = core[0];
-			const state = coreInformation.state; 
-			const busyCores = parseInt(coreInformation.busy_cores);
-			const freeCores = parseInt(coreInformation.free_cores);
-			// calculate the usage
-			const usageInt = (busyCores / freeCores)
-			const usage = usageInt * 100;
-			coreData[coreName] = {'cpuUsage': `${busyCores}/${freeCores}(${usage}%)`};
-
-			// get information for the jobs running
-			coreData[coreName]['jobsRunning'] = coreInformation.jobs.length;
-
-			// set the node information
-			nodeData[coreName] = {
-				coreState: state,
-				totalCores: freeCores,
-				busyCores: busyCores,
-				freeCores: freeCores-busyCores,
-				usedCores: usageInt,
-			}
-
-		});
-		
-		setNodeInformation(nodeData);
-
-		return coreData;
-		
-	}
-
-	const processFreeStorage = (storage) => {
-		return storage.available_space;
-	}
 
 	return (
 		<CustomStack
@@ -167,7 +108,7 @@ const DashboardComponent = () => {
 					nodeList={cpuNames} 
 					nodeInformation={nodeInformation} 
 				/>
-				<QueueComponent />
+				<QueueComponent rowData={rowData} />
 			</Dashboard>
 		</CustomStack>
 	)

@@ -26,7 +26,7 @@ class BaseResourceManager:
         self.user = user
     
     def RunUserProcess(self, cmd, expect="prompt", sudo=False):
-        print(f"\n The command is: \n{cmd}")
+
         if self.user:
             process = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, close_fds=True)
             out, err = process.communicate()
@@ -54,7 +54,7 @@ class BaseResourceManager:
         size = lines[1][index:index+5].strip()        
         used = lines[1][index+5:index+11].strip()
         available = lines[1][index+11:index+17].strip()
-        print("Returning usage")
+
         return DiskUsage(size, available, used)
         
     def GetQueue(self):

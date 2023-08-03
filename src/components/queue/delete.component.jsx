@@ -4,6 +4,7 @@ import Popover from '@mui/material/Popover';
 import { CustomStack } from '@/styles/layout/layout.styles';
 import { CustomTypography } from '@/styles/typography/typography.styles';
 import { Button, DeleteButtonTrash } from "@/styles/buttons/button.styles";
+import Tooltip from '@mui/material/Tooltip';
 
 const DeleteComponent = ({ rows, setRows, dataID }) => {
 	
@@ -30,11 +31,13 @@ const DeleteComponent = ({ rows, setRows, dataID }) => {
 	
 	return (
 		<>
+		<Tooltip title="Delete">
 			<DeleteButtonTrash
 				onClick={openPopover}
 				color={'primary'}
 				sx={{ fontSize: '1.5rem' }}
 			/>
+		</Tooltip>
 			<Popover
 				id={id}
 				open={open}

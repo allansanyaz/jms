@@ -31,14 +31,9 @@ class Dashboard(APIView):
         Get queue and node usage statistics for all nodes in the cluster
         """
 
-        print("Method run")
-
         jms = JobManager(user=request.user)
         
         dashboard = jms.GetDashboard()
-        print("******")
-        print("Back in the dashboard")
-        print(json.dumps(dashboard, default=lambda o: o.__dict__, sort_keys=True))
 
         return Response(json.dumps(dashboard, default=lambda o: o.__dict__, sort_keys=True))
 
@@ -54,6 +49,7 @@ class ServerSettings(APIView):
         jms = JobManager(user=request.user)
         
         settings = jms.GetSettings()
+
         return Response(json.dumps(settings, default=lambda o: o.__dict__, sort_keys=True))
     
     def post(self, request):

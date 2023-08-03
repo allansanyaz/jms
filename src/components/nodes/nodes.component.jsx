@@ -8,9 +8,11 @@ import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
 import ResponsiveCircle from '@/components/icons/responsive.circle.component.jsx';
 import LanIcon from '@mui/icons-material/Lan';
+import CircularProgress from '@mui/material/CircularProgress';
+
 const NodesComponent = ({ nodeList, nodeInformation }) => {
 
-	const [node, setNode] = useState();
+	const [node, setNode] = useState(null);
 	const [progress, setProgress] = useState(100);
 	const [coreState, setCoreState] = useState("Free");
 	const [totalCores, setTotalCores] = useState(null);
@@ -20,21 +22,33 @@ const NodesComponent = ({ nodeList, nodeInformation }) => {
 	useEffect(() => {
 		setNode(nodeList[0]);
 		if(Object.keys(nodeInformation).length > 0) {
-			setCoreState(nodeInformation[nodeList[0]]['coreState']);
-			setTotalCores(nodeInformation[nodeList[0]]['totalCores']);
-			setFreeCores(nodeInformation[nodeList[0]]['freeCores']);
-			setBusyCores(nodeInformation[nodeList[0]]['busyCores']);
-			setProgress(nodeInformation[nodeList[0]]['usedCores']);
+			calculateNodeMetrics();
 		}
-	}, [nodeList, nodeInformation]);
+	}, [node, nodeList, nodeInformation]);
 	
 	const onNodeSelectionChange = (event) => {
 		setNode(event.target.value);
 		// change node based on value
-		setProgress(35);
+		// get percentage of cores used
+		calculateNodeMetrics();
+		const coresUsed = calculateProgress(totalCores, freeCores);
+		
+		setProgress(coresUsed);
 	};
 
-	console.log(nodeInformation)
+	const calculateNodeMetrics = () => {
+		if(node !== null && nodeInformation[node] !== undefined) {
+			setCoreState(nodeInformation[node]['coreState']);
+			setTotalCores(nodeInformation[node]['totalCores']);
+			setFreeCores(nodeInformation[node]['freeCores']);
+			setBusyCores(nodeInformation[node]['busyCores']);
+			setProgress(nodeInformation[node]['usedCores']);
+		}
+	}
+
+	const calculateProgress = (total, free) => {
+		return parseInt(free / total);
+	}
 	
 	return (
 		<Box
@@ -47,6 +61,7 @@ const NodesComponent = ({ nodeList, nodeInformation }) => {
 				boxShadow: '0px 0px 5px 0px rgba(0,0,0,0.75)',
 				width: '100%',
 				maxWidth: '360px',
+				minWidth: '320px',
 				padding: '1rem 0',
 			}}
 		>
@@ -99,15 +114,40 @@ const NodesComponent = ({ nodeList, nodeInformation }) => {
 				</CustomTypography>
 				
 				<CustomDivider sx={{ my: 2 }} />
+
+				{
+					(nodeList.length < 1 || !coreState || !node) ? 
+					(
+						<Box 
+							sx={{ 
+								display: 'flex',
+								flexDirection: 'column',
+							}}
+						>
+							<CircularProgress />
+								<CustomTypography
+									variant="body2"
+									sx={{
+										textTransform: 'capitalize',
+										width: '100%',
+										textAlign: 'center',
+									}}
+								>
+									Loading...
+								</CustomTypography>.
+						</Box>
+					) 
+					:
+					(
+						<ResponsiveCircle progress={progress} />
+					)
+				}
 				
-				<ResponsiveCircle progress={progress} />
 				
 				{
-					(nodeList.length < 1 || !coreState) ? 
+					(nodeList.length < 1 || !coreState || !node) ? 
 					(
-						<>
-							Loading
-						</>
+						null
 					) 
 					:
 					(
@@ -131,7 +171,7 @@ const NodesComponent = ({ nodeList, nodeInformation }) => {
 									select
 									label="Select node"
 									onChange={onNodeSelectionChange}
-									value={nodeList[0]}
+									value={node}
 								>
 									{
 										nodeList.map((node) => (
