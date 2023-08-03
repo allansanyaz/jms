@@ -1,6 +1,6 @@
 'use client';
 import * as React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { CustomDivider, CustomStack } from '@/styles/layout/layout.styles.jsx';
 import { CustomTypography } from "@/styles/typography/typography.styles";
 import Box from '@mui/material/Box';
@@ -12,10 +12,22 @@ import TextField from "@mui/material/TextField";
 import {AddButton, Button, DeleteButtonTrash} from "@/styles/buttons/button.styles.jsx";
 import SaveIcon from '@mui/icons-material/Save';
 import Tooltip from "@mui/material/Tooltip";
+import axios from "axios";
 
 const QueueComponent = () => {
 	
 	const [queue, setQueue] = useState(queues[0]);
+
+	useEffect(() => {
+		axios.get('/settings/queues/api')
+			.then((response) => response.data)
+			.then((data) => {
+				console.log(data)
+			})
+			.catch((error) => {
+				console.log(error)
+			});
+	}, []);
 	
 	const onQueueChange = (event, newQueue) => {
 		setQueue(newQueue);

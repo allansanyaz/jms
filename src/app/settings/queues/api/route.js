@@ -37,18 +37,15 @@ const processQueuesData = (data) => {
 	// 3. Nodes Settings -> nodes
 	// 4. Packages Settings -> packages
 
-	const server = processQueueSettings(data["Data"][0]);
+	const queueList = processQueueSettings(data["Data"]);
 
-	return server;
+	return 200;
 }
 
 const processQueueSettings = (queueSettings) => {
 
 	// some parameters missing for the server settings
-	const settings = queueSettings["Settings"];
+	console.log(queueSettings)
 
-	let serverName = settings[0]["Name"];
-	let defaultQueue = settings[1]["Value"];
-
-	return {serverName, defaultQueue};
+	return 200;
 }
