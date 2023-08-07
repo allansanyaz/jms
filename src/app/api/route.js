@@ -10,7 +10,7 @@ export async function GET() {
 		method: 'GET',
 		headers: myHeaders,
 		redirect: 'follow'
-	}
+	};
 
 	const result = await fetch(dashboardAPI, requestOptions)
 	.then( response => response.json())
@@ -20,7 +20,7 @@ export async function GET() {
 	});
 
 	// process the result
-	const resultObject = JSON.parse(result)
+	const resultObject = JSON.parse(result);
 	const processedResult = processDashboardData(resultObject);
 
 	return NextResponse.json(processedResult);

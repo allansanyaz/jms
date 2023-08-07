@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { nodesAPI } from '@/app/api';
+import { jobsAPI } from '@/app/api';
 
 export async function GET() {
 
@@ -12,7 +12,7 @@ export async function GET() {
 		redirect: 'follow'
 	};
 
-	const result = await fetch(nodesAPI, requestOptions)
+	const result = await fetch(jobsAPI, requestOptions)
 	.then( response => response.json())
 	.catch( error => {
 		console.log("Could not fetch data from API due to:");
@@ -20,7 +20,8 @@ export async function GET() {
 	});
 
 	const resultObject = JSON.parse(result);
-	const processedResult = processNodesData(resultObject);
+	const processedResult = processJobsData(resultObject);
+
 
 	return NextResponse.json(processedResult);
 
@@ -28,27 +29,14 @@ export async function GET() {
 
 // we need to mutate the data here and return the exact form and information we need to reduce operations on the client side
 
-const processNodesData = (data) => {
+const processJobsData = (data) => {
 	// break result into 4 parts namely
 	// 1. General Settings -> server
-	// 2. Node Settings -> nodes
+	// 2. Queue Settings -> queues
 	// 3. Nodes Settings -> nodes
 	// 4. Packages Settings -> packages
 
-	const nodeData = processNodeSettings(data);
+	const jobs = []
 
-	return nodeData;
-}
-
-const processNodeSettings = (nodeSettings) => {
-
-	// some parameters missing for the server settings
-	// we want the node type and resources
-    let nodeData = {};
-    nodeSettings.forEach((node) => {
-        const nodeName = node.name;
-        nodeData[nodeName] = {...node};
-    });
-
-	return nodeData;
+	return jobs;
 }

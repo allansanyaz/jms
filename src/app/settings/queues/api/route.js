@@ -10,7 +10,7 @@ export async function GET() {
 		method: 'GET',
 		headers: myHeaders,
 		redirect: 'follow'
-	}
+	};
 
 	const result = await fetch(queuesAPI, requestOptions)
 	.then( response => response.json())
@@ -19,7 +19,7 @@ export async function GET() {
 		console.log('error', error);
 	});
 
-	const resultObject = JSON.parse(result)
+	const resultObject = JSON.parse(result);
 	const processedResult = processQueuesData(resultObject);
 
 	return NextResponse.json(processedResult);
