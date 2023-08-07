@@ -49,16 +49,16 @@ const NodesComponent = () => {
 						}}
 					>
 						<CircularProgress />
-							<CustomTypography
-								variant="body2"
-								sx={{
-									textTransform: 'capitalize',
-									width: '100%',
-									textAlign: 'center',
-								}}
-							>
-								Loading...
-							</CustomTypography>.
+						<CustomTypography
+							variant="body2"
+							sx={{
+								textTransform: 'capitalize',
+								width: '100%',
+								textAlign: 'center',
+							}}
+						>
+							Loading...
+						</CustomTypography>
 					</Box>
 				):		
 				(

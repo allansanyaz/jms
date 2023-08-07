@@ -233,16 +233,16 @@ const QueueComponent = ({ rowData }) => {
 							}}
 						>
 							<CircularProgress />
-								<CustomTypography
-									variant="body2"
-									sx={{
-										textTransform: 'capitalize',
-										width: '100%',
-										textAlign: 'center',
-									}}
-								>
-									Loading...
-								</CustomTypography>.
+							<CustomTypography
+								variant="body2"
+								sx={{
+									textTransform: 'capitalize',
+									width: '100%',
+									textAlign: 'center',
+								}}
+							>
+								Loading...
+							</CustomTypography>
 						</Box>
 					) :
 					(
@@ -268,9 +268,3 @@ const QueueComponent = ({ rowData }) => {
 }
 
 export default QueueComponent;
-
-const rowDataDemo = [
-	{ id: 1, username: 'some user', jobID: 'JID_123456', queue: 'batch', jobName: 'job1', state: 'R', nodes: 4, cores: 48, walltime: '06:00:00', delete: '' },
-	{ id: 2, username: '12345', jobID: 'JID_123457', queue: 'batch', jobName: 'job2', state: 'R', nodes: 2, cores: 32, walltime: '12:00:00', delete: '' },
-	{ id: 3, username: '12345', jobID: 'JID_123458', queue: 'batch', jobName: 'job3', state: 'R', nodes: 1, cores: 12, walltime: '08:00:00', delete: '' },
-];

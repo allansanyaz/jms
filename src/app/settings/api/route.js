@@ -30,11 +30,6 @@ export async function GET() {
 // we need to mutate the data here and return the exact form and information we need to reduce operations on the client side
 
 const processSettingsData = (data) => {
-	// break result into 4 parts namely
-	// 1. General Settings -> server
-	// 2. Queue Settings -> queues
-	// 3. Nodes Settings -> nodes
-	// 4. Packages Settings -> packages
 
 	const server = processServerSettings(data["Data"][0]);
 

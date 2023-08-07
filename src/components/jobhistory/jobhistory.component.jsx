@@ -5,8 +5,58 @@ import { CustomDivider, CustomStack } from "@/styles/layout/layout.styles";
 import { CustomTypography } from "@/styles/typography/typography.styles";
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import Box from '@mui/material/Box';
+import CircularProgress from '@mui/material/CircularProgress';
+import axios from 'axios';
 
 const JobHistoryComponent = () => {
+
+	// get the jobs history
+	const [rows, setRows] = useState(null);
+	const [jobData, setJobData] = useState(null);
+
+	useEffect(() => {
+		axios.get('/api/jms/jobs')
+			.then((response) => response.data)
+			.then((data) => {
+				//initialise the data
+				const rowData = initialiseRowData(data);
+				setRows(rowData);
+			})
+			.catch((error) => {
+				console.log(error)
+			});
+	}, []);
+
+	const initialiseRowData = (jobHistory) => {
+		let data = [];
+		let rawData = {}
+		let counter = 1;
+
+		console.log(jobHistory)
+
+		if(jobHistory) {
+			jobHistory.forEach((job) => {
+				data.push({
+					id: counter,
+					jobID: job.JobID,
+					name: job.JobName,
+					description: job.JobDescription,
+					toolVersion: (job.ToolVersion) ? job.ToolVersion: "External Job",
+					timeSubmitted: job.SubmittedAt,
+				});
+				rawData[job.JobID] = job;
+				counter++;
+			});
+		}
+
+		// set the raw data object
+		setJobData(rawData);
+
+		return data;
+	}
+
+	console.log(jobData);
+
 	return (
 		<CustomStack
 			sx={{
@@ -61,19 +111,39 @@ const JobHistoryComponent = () => {
 						width: '100%',
 					}}
 				>
-					<DataGrid
-						rows={rows}
-						columns={columns}
-						sx={{
-							width: '100%',
-							height: 400,
-						}}
-						slots={{
-							toolbar: GridToolbar,
-						}}
-					>
-					
-					</DataGrid>
+					{
+						(!rows) ?
+						(
+							<>
+								<CircularProgress />
+								<CustomTypography
+									variant="body2"
+									sx={{
+										textTransform: 'capitalize',
+										width: '100%',
+										textAlign: 'center',
+									}}
+								>
+									Loading...
+								</CustomTypography>
+							</>
+						):
+						(
+							<DataGrid
+								rows={rows}
+								columns={columns}
+								sx={{
+									width: '100%',
+									height: 400,
+								}}
+								slots={{
+									toolbar: GridToolbar,
+								}}
+							>
+							
+							</DataGrid>
+						)
+					}
 				</Box>
 			</CustomStack>
 			
@@ -85,7 +155,7 @@ export default JobHistoryComponent;
 
 const columns = [
 	{
-		field: 'id',
+		field: 'jobID',
 		headerName: 'Job ID',
 		width: 150,
 		headerClassName: 'queue-header'
@@ -99,7 +169,7 @@ const columns = [
 	{
 		field: 'description',
 		headerName: 'Description',
-		width: 250,
+		width: 350,
 		headerClassName: 'queue-header'
 	},
 	{
@@ -114,10 +184,4 @@ const columns = [
 		width: 200,
 		headerClassName: 'queue-header'
 	}
-]
-
-const rows = [
-	{ id: 1, name: 'Job 1', description: 'Job 1 Description', toolVersion: 'Tool 1', timeSubmitted: '2021-10-01 12:00:00' },
-	{ id: 2, name: 'Job 2', description: 'Job 2 Description', toolVersion: 'Tool 2', timeSubmitted: '2021-10-02 12:00:00' },
-	{ id: 3, name: 'Job 3', description: 'Job 3 Description', toolVersion: 'Tool 3', timeSubmitted: '2021-10-03 12:00:00' },
 ]

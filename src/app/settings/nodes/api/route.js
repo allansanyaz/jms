@@ -29,11 +29,6 @@ export async function GET() {
 // we need to mutate the data here and return the exact form and information we need to reduce operations on the client side
 
 const processNodesData = (data) => {
-	// break result into 4 parts namely
-	// 1. General Settings -> server
-	// 2. Node Settings -> nodes
-	// 3. Nodes Settings -> nodes
-	// 4. Packages Settings -> packages
 
 	const nodeData = processNodeSettings(data);
 

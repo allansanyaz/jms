@@ -2,6 +2,8 @@ from django.core.exceptions import PermissionDenied
 from django.shortcuts import get_object_or_404
 from django.db.models import Q
 
+import JMS.settings as settings
+
 from jobs.JMS.CRUD import JobPermissions
 
 from jobs.models import Job
@@ -16,13 +18,21 @@ def AddJob(User, JobName, Description, ToolVersion, WorkflowVersion, JobTypeID,
                               NotificationEmail=NotificationEmail)
 
 def GetJobs(user):
-    return Job.objects.filter(
-        Q(DeletedInd=False) &
-        (
-            Q(User=user) |
-            Q(UserJobPermissions__User=user)
+    user = "allan"
+
+    try:
+        return Job.objects.filter(
+            Q(DeletedInd=False) &
+            (
+                Q(User=user) |
+                Q(UserJobPermissions__User=user)
+            )
         )
-    )
+    except ValueError as e:
+        print(f"The error {e} was encourred")
+        # rather extract where the username is allan
+        jobObjects = Job.objects.filter(User=settings.config["USER_ID"])
+        return jobObjects
 
 
 def GetJob(user, job_id):
