@@ -1,7 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
-import { DataGrid, GridToolbar } from '@mui/x-data-grid';
+import { DataGrid, GridToolbar, gridColumnsTotalWidthSelector } from '@mui/x-data-grid';
 import Divider from '@mui/material/Divider';
 import Typography from "@mui/material/Typography";
 import { CustomTypography } from '@/styles/typography/typography.styles';
@@ -18,8 +18,8 @@ import CircularProgress from '@mui/material/CircularProgress';
 import '@/styles/dashboard/dashboard.styles.css';
 
 const QueueComponent = ({ rowData }) => {
-	
-	const [rows, setRows] = useState(null);
+	console.log(rowData);
+	const [rows, setRows] = useState([]);
 	
 	const columns = [
 		{
@@ -145,27 +145,33 @@ const QueueComponent = ({ rowData }) => {
 
 	useEffect(() => {
 		if(rowData !== null || rowData !== undefined) {
+			console.log("initialising");
 			const data = initialiseRowData(rowData);
 			setRows(data);
 		}
 
 	}, [rowData]);
 
-	const initialiseRowData = () => {
+	const initialiseRowData = (rowsData) => {
 		let data = [];
 		let counter = 1;
-		if (rows) {
-			rows.forEach((row, idx) => {
+
+		if(rowsData) {
+			rowsData.forEach((row, idx) => {
+				console.log("row")
+				console.log(row);
+				console.log("idx");
+				console.log(idx);
 				data.push({
 					id: counter,
-					jobID: rows[0],
-					username: rows[1],
-					queue: rows[2],
-					jobName: rows[3],
-					state: rows[4],
-					nodes: rows[5],
-					cores: rows[6],
-					walltime: rows[7],
+					jobID: row.job_id,
+					username: row.values[0],
+					queue: row.values[1],
+					jobName: row.values[2],
+					state: row.values[3],
+					nodes: row.values[4],
+					cores: row.values[5],
+					walltime: row.values[7],
 				});
 				console.log(counter);
 				counter++;
