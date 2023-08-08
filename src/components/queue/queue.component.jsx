@@ -253,12 +253,11 @@ const QueueComponent = ({ rowData }) => {
 								width: '100%',
 								height: 400,
 							}}
+							getRowHeight={() => 'auto'}
 							slots={{
 								toolbar: GridToolbar,
 							}}
-						>
-						
-						</DataGrid>
+						/>
 					)
 				}
 			</Box>

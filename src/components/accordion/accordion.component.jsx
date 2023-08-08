@@ -8,6 +8,7 @@ import MuiAccordionDetails from '@mui/material/AccordionDetails';
 import { CustomTypography } from '@/styles/typography/typography.styles';
 import { CustomStack } from '@/styles/layout/layout.styles.jsx';
 import { EditButton } from '@/styles/buttons/button.styles.jsx';
+import JMSDataGridComponent from '@/components/datagrids/datagrids.component';
 
 const Accordion = styled((props) => (
 	<MuiAccordion disableGutters elevation={0} square {...props} />
@@ -57,7 +58,7 @@ const CustomEditContainer = styled(EditButton)(() => ({
 	}
 }));
 
-const CustomAccordion = ({ accordionTitle, accordionSummary }) => {
+const CustomAccordion = ({ accordionTitle, accordionItems }) => {
 
 	const [expanded, setExpanded] = React.useState(false);
 	
@@ -68,7 +69,7 @@ const CustomAccordion = ({ accordionTitle, accordionSummary }) => {
 	const handleEdit = () => {
 		console.log('Edit clicked');
 	}
-	
+
 	return (
 		<CustomStack
 			direction={'row'}
@@ -92,14 +93,13 @@ const CustomAccordion = ({ accordionTitle, accordionSummary }) => {
 			</AccordionSummary>
 			
 			{
-				(accordionSummary) ? null :
+				(accordionItems) ?
 					(
 						<AccordionDetails>
-							<CustomTypography>
-								{ accordionSummary }
-							</CustomTypography>
+								<JMSDataGridComponent data={accordionItems} />
 						</AccordionDetails>
-					)
+					):
+					(null)
 			}
 			
 			</Accordion>

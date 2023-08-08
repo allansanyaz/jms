@@ -10,6 +10,7 @@ export const Button = styled('button')((props) => ({
 	borderRadius: '4px',
 	padding: '8px 16px',
 	maxHeight: '40px',
+	minWidth: '160px',
 	
 	'&:hover': {
 		backgroundColor: props.backgroundColor ? props.backgroundColor : '#3f51b5',

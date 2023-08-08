@@ -50,7 +50,6 @@ const ToolsButtonsComponent = ({ toolComponent, buttonTitle, buttonFunction }) =
 			<Button
 				backgroundColor={'#47a447'}
 				hoverColor={'#47a44750'}
-				sx={{width: '160px'}}
 				onClick={() => onButtonClick()}
 			>
 				<AddIcon sx={{ fontSize: '1.5rem' }} />

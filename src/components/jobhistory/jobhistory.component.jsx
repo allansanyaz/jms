@@ -8,6 +8,8 @@ import Box from '@mui/material/Box';
 import CircularProgress from '@mui/material/CircularProgress';
 import axios from 'axios';
 
+import '@/styles/dashboard/dashboard.styles.css';
+
 const JobHistoryComponent = () => {
 
 	// get the jobs history
@@ -31,8 +33,6 @@ const JobHistoryComponent = () => {
 		let data = [];
 		let rawData = {}
 		let counter = 1;
-
-		console.log(jobHistory)
 
 		if(jobHistory) {
 			jobHistory.forEach((job) => {
@@ -136,12 +136,11 @@ const JobHistoryComponent = () => {
 									width: '100%',
 									height: 400,
 								}}
+								getRowHeight={() => 'auto'}
 								slots={{
 									toolbar: GridToolbar,
 								}}
-							>
-							
-							</DataGrid>
+							/>
 						)
 					}
 				</Box>
@@ -184,4 +183,4 @@ const columns = [
 		width: 200,
 		headerClassName: 'queue-header'
 	}
-]
+];

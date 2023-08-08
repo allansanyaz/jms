@@ -3,8 +3,6 @@ import { jobsAPI } from '@/app/api';
 
 export async function GET() {
 
-	console.log("The jobs API is: " + jobsAPI);
-
 	var myHeaders = new Headers();
 	myHeaders.append("Content-Type", "application/json");
 

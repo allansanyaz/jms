@@ -1,8 +1,9 @@
 import { CustomStack } from '@/styles/layout/layout.styles.jsx';
 import { CustomTypography } from '@/styles/typography/typography.styles';
-import CustomAccordion from '@/styles/accordion/accordion.styles';
+import CustomAccordion from '@/components/accordion/accordion.component';
 
-const AccordionComponent = ({ accordionMenuList, accordionTitle }) => {
+const AccordionComponent = ({ accordionMenuList, accordionTitle, accordionData }) => {
+	
 	return (
 		<CustomStack
 			direction={'column'}
@@ -19,7 +20,7 @@ const AccordionComponent = ({ accordionMenuList, accordionTitle }) => {
 			
 			{
 				accordionMenuList.map((item, index) => (
-					<CustomAccordion key={index} accordionTitle={item} />
+					<CustomAccordion key={index} accordionTitle={item} accordionItems={accordionData[item]} />
 				))
 			}
 		

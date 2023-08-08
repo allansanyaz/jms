@@ -1,5 +1,5 @@
 'use client';
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { CustomTypography } from "@/styles/typography/typography.styles";
 import {
 	CustomDivider,
@@ -9,16 +9,27 @@ import { BuildIconComponent } from "@/styles/tools/tools.styles";
 import ToolsButtonsComponent from "@/components/tools/tools.buttons.component";
 import AccordionComponent from "@/components/tools/accordion.component";
 import ModalComponent from '@/components/modal/modal.component';
+import Box from '@mui/material/Box';
+import CircularProgress from '@mui/material/CircularProgress';
+import axios from 'axios';
 
 const ToolsComponent = () => {
 	
+	const [tools, setTools] = useState({});
 	const [openModal, setOpenModal] = useState(false);
-	
-	const handleOpen = () => {
-		console.log("Button clicked");
-		setOpenModal(true);
-		console.log("The modal is open: ", openModal);
-	}
+	const [accordionMenuList, setAccordionMenuList] = useState([]);
+
+	useEffect(() => {
+		axios.get('/api/jms/tools')
+			.then((response) => response.data)
+			.then((data) => {
+				setTools(data);
+				setAccordionMenuList(Object.keys(data));
+			})
+			.catch((error) => {
+				console.log(error)
+			});
+	},[]);
 	
 	return (
 		<CustomStack
@@ -59,18 +70,41 @@ const ToolsComponent = () => {
 			<ToolsButtonsComponent toolComponent={'tools'} buttonTitle={'Add Tool'} buttonFunction={setOpenModal} />
 			
 			{
-				openModal ? <ModalComponent openModal={openModal} setOpenModal={setOpenModal} categories={categories} /> : null
+				openModal ? <ModalComponent openModal={openModal} setOpenModal={setOpenModal} categories={accordionMenuList} /> : null
 			}
 			
 			<CustomDivider sx={{ my: 0 }} />
-			<AccordionComponent accordionMenuList={accordionMenuList} accordionTitle={'Tools'} />
+			{
+				(accordionMenuList.length > 0) ? 
+				(
+					<AccordionComponent accordionMenuList={accordionMenuList} accordionTitle={'Tools'} accordionData={tools} />
+				) :
+				(
+					<Box
+						sx={{
+							display: 'flex',
+							flexDirection: 'column',
+							alignItems: 'center',
+							width: '100%',
+						}}
+					>
+						<CircularProgress />
+						<CustomTypography
+							variant="body2"
+							sx={{
+								textTransform: 'capitalize',
+								width: '100%',
+								textAlign: 'center',
+							}}
+						>
+							Loading...
+						</CustomTypography>
+					</Box>
+				)
+			}
 		
 		</CustomStack>
 	)
 }
 
 export default ToolsComponent;
-
-const accordionMenuList = ["Administration", "Data Retrieval", "Docking Studies", "Homology Modeling", "Model Assessment", "SANCDB", "Variant Analysis"];
-
-const categories = ["Chicken", "Beef", "Venison", "Pork", "Lamb", "Fish", "Vegetarian", "Vegan", "Other"];

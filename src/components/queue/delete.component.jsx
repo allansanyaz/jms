@@ -31,13 +31,13 @@ const DeleteComponent = ({ rows, setRows, dataID }) => {
 	
 	return (
 		<>
-		<Tooltip title="Delete">
-			<DeleteButtonTrash
-				onClick={openPopover}
-				color={'primary'}
-				sx={{ fontSize: '1.5rem' }}
-			/>
-		</Tooltip>
+			<Tooltip title="Delete">
+				<DeleteButtonTrash
+					onClick={openPopover}
+					color={'primary'}
+					sx={{ fontSize: '1.5rem' }}
+				/>
+			</Tooltip>
 			<Popover
 				id={id}
 				open={open}
