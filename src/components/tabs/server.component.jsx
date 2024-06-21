@@ -7,7 +7,7 @@ import Box from '@mui/material/Box';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
-import { Button, DeleteButtonTrash, EditButton, AddButton } from '@/styles/buttons/button.styles.jsx';
+import { Button, DeleteButtonTrash, EditButton, AddButton } from '@/styles/buttons/button.styles.tsx';
 import SaveIcon from '@mui/icons-material/Save';
 import Tooltip from '@mui/material/Tooltip';
 // import ModalComponent from '@/components/modal/modal.component';

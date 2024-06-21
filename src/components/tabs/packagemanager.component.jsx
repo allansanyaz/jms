@@ -5,7 +5,7 @@ import { CustomTypography } from "@/styles/typography/typography.styles";
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import TextField from "@mui/material/TextField";
-import { Button } from "@/styles/buttons/button.styles.jsx";
+import { Button } from "@/styles/buttons/button.styles.tsx";
 import Box from '@mui/material/Box';
 import InstallDesktopIcon from '@mui/icons-material/InstallDesktop';
 

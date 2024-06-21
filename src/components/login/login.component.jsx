@@ -2,7 +2,7 @@
 import Box from "@mui/material/Box";
 import TextField from '@mui/material/TextField';
 import Stack from '@mui/material/Stack';
-import { Button } from '@/styles/buttons/button.styles.jsx';
+import { Button } from '@/styles/buttons/button.styles.tsx';
 const LoginComponent = () => {
 	return (
 		<div style={{

@@ -1,25 +1,27 @@
 import { NextResponse } from 'next/server';
-import { toolsAPI, toolsCategoriesAPI } from '@/app/api';
+import { toolsAPI, toolsCategoriesAPI } from '@/lib/endpoints';
 
 export async function GET() {
 
 	var myHeaders = new Headers();
 	myHeaders.append("Content-Type", "application/json");
 
-	const requestOptions = {
+	const result = await fetch(toolsAPI, {
 		method: 'GET',
 		headers: myHeaders,
 		redirect: 'follow'
-	};
-
-	const result = await fetch(toolsAPI, requestOptions)
+	})
 	.then( response => response.json())
 	.catch( error => {
 		console.log("Could not fetch data from API due to:");
 		console.log('error', error);
 	});
 
-    const toolCategories = await fetch(toolsCategoriesAPI, requestOptions)
+    const toolCategories = await fetch(toolsCategoriesAPI, {
+		method: 'GET',
+		headers: myHeaders,
+		redirect: 'follow'
+	})
     .then( response => response.json())
     .catch( error => {
         console.log("Could not fetch data from API due to:");
@@ -32,7 +34,7 @@ export async function GET() {
 
 }
 
-const processToolsData = (tools, categories) => {
+const processToolsData = (tools: any, categories: any) => {
     /**
      * Information needed is the
      * Category
@@ -42,18 +44,18 @@ const processToolsData = (tools, categories) => {
      * Latetst Version index 0
      * Options
      */
-    let categoryHolder = {};
+    let categoryHolder: any = {};
 
     // loop through the tools
     Object.entries(tools).forEach(([_, value]) => {
-        const toolID = value.ToolID;
-        const categoryID = value.Category;
-        const toolName = value.ToolName;
-        const toolDescription = value.ToolDescription;
-        const toolPublic = value.PublicInd;
+        const toolID = (value as any).ToolID;
+        const categoryID = (value as any).Category;
+        const toolName = (value as any).ToolName;
+        const toolDescription = (value as any).ToolDescription;
+        const toolPublic = (value as any).PublicInd;
 
         // tool version is the first index of the array
-        const toolVersion = value.ToolVersions[0].ToolVersionNum;
+        const toolVersion = (value as any).ToolVersions[0].ToolVersionNum;
 
         const toolCategory = categoryFilter(categoryID, categories);
 
@@ -63,9 +65,9 @@ const processToolsData = (tools, categories) => {
     return categoryHolder;
 }
 
-const categoryFilter = (categoryID, categories) => {
-    let category = categories.filter((category) => {
-        return category.CategoryID === categoryID;
+const categoryFilter = (categoryID: string, categories: any) => {
+    let category = categories.filter((category: any) => {
+        return category[categoryID] === categoryID;
     });
 
     return category[0].CategoryName;

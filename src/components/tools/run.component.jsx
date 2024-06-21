@@ -1,6 +1,6 @@
 'use client';
 import * as React from "react";
-import { Button } from "@/styles/buttons/button.styles.jsx";
+import { Button } from "@/styles/buttons/button.styles.tsx";
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 
 const RunComponent = ({ dataID }) => {

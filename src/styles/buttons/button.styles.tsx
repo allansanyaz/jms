@@ -3,7 +3,13 @@ import { styled } from '@mui/material/styles';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
-export const Button = styled('button')((props) => ({
+
+interface IButtonProps {
+	backgroundColor: string;
+	hoverColor: string;
+}
+
+export const Button = styled('button')((props: IButtonProps) => ({
 	color: 'white',
 	backgroundColor: props.backgroundColor ? props.backgroundColor : '#3f51b5',
 	fontWeight: 'bold',

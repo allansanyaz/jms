@@ -9,7 +9,7 @@ import Checkbox from "@mui/material/Checkbox";
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import TextField from "@mui/material/TextField";
-import {AddButton, Button, DeleteButtonTrash} from "@/styles/buttons/button.styles.jsx";
+import {AddButton, Button, DeleteButtonTrash} from "@/styles/buttons/button.styles.tsx";
 import SaveIcon from '@mui/icons-material/Save';
 import Tooltip from "@mui/material/Tooltip";
 import CircularProgress from '@mui/material/CircularProgress';

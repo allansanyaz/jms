@@ -7,7 +7,7 @@ import MuiAccordionSummary from '@mui/material/AccordionSummary';
 import MuiAccordionDetails from '@mui/material/AccordionDetails';
 import { CustomTypography } from '@/styles/typography/typography.styles';
 import { CustomStack } from '@/styles/layout/layout.styles.jsx';
-import { EditButton } from '@/styles/buttons/button.styles.jsx';
+import { EditButton } from '@/styles/buttons/button.styles.tsx';
 import JMSDataGridComponent from '@/components/datagrids/datagrids.component';
 
 const Accordion = styled((props) => (

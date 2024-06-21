@@ -1,27 +1,24 @@
 import { NextResponse } from 'next/server';
-import { settingsAPI } from '@/app/api';
+import { nodesAPI } from '@/lib/endpoints';
 
 export async function GET() {
 
 	var myHeaders = new Headers();
 	myHeaders.append("Content-Type", "application/json");
 
-	const requestOptions = {
+	const result = await fetch(nodesAPI, {
 		method: 'GET',
 		headers: myHeaders,
 		redirect: 'follow'
-	}
-
-	const result = await fetch(settingsAPI, requestOptions)
+	})
 	.then( response => response.json())
 	.catch( error => {
 		console.log("Could not fetch data from API due to:");
 		console.log('error', error);
 	});
 
-	const resultObject = JSON.parse(result)
-	const processedResult = processSettingsData(resultObject);
-
+	const resultObject = JSON.parse(result);
+	const processedResult = processNodesData(resultObject);
 
 	return NextResponse.json(processedResult);
 
@@ -29,20 +26,22 @@ export async function GET() {
 
 // we need to mutate the data here and return the exact form and information we need to reduce operations on the client side
 
-const processSettingsData = (data) => {
+const processNodesData = (data: any) => {
 
-	const server = processServerSettings(data["Data"][0]);
+	const nodeData = processNodeSettings(data);
 
-	return server;
+	return nodeData;
 }
 
-const processServerSettings = (serverSettings) => {
+const processNodeSettings = (nodeSettings: any) => {
 
 	// some parameters missing for the server settings
-	const settings = serverSettings["Settings"];
+	// we want the node type and resources
+    let nodeData: any = {};
+    nodeSettings.forEach((node: any) => {
+        const nodeName = node.name;
+        nodeData[nodeName] = {...node};
+    });
 
-	let serverName = settings[0]["Name"];
-	let defaultQueue = settings[1]["Value"];
-
-	return {serverName, defaultQueue};
+	return nodeData;
 }

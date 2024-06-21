@@ -1,8 +1,9 @@
-import SidePanel from '@/components/sidepanel/sidepanel.component.jsx';
-import { CustomContainer } from '@/styles/layout/layout.styles.jsx';
-import './globals.scss'
+import SidePanel from '@/components/sidepanel/sidepanel.component';
+import { CustomContainer } from '@/styles/layout/layout.styles';
+import { IChildrenProps } from "@/lib/types/definitions";
+import './globals.scss';
 
-export default function RootLayout({ children }) {
+export default function RootLayout({ children }: IChildrenProps) {
     return (
         <html lang="en">
             <body>

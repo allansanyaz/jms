@@ -1,25 +1,27 @@
 import { NextResponse } from 'next/server';
-import { workflowsAPI, toolsCategoriesAPI } from '@/app/api';
+import { workflowsAPI, toolsCategoriesAPI } from '@/lib/endpoints';
 
 export async function GET() {
 
 	var myHeaders = new Headers();
 	myHeaders.append("Content-Type", "application/json");
 
-	const requestOptions = {
+	const result = await fetch(workflowsAPI, {
 		method: 'GET',
 		headers: myHeaders,
 		redirect: 'follow'
-	};
-
-	const result = await fetch(workflowsAPI, requestOptions)
+	})
 	.then( response => response.json())
 	.catch( error => {
 		console.log("Could not fetch data from API due to:");
 		console.log('error', error);
 	});
 
-    const toolCategories = await fetch(toolsCategoriesAPI, requestOptions)
+    const toolCategories = await fetch(toolsCategoriesAPI, {
+		method: 'GET',
+		headers: myHeaders,
+		redirect: 'follow'
+	})
     .then( response => response.json())
     .catch( error => {
         console.log("Could not fetch data from API due to:");
@@ -32,20 +34,20 @@ export async function GET() {
 
 }
 
-const processWorflowsData = (worflows, categories) => {
+const processWorflowsData = (workflows: any, categories: any) => {
     
-    let categoryHolder = {};
+    let categoryHolder: any = {};
 
     // loop through the worflows
-    Object.entries(worflows).forEach(([_, value]) => {
-        const toolID = value.WorkflowID;
-        const categoryID = value.Category;
-        const toolName = value.WorkflowName;
-        const toolDescription = value.Description;
-        const toolPublic = value.PublicInd;
+    Object.entries(workflows).forEach(([_, value]) => {
+        const toolID = (value as any).WorkflowID;
+        const categoryID = (value as any).Category;
+        const toolName = (value as any).WorkflowName;
+        const toolDescription = (value as any).Description;
+        const toolPublic = (value as any).PublicInd;
 
         // tool version is the first index of the array
-        const toolVersion = value.WorkflowVersions[0].WorkflowVersionNum;
+        const toolVersion = (value as any).WorkflowVersions[0].WorkflowVersionNum;
 
         const toolCategory = categoryFilter(categoryID, categories);
 
@@ -55,8 +57,8 @@ const processWorflowsData = (worflows, categories) => {
     return categoryHolder;
 }
 
-const categoryFilter = (categoryID, categories) => {
-    let category = categories.filter((category) => {
+const categoryFilter = (categoryID: string, categories: any) => {
+    let category = categories.filter((category: any) => {
         return category.CategoryID === categoryID;
     });
 

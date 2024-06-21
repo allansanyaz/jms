@@ -4,7 +4,7 @@ import { useState, useRef } from "react";
 import { CustomDivider, CustomStack } from '@/styles/layout/layout.styles.jsx';
 import Box from '@mui/material/Box';
 import TextField from "@mui/material/TextField";
-import { Button } from "@/styles/buttons/button.styles.jsx";
+import { Button } from "@/styles/buttons/button.styles.tsx";
 import { CustomTypography } from "@/styles/typography/typography.styles";
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';

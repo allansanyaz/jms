@@ -1,18 +1,16 @@
 import { NextResponse } from 'next/server';
-import { jobsAPI } from '@/app/api';
+import { jobsAPI } from '@/lib/endpoints';
 
 export async function GET() {
 
 	var myHeaders = new Headers();
 	myHeaders.append("Content-Type", "application/json");
 
-	const requestOptions = {
+	const result = await fetch(jobsAPI, {
 		method: 'GET',
 		headers: myHeaders,
 		redirect: 'follow'
-	};
-
-	const result = await fetch(jobsAPI, requestOptions)
+	})
 	.then( response => response.json())
 	.catch( error => {
 		console.log("Could not fetch data from API due to:");
