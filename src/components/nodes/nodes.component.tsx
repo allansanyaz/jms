@@ -4,20 +4,22 @@ import Stack from "@mui/material/Stack";
 import Box from '@mui/material/Box';
 import { CustomTypography } from '@/styles/typography/typography.styles';
 import { CustomDivider } from '@/styles/layout/layout.styles';
-import TextField from '@mui/material/TextField';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
-import ResponsiveCircle from '@/components/icons/responsive.circle.component.jsx';
+import ResponsiveCircle from '@/components/icons/responsive.circle.component';
 import LanIcon from '@mui/icons-material/Lan';
 import CircularProgress from '@mui/material/CircularProgress';
+import { INodeComponentProps } from '@/lib/types/definitions';
 
-const NodesComponent = ({ nodeList, nodeInformation }) => {
 
-	const [node, setNode] = useState(null);
-	const [progress, setProgress] = useState(100);
-	const [coreState, setCoreState] = useState("Free");
-	const [totalCores, setTotalCores] = useState(null);
-	const [freeCores, setFreeCores] = useState(null);
-	const [busyCores, setBusyCores] = useState(null);
+const NodesComponent = ({ nodeList, nodeInformation }: INodeComponentProps) => {
+
+	const [node, setNode] = useState<string>('');
+	const [progress, setProgress] = useState<number>(100);
+	const [coreState, setCoreState] = useState<string>("Free");
+	const [totalCores, setTotalCores] = useState<string>('0');
+	const [freeCores, setFreeCores] = useState<string>('0');
+	const [busyCores, setBusyCores] = useState<string>('0');
 
 	useEffect(() => {
 		setNode(nodeList[0]);
@@ -26,7 +28,7 @@ const NodesComponent = ({ nodeList, nodeInformation }) => {
 		}
 	}, [node, nodeList, nodeInformation]);
 	
-	const onNodeSelectionChange = (event) => {
+	const onNodeSelectionChange = (event: SelectChangeEvent) => {
 		setNode(event.target.value);
 		// change node based on value
 		// get percentage of cores used
@@ -38,16 +40,16 @@ const NodesComponent = ({ nodeList, nodeInformation }) => {
 
 	const calculateNodeMetrics = () => {
 		if(node !== null && nodeInformation[node] !== undefined) {
-			setCoreState(nodeInformation[node]['coreState']);
+			setCoreState(nodeInformation[node]['coreState'] as string);
 			setTotalCores(nodeInformation[node]['totalCores']);
 			setFreeCores(nodeInformation[node]['freeCores']);
 			setBusyCores(nodeInformation[node]['busyCores']);
-			setProgress(nodeInformation[node]['usedCores']);
+			setProgress(parseInt(nodeInformation[node]['usedCores']));
 		}
 	}
 
-	const calculateProgress = (total, free) => {
-		return parseInt(free / total);
+	const calculateProgress = (total: string, free: string) => {
+		return parseInt(free) / parseInt(total);
 	}
 	
 	return (
@@ -167,9 +169,8 @@ const NodesComponent = ({ nodeList, nodeInformation }) => {
 								noValidate
 								autoComplete="off"
 							>
-								<TextField
+								<Select
 									id={"node-select"}
-									select
 									label="Select node"
 									onChange={onNodeSelectionChange}
 									value={node}
@@ -181,7 +182,7 @@ const NodesComponent = ({ nodeList, nodeInformation }) => {
 											</MenuItem>
 										))
 									}
-								</TextField>
+								</Select>
 							</Box>
 							
 							<Box

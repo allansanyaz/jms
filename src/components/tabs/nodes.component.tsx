@@ -1,22 +1,23 @@
 import * as React from "react";
 import { useState, useEffect } from "react";
-import { CustomDivider, CustomStack } from '@/styles/layout/layout.styles.jsx';
+import { CustomDivider, CustomStack } from '@/styles/layout/layout.styles';
 import { CustomTypography } from "@/styles/typography/typography.styles";
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import TextField from "@mui/material/TextField";
-import {AddButton, Button, DeleteButtonTrash, EditButton} from "@/styles/buttons/button.styles.tsx";
+import {AddButton, Button, DeleteButtonTrash, EditButton} from "@/styles/buttons/button.styles";
 import Box from '@mui/material/Box';
 import SaveIcon from '@mui/icons-material/Save';
 import Tooltip from "@mui/material/Tooltip";
 import CircularProgress from '@mui/material/CircularProgress';
+import { INodeComponentDataProps } from "@/lib/types/definitions";
 import axios from "axios";
 
 const NodesComponent = () => {
 	
-	const [nodeList, setNodeList] = useState([]);
+	const [nodeList, setNodeList] = useState<string[]>([]);
 	const [node, setNode] = useState('mace');
-	const [nodeData, setNodeData] = useState({});
+	const [nodeData, setNodeData] = useState<{ [key: string]: INodeComponentDataProps }>({});
 
 	useEffect(() => {
 		axios.get('/settings/nodes/api')
@@ -26,11 +27,11 @@ const NodesComponent = () => {
 				setNodeData(data);
 			})
 			.catch((error) => {
-				console.log(error)
+				console.error(error);
 			});
 	}, []);
 	
-	const onNodeChange = (event, newNode) => {
+	const onNodeChange = (event: React.MouseEvent, newNode: string) => {
 		if(newNode !== null) {
 			setNode(newNode);
 		}
@@ -99,8 +100,6 @@ const NodesComponent = () => {
 								gridTemplateColumns: 'repeat(2, 1fr)',
 								gap: '1rem',
 							}}
-							noValidate
-							autoComplete="off"
 						>
 							<TextField
 								id="state"

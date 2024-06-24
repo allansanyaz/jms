@@ -1,21 +1,21 @@
 'use client';
 import { useState, useEffect } from 'react';
-import CardComponent from "@/components/card/card.component.jsx";
-import { Dashboard } from '@/styles/dashboard/dashboard.styles.jsx';
+import CardComponent from "@/components/card/card.component";
+import { Dashboard } from '@/styles/dashboard/dashboard.styles';
 import {
 	CustomStack,
 	CustomDivider,
-} from '@/styles/layout/layout.styles.jsx';
+} from '@/styles/layout/layout.styles';
 import { CustomTypography } from '@/styles/typography/typography.styles';
-import { DashboardIconComponent } from "@/styles/dashboard/dashboard.styles.jsx";
-import NodesComponent from "@/components/nodes/nodes.component.jsx";
-import QueueComponent from "@/components/queue/queue.component.jsx";
+import { DashboardIconComponent } from "@/styles/dashboard/dashboard.styles";
+import NodesComponent from "@/components/nodes/nodes.component";
+import QueueComponent from "@/components/queue/queue.component";
 import axios from 'axios';
 
 const DashboardComponent = () => {
 	
-	const [dashboardDescription, setDashboardDescription] = useState([]);
-	const [cpuNames, setCpuNames] = useState([]);
+	const [dashboardDescription, setDashboardDescription] = useState<string[]>([]);
+	const [cpuNames, setCpuNames] = useState<string[]>([]);
 	const [nodeInformation, setNodeInformation] = useState({});
 	const [rowData, setRowData] = useState([]);
 
@@ -40,7 +40,8 @@ const DashboardComponent = () => {
 				
 			})
 			.catch((error) => {
-				console.log(error);
+				console.error('Error fetching data from the /api endpoint')
+				console.error(error);
 			});
 	}, []);
 

@@ -13,7 +13,13 @@ import { Button } from '@/styles/buttons/button.styles';
 
 import './modal.styles.scss';
 
-const ModalComponent = ({ openModal, setOpenModal, categories }) => {
+interface IModalComponentProps {
+	openModal: boolean;
+	setOpenModal: (open: boolean) => void;
+	categories: string[];
+}
+
+const ModalComponent = ({ openModal, setOpenModal, categories }: IModalComponentProps) => {
 	
 	const [categoryButtonClicked, setCategoryButtonClicked] = useState(false);
 	const [newCategory, setNewCategory] = useState('');

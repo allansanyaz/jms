@@ -7,7 +7,13 @@ import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import AddIcon from '@mui/icons-material/Add';
 import Link from 'next/link';
 
-const ToolsButtonsComponent = ({ toolComponent, buttonTitle, buttonFunction }) => {
+interface IToolsButtonsComponentProps {
+	toolComponent: string;
+	buttonTitle: string;
+	buttonFunction: (arg0: boolean) => void;
+}
+
+const ToolsButtonsComponent = ({ toolComponent, buttonTitle, buttonFunction }: IToolsButtonsComponentProps) => {
 	
 	const onButtonClick = () => {
 		switch (toolComponent) {

@@ -6,7 +6,7 @@ const Error = ({ error, reset }: IErrorProps) => {
 	
 	useEffect(() => {
 		// Log the error to an error reporting service
-		console.log(error);
+		console.error(error);
 	}, [error]);
 	
 	return (

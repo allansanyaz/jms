@@ -1,13 +1,13 @@
 'use client';
 import { useState, useEffect } from 'react';
-import { CustomStack } from '@/styles/layout/layout.styles.jsx';
+import { CustomStack } from '@/styles/layout/layout.styles';
 import { CustomTypography } from '@/styles/typography/typography.styles';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
-import { Button, DeleteButtonTrash, EditButton, AddButton } from '@/styles/buttons/button.styles.tsx';
+import { Button, DeleteButtonTrash, EditButton, AddButton } from '@/styles/buttons/button.styles';
 import SaveIcon from '@mui/icons-material/Save';
 import Tooltip from '@mui/material/Tooltip';
 // import ModalComponent from '@/components/modal/modal.component';
@@ -15,7 +15,7 @@ import axios from 'axios';
 
 const ServerComponent = () => {
 	
-	const [administrators, setAdministrators] = useState([]);
+	const [administrators, setAdministrators] = useState<string[]>([]);
 	const [administrator, setAdministrator] = useState('');
 
 	const [serverName, setServerName] = useState('');
@@ -30,7 +30,7 @@ const ServerComponent = () => {
 				setDefaultQueue(defaultQueue);
 			})
 			.catch((error) => {
-				console.log(error)
+				console.error(error);
 			});
 	}, []);
 	
@@ -68,8 +68,6 @@ const ServerComponent = () => {
 					gridTemplateColumns: 'repeat(2, 1fr)',
 					gap: '1rem',
 				}}
-				noValidate
-				autoComplete="off"
 			>
 				<TextField
 					id="server-name"

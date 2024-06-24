@@ -1,9 +1,9 @@
 'use client';
 import * as React from "react";
-import { Button } from "@/styles/buttons/button.styles.tsx";
+import { Button } from "@/styles/buttons/button.styles";
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 
-const RunComponent = ({ dataID }) => {
+const RunComponent = ({ dataID }: { dataID: string }) => {
     return (
         <>
             <Button backgroundColor={'#FF0000'}>

@@ -2,6 +2,7 @@
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import { CustomTypography } from '@/styles/typography/typography.styles';
+import { ICardComponentProps } from '@/lib/types/definitions';
 
 import LanIcon from '@mui/icons-material/Lan';
 import SpeedIcon from '@mui/icons-material/Speed';
@@ -15,7 +16,7 @@ const IconList = [
 	<StorageIcon key={4} color={'primary'} sx={{ fontSize: '2.5rem' }} />
 ];
 
-const CardComponent = ({ title, description, idx }) => {
+const CardComponent = ({ title, description, idx }: ICardComponentProps) => {
 	// Note that this should also read the information on the clusters and populate accordingly
 	
 	return (

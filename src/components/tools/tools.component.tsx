@@ -1,32 +1,36 @@
 'use client';
-import { useState, useEffect } from 'react';
-import { CustomDivider, CustomStack } from "@/styles/layout/layout.styles";
-import { AccountTreeIconComponent } from "@/styles/tools/tools.styles";
+import { useState, useEffect } from "react";
 import { CustomTypography } from "@/styles/typography/typography.styles";
-import AccordionComponent from "@/components/tools/accordion.component";
+import {
+	CustomDivider,
+	CustomStack
+} from "@/styles/layout/layout.styles";
+import { BuildIconComponent } from "@/styles/tools/tools.styles";
 import ToolsButtonsComponent from "@/components/tools/tools.buttons.component";
+import AccordionComponent from "@/components/tools/accordion.component";
+import ModalComponent from '@/components/modal/modal.component';
 import Box from '@mui/material/Box';
 import CircularProgress from '@mui/material/CircularProgress';
 import axios from 'axios';
 
-const WorkflowsComponent = () => {
-
-	const [workflows, setWorkflows] = useState({});
-	const [accordionMenuList, setAccordionMenuList] = useState([]);
+const ToolsComponent = () => {
+	
+	const [tools, setTools] = useState({});
+	const [openModal, setOpenModal] = useState(false);
+	const [accordionMenuList, setAccordionMenuList] = useState<string[]>([]);
 
 	useEffect(() => {
-		axios.get('/api/jms/workflows')
+		axios.get('/api/jms/tools')
 			.then((response) => response.data)
 			.then((data) => {
-				setWorkflows(data);
+				setTools(data);
 				setAccordionMenuList(Object.keys(data));
 			})
 			.catch((error) => {
-				console.log(error)
+				console.error(error);
 			});
 	},[]);
-
-
+	
 	return (
 		<CustomStack
 			sx={{
@@ -50,7 +54,7 @@ const WorkflowsComponent = () => {
 					paddingTop: '1rem',
 				}}
 			>
-				<AccountTreeIconComponent color={'primary'} sx={{ fontSize: '2.5rem' }} />
+				<BuildIconComponent color={'primary'} sx={{ fontSize: '2.5rem' }} />
 				<CustomTypography
 					variant={'h3'}
 					sx={{
@@ -58,21 +62,23 @@ const WorkflowsComponent = () => {
 						fontWeight: '500',
 					}}
 				>
-					Workflows
+					Tools
 				</CustomTypography>
 			</CustomStack>
 			
 			<CustomDivider sx={{ my: 0 }} />
-			{
-				(accordionMenuList.length > 0) ?
-				(
-					<>
-						<ToolsButtonsComponent buttonTitle={'Add Workflow'} />
+			<ToolsButtonsComponent toolComponent={'tools'} buttonTitle={'Add Tool'} buttonFunction={setOpenModal} />
 			
-						<CustomDivider sx={{ my: 0 }} />
-						<AccordionComponent accordionMenuList={accordionMenuList} accordionTitle={'Workflows'} accordionData={workflows} />
-					</>
-				):
+			{
+				openModal ? <ModalComponent openModal={openModal} setOpenModal={setOpenModal} categories={accordionMenuList} /> : null
+			}
+			
+			<CustomDivider sx={{ my: 0 }} />
+			{
+				(accordionMenuList.length > 0) ? 
+				(
+					<AccordionComponent accordionMenuList={accordionMenuList} accordionTitle={'Tools'} accordionData={tools} />
+				) :
 				(
 					<Box
 						sx={{
@@ -96,13 +102,9 @@ const WorkflowsComponent = () => {
 					</Box>
 				)
 			}
-			
-			
-			
+		
 		</CustomStack>
 	)
 }
 
-export default WorkflowsComponent;
-
-const accordionMenuList = ["Docking Studies", "Molecular Dynamics", "Other", "SANCDB"]
+export default ToolsComponent;

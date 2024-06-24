@@ -1,4 +1,4 @@
-import { CustomDivider, CustomStack } from '@/styles/layout/layout.styles.jsx';
+import { CustomDivider, CustomStack } from '@/styles/layout/layout.styles';
 import { CustomTypography } from "@/styles/typography/typography.styles";
 import CustomJobsComponent from "@/components/jobs/custom-jobs.component";
 

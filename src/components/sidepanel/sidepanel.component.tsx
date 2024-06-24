@@ -1,9 +1,9 @@
 import {
 	CustomDivider,
 	CustomStack
-} from '@/styles/layout/layout.styles.jsx';
-import UserComponent from '@/components/user/user.component.jsx';
-import ToolsComponent from '@/components/sidepanel/tools.component.jsx';
+} from '@/styles/layout/layout.styles';
+import UserComponent from '@/components/user/user.component';
+import ToolsComponent from '@/components/sidepanel/tools.component';
 export const SidePanelComponent = () => {
 	return (
 		<CustomStack
@@ -26,4 +26,4 @@ export const SidePanelComponent = () => {
 	)
 }
 
-export default SidePanelComponent
+export default SidePanelComponent;

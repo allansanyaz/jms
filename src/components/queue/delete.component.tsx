@@ -1,24 +1,31 @@
 'use client';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import Popover from '@mui/material/Popover';
 import { CustomStack } from '@/styles/layout/layout.styles';
 import { CustomTypography } from '@/styles/typography/typography.styles';
 import { Button, DeleteButtonTrash } from "@/styles/buttons/button.styles";
 import Tooltip from '@mui/material/Tooltip';
+import { IQueueComponentDataProps } from '@/lib/types/definitions';
 
-const DeleteComponent = ({ rows, setRows, dataID }) => {
+interface IDeleteComponentProps {
+	rows: IQueueComponentDataProps[];
+	setRows: React.Dispatch<React.SetStateAction<IQueueComponentDataProps[]>>;
+	dataID: number;
+}
+
+const DeleteComponent = ({ rows, setRows, dataID }: IDeleteComponentProps) => {
 	
-	const [anchorEl, setAnchorEl] = useState(null);
+	const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
 	
-	const openPopover = (event) => {
-		setAnchorEl(event.currentTarget);
+	const openPopover = (event: React.MouseEvent<SVGSVGElement | HTMLButtonElement>) => {
+		setAnchorEl(event.currentTarget as HTMLButtonElement);
 	};
 	
 	const closePopover = () => {
 		setAnchorEl(null);
 	}
 	
-	const deleteRow = (id) => {
+	const deleteRow = (id: number) => {
 		// filter through the rows and take what is not the id
 		const newRowData = rows.filter((row) => row.id !== id);
 		// set the new row data

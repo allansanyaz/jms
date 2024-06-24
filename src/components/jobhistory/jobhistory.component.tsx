@@ -6,15 +6,23 @@ import { CustomTypography } from "@/styles/typography/typography.styles";
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import Box from '@mui/material/Box';
 import CircularProgress from '@mui/material/CircularProgress';
+import { IJobHistoryComponentDataProps } from '@/lib/types/definitions';
 import axios from 'axios';
-
 import '@/styles/dashboard/dashboard.styles.css';
+
+interface IJobHistoryComponentResponseProps {
+	JobID: string;
+	JobName: string;
+	JobDescription: string;
+	ToolVersion: string;
+	SubmittedAt: string;
+}
 
 const JobHistoryComponent = () => {
 
 	// get the jobs history
-	const [rows, setRows] = useState(null);
-	const [jobData, setJobData] = useState(null);
+	const [rows, setRows] = useState<IJobHistoryComponentDataProps[]>([]);
+	const [jobData, setJobData] = useState<{ [key: string]: IJobHistoryComponentResponseProps }>();
 
 	useEffect(() => {
 		axios.get('/api/jms/jobs')
@@ -25,13 +33,13 @@ const JobHistoryComponent = () => {
 				setRows(rowData);
 			})
 			.catch((error) => {
-				console.log(error)
+				console.error(error);
 			});
 	}, []);
 
-	const initialiseRowData = (jobHistory) => {
-		let data = [];
-		let rawData = {}
+	const initialiseRowData = (jobHistory: IJobHistoryComponentResponseProps[]) => {
+		let data: IJobHistoryComponentDataProps[] = [];
+		let rawData: { [key: string]: IJobHistoryComponentResponseProps } = {}
 		let counter = 1;
 
 		if(jobHistory) {

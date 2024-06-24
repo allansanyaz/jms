@@ -6,7 +6,7 @@ import Divider from '@mui/material/Divider';
 import Typography from "@mui/material/Typography";
 import { CustomTypography } from '@/styles/typography/typography.styles';
 import Stack from "@mui/material/Stack";
-import DeleteComponent from '@/components/queue/delete.component.jsx';
+import DeleteComponent from '@/components/queue/delete.component';
 import ComputerIcon from '@mui/icons-material/Computer';
 import SettingsIcon from '@mui/icons-material/Settings';
 import LanIcon from '@mui/icons-material/Lan';
@@ -14,12 +14,12 @@ import MemoryIcon from '@mui/icons-material/Memory';
 import HourglassTopIcon from '@mui/icons-material/HourglassTop';
 import Tooltip from '@mui/material/Tooltip';
 import CircularProgress from '@mui/material/CircularProgress';
+import { IQueueComponentResponseProps, IQueueComponentDataProps } from '@/lib/types/definitions';
 
 import '@/styles/dashboard/dashboard.styles.css';
 
-const QueueComponent = ({ rowData }) => {
-	console.log(rowData);
-	const [rows, setRows] = useState([]);
+const QueueComponent = ({ rowData }: { rowData: IQueueComponentResponseProps[] }) => {
+	const [rows, setRows] = useState<IQueueComponentDataProps[]>([]);
 	
 	const columns = [
 		{
@@ -63,7 +63,7 @@ const QueueComponent = ({ rowData }) => {
 			description: 'Nodes',
 			width: 90,
 			headerClassName: 'queue-header',
-			renderHeader: (params) => (
+			renderHeader: (params: any) => (
 				<Box
 					display="flex"
 					flexDirection="row"
@@ -82,7 +82,7 @@ const QueueComponent = ({ rowData }) => {
 			description: 'Cores',
 			width: 90,
 			headerClassName: 'queue-header',
-			renderHeader: (params) => (
+			renderHeader: (params: any) => (
 				<Box
 					display="flex"
 					flexDirection="row"
@@ -99,7 +99,7 @@ const QueueComponent = ({ rowData }) => {
 			description: 'Wall Time',
 			width: 110,
 			headerClassName: 'queue-header',
-			renderHeader: (params) => (
+			renderHeader: (params: any) => (
 				<Box
 					display="flex"
 					flexDirection="row"
@@ -116,7 +116,7 @@ const QueueComponent = ({ rowData }) => {
 			description: 'Delete',
 			width: 100,
 			headerClassName: 'queue-header',
-			renderCell: (params) => (
+			renderCell: (params: any) => (
 				<Box
 					sx={{
 						display: 'flex',
@@ -130,7 +130,7 @@ const QueueComponent = ({ rowData }) => {
 					/>
 				</Box>
 			),
-			renderHeader: (params) => (
+			renderHeader: (params: any) => (
 				<Box
 					display="flex"
 					flexDirection="row"
@@ -145,25 +145,19 @@ const QueueComponent = ({ rowData }) => {
 
 	useEffect(() => {
 		if(rowData !== null || rowData !== undefined) {
-			console.log("initialising");
 			const data = initialiseRowData(rowData);
 			setRows(data);
 		}
 
 	}, [rowData]);
 
-	const initialiseRowData = (rowsData) => {
-		let data = [];
-		let counter = 1;
+	const initialiseRowData = (rowsData: IQueueComponentResponseProps[]) => {
+		let data: IQueueComponentDataProps[] = [];
 
 		if(rowsData) {
 			rowsData.forEach((row, idx) => {
-				console.log("row")
-				console.log(row);
-				console.log("idx");
-				console.log(idx);
 				data.push({
-					id: counter,
+					id: idx+1,
 					jobID: row.job_id,
 					username: row.values[0],
 					queue: row.values[1],
@@ -173,8 +167,6 @@ const QueueComponent = ({ rowData }) => {
 					cores: row.values[5],
 					walltime: row.values[7],
 				});
-				console.log(counter);
-				counter++;
 			});
 		}
 		return data;

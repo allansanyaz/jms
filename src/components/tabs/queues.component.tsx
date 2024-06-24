@@ -1,7 +1,7 @@
 'use client';
 import * as React from "react";
 import { useState, useEffect } from "react";
-import { CustomDivider, CustomStack } from '@/styles/layout/layout.styles.jsx';
+import { CustomDivider, CustomStack } from '@/styles/layout/layout.styles';
 import { CustomTypography } from "@/styles/typography/typography.styles";
 import Box from '@mui/material/Box';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -9,31 +9,32 @@ import Checkbox from "@mui/material/Checkbox";
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import TextField from "@mui/material/TextField";
-import {AddButton, Button, DeleteButtonTrash} from "@/styles/buttons/button.styles.tsx";
+import {AddButton, Button, DeleteButtonTrash} from "@/styles/buttons/button.styles";
 import SaveIcon from '@mui/icons-material/Save';
 import Tooltip from "@mui/material/Tooltip";
 import CircularProgress from '@mui/material/CircularProgress';
+import { IQueuesComponentResponseProps } from "@/lib/types/definitions";
 import axios from "axios";
 
 const QueueComponent = () => {
 
-	const [queues, setQueues] = useState([]);
+	const [queues, setQueues] = useState<string[]>([]);
 	const [queue, setQueue] = useState('batch');
-	const [queueData, setQueueData] = useState({});
+	const [queueData, setQueueData] = useState<{ [key: string]: IQueuesComponentResponseProps }>({});
 
 	useEffect(() => {
 		axios.get('/settings/queues/api')
 			.then((response) => response.data)
 			.then((data) => {
-				setQueues(Object.keys(data));
+				setQueues(Object.keys(data) as string[]);
 				setQueueData(data);
 			})
 			.catch((error) => {
-				console.log(error)
+				console.error(error);
 			});
 	}, []);
 	
-	const onQueueChange = (event, newQueue) => {
+	const onQueueChange = (event: React.MouseEvent, newQueue: string) => {
 		if(newQueue !== null) {
 			setQueue(newQueue);
 		}
@@ -106,8 +107,6 @@ const QueueComponent = () => {
 								gridTemplateColumns: 'repeat(2, 1fr)',
 								gap: '1rem',
 							}}
-							noValidate
-							autoComplete="off"
 						>
 							
 							<FormControlLabel control={<Checkbox defaultChecked={queueData[queue].enabled} />} label="Enabled" />
@@ -153,8 +152,6 @@ const QueueComponent = () => {
 								gridTemplateColumns: 'repeat(2, 1fr)',
 								gap: '1rem',
 							}}
-							noValidate
-							autoComplete="off"
 						>
 							<TextField
 								id="max-jobs-queueable-user"
@@ -188,8 +185,6 @@ const QueueComponent = () => {
 								gridTemplateColumns: 'repeat(2, 1fr)',
 								gap: '1rem',
 							}}
-							noValidate
-							autoComplete="off"
 						>
 							<TextField
 								id="max-memory"
@@ -269,8 +264,6 @@ const QueueComponent = () => {
 								gridTemplateColumns: 'repeat(2, 1fr)',
 								gap: '1rem',
 							}}
-							noValidate
-							autoComplete="off"
 						>
 							<FormControlLabel control={<Checkbox />} label="Enable group-based access control" />
 							<FormControlLabel control={<Checkbox />} label="Enable user based access control" />

@@ -1,10 +1,10 @@
 'use client';
 import * as React from "react";
 import { useState, useRef } from "react";
-import { CustomDivider, CustomStack } from '@/styles/layout/layout.styles.jsx';
+import { CustomDivider, CustomStack } from '@/styles/layout/layout.styles';
 import Box from '@mui/material/Box';
 import TextField from "@mui/material/TextField";
-import { Button } from "@/styles/buttons/button.styles.tsx";
+import { Button } from "@/styles/buttons/button.styles";
 import { CustomTypography } from "@/styles/typography/typography.styles";
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
@@ -13,11 +13,11 @@ import Link from 'next/link';
 
 const CustomJobsComponent = () => {
 	
-	const hiddenFileInput = useRef(null);
+	const hiddenFileInput = useRef<HTMLInputElement>(null);
 	const [fileName, setFileName] = useState('');
 	const [scriptContent, setScriptContent] = useState('');
 	
-	const handleChange = (event) => {
+	const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		if(!event.target.files) return;
 		// upload the script file to the server
 		// set the target sequence to the file
@@ -25,7 +25,7 @@ const CustomJobsComponent = () => {
 		const scriptReader = new FileReader();
 		scriptReader.onload = () => {
 			const fileContent = scriptReader.result;
-			setScriptContent(fileContent);
+			setScriptContent(fileContent as string);
 			console.log(fileContent);
 		}
 		scriptReader.readAsText(loadedFile);
@@ -33,7 +33,7 @@ const CustomJobsComponent = () => {
 	}
 	
 	const handleUploadClick = () => {
-		hiddenFileInput.current.click();
+		hiddenFileInput?.current?.click();
 	}
 	
 	return (
@@ -92,8 +92,6 @@ const CustomJobsComponent = () => {
 						gridTemplateColumns: 'repeat(2, 1fr)',
 						gap: '1rem',
 					}}
-					noValidate
-					autoComplete="off"
 				>
 					<TextField
 						id="custom-nodes"

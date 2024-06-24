@@ -1,11 +1,11 @@
 import * as React from "react";
 import { useState } from "react";
-import { CustomDivider, CustomStack } from '@/styles/layout/layout.styles.jsx';
+import { CustomDivider, CustomStack } from '@/styles/layout/layout.styles';
 import { CustomTypography } from "@/styles/typography/typography.styles";
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import TextField from "@mui/material/TextField";
-import { Button } from "@/styles/buttons/button.styles.tsx";
+import { Button } from "@/styles/buttons/button.styles";
 import Box from '@mui/material/Box';
 import InstallDesktopIcon from '@mui/icons-material/InstallDesktop';
 
@@ -13,7 +13,7 @@ const PackagesComponent = () => {
 	
 	const [node, setNode] = useState(nodeList[0]);
 	
-	const onNodeChange = (event, newNode) => {
+	const onNodeChange = (event: React.MouseEvent, newNode: string) => {
 		setNode(newNode);
 	}
 	
@@ -55,8 +55,6 @@ const PackagesComponent = () => {
 					gridTemplateColumns: '1fr',
 					gap: '1rem',
 				}}
-				noValidate
-				autoComplete="off"
 			>
 				<TextField
 					id="packages"

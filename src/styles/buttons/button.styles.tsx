@@ -5,8 +5,9 @@ import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 
 interface IButtonProps {
-	backgroundColor: string;
-	hoverColor: string;
+	backgroundColor?: string;
+	hoverColor?: string;
+	variant?: string;
 }
 
 export const Button = styled('button')((props: IButtonProps) => ({

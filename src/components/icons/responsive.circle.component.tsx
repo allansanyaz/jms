@@ -3,7 +3,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 
-const ResponsiveCircle = ({progress}) => {
+const ResponsiveCircle = ({ progress }: { progress: number }) => {
 	return (
 		<Box sx={{ position: 'relative', display: 'inline-flex' }}>
 			<CircularProgress
