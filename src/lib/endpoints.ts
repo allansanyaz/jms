@@ -1,7 +1,7 @@
 // defines the endpoints for the JMS application
 
 const isProduction = process.env.NODE_ENV === 'production';
-const productionApi = `https://jms.rubi.ru.ac.za`;
+const productionApi = ``;
 const developmentApi = `http://127.0.0.1:8000`;
 
 const backendApi = (isProduction) ? productionApi : developmentApi;
