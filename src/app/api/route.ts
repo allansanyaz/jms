@@ -13,8 +13,8 @@ export async function GET() {
 	})
 	.then( response => response.json())
 	.catch( error => {
-		console.log("Could not fetch data from API due to:");
-		console.log('error', error);
+		console.error(`Could not fetch data from ${dashboardAPI} API due to:`);
+		console.error(error);
 	});
 
 	// process the result
