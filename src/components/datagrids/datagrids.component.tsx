@@ -5,12 +5,17 @@ import { CustomTypography } from "@/styles/typography/typography.styles";
 import CircularProgress from '@mui/material/CircularProgress';
 import { DataGrid } from '@mui/x-data-grid';
 import RunComponent from '@/components/tools/run.component';
+import {
+    IJMSDataGridComponentProps,
+    IToolDataGridProps,
+    IToolPublicOptions
+} from "@/lib/types/definitions";
 
 import '@/styles/dashboard/dashboard.styles.css';
 
-const JMSDataGridComponent = ({ data }) => {
+const JMSDataGridComponent = ({ data }: IJMSDataGridComponentProps) => {
 
-    const [rows, setRows] = useState([]);
+    const [rows, setRows] = useState<IToolDataGridProps[]>();
 
     const columns = [
         {
@@ -42,7 +47,7 @@ const JMSDataGridComponent = ({ data }) => {
             headerName: 'Options',
             width: 200,
             headerClassName: 'queue-header',
-            renderCell: (params) => (
+            renderCell: (params: any) => (
                 <Box
                     sx={{
                         display: 'flex',
@@ -59,14 +64,14 @@ const JMSDataGridComponent = ({ data }) => {
 
     useEffect(() => {
         // convert the object into an array of objects
-        const dataArray = Object.keys(data).map((key) => data[key]);
+        const dataArray: IToolDataGridProps[] = Object.keys(data).map((key) => data[key]);
         const rowData = initialiseRowData(dataArray);
         setRows(rowData);
 
     }, []);
 
-    const initialiseRowData = (rowData) => {
-        let data = [];
+    const initialiseRowData = (rowData: IToolDataGridProps[]) => {
+        let data: IToolDataGridProps[] = [];
         let counter = 1;
 
         if(rowData) {
@@ -75,8 +80,8 @@ const JMSDataGridComponent = ({ data }) => {
                     id: counter,
                     toolName: row.toolName,
                     toolDescription: row.toolDescription,
-                    public: (row.public) ? "Yes": "No",
-                    latestVersion: row.toolVersion,
+                    toolPublic: (row.toolPublic) ? IToolPublicOptions.YES : IToolPublicOptions.NO,
+                    toolVersion: row.toolVersion,
                 });
                 counter++;
             });
@@ -95,7 +100,7 @@ const JMSDataGridComponent = ({ data }) => {
             }}
         >
             {
-                (rows.length > 0) ?
+                (!!rows?.length) ?
                 (
                     <DataGrid
                         rows={rows}

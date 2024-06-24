@@ -1,8 +1,9 @@
-import { CustomStack } from '@/styles/layout/layout.styles.jsx';
+import { CustomStack } from '@/styles/layout/layout.styles';
 import { CustomTypography } from '@/styles/typography/typography.styles';
 import CustomAccordion from '@/components/accordion/accordion.component';
+import { IAccordionProps } from "@/lib/types/definitions";
 
-const AccordionComponent = ({ accordionMenuList, accordionTitle, accordionData }) => {
+const AccordionComponent = ({ accordionMenuList, accordionTitle, accordionData }: IAccordionProps) => {
 	
 	return (
 		<CustomStack
