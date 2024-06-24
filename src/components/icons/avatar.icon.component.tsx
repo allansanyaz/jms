@@ -24,4 +24,4 @@ const AvatarComponent = ({ name, image }: {
 	)
 }
 
-export default AvatarComponent
+export default AvatarComponent;

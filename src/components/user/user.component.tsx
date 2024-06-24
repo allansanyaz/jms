@@ -22,4 +22,4 @@ const UserComponent = () => {
 	)
 }
 
-export default UserComponent
+export default UserComponent;
